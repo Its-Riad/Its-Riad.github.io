@@ -97,11 +97,11 @@
         // let figure_3_spec = ...
         // vegaEmbed('#Location3', figure_3_spec)
 <script>
+  // Embed Graph 1 (basic chart)
   let figure_1_spec = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json";
-
   vegaEmbed('#Location1', figure_1_spec);
 
-  // Your London map spec as inline JS object
+  // Embed Graph 2 (London Transport Map)
   let londonMapSpec = {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
     "width": 700,
@@ -165,9 +165,7 @@
       }
     ]
   };
-
   vegaEmbed('#londonMap', londonMapSpec);
-
 </script>
 
     </script>
