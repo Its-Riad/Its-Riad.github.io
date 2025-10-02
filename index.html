@@ -90,7 +90,46 @@
 
 
     </script>
+<section>
+  <div class="chart-description">
+    <h2>Section 2: Declining Populations</h2>
+    <p>This chart shows cumulative % population change for several countries, using UN data.</p>
+  </div>
+  <figure id="Location2"></figure>
+</section>
 
+<script>
+  let figure_2_spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+      "text": "Declining populations",
+      "subtitle":"Cumulative % change in population. Source: UN.",
+      "subtitleFontStyle":"italic",
+      "subtitleFontSize":10,
+      "anchor": "start",
+      "color": "black"
+    },
+    "data": {
+      "url": "https://raw.githubusercontent.com/RDeconomist/RDeconomist.github.io/main/data/demographicsUNPopChange.csv"
+    },
+    "repeat": {"layer": ["S Korea", "Japan", "UK", "Italy", "Spain", "France", "US"]},
+    "spec": {
+      "height": 300,
+      "width": 240,
+      "mark": {"type":"line","strokeWidth":2},    
+      "encoding": {
+        "x": {"field": "Year", "type": "temporal"},
+        "y": {"field": {"repeat": "layer"}, "type": "quantitative", "title": null},
+        "color": {
+          "datum": {"repeat": "layer"},
+          "scale": {"range": ["black","yellow","orange","lightgrey","lightblue","pink","lightgreen"]}
+        }
+      }
+    }
+  };
+
+  vegaEmbed('#Location2', figure_2_spec);
+</script>
 </body>
     
 </html>
