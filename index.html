@@ -130,65 +130,69 @@
 
   vegaEmbed('#Location2', figure_2_spec);
 </script>
+<section>
+  <div class="chart-description">
+    <h2>Section 3: Inflation – Four G7 Countries</h2>
+    <p>Inflation trends for selected G7 countries (OECD data).</p>
+  </div>
+  <figure id="Location3"></figure>
+</section>
 
-</script>
-    {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-
-  "title": {
+<script>
+  let figure_3_spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
       "text": "Inflation - four G7 countries",
       "subtitle": ["Source: OECD",""],
       "subtitleFontStyle":"italic",
       "subtitleFontSize":10,
       "anchor": "start",
-      "color": "black"},
-
-  "width":300,
-  "height":300,
-
-  "mark":{
+      "color": "black"
+    },
+    "width":300,
+    "height":300,
+    "mark":{
       "type": "line",
       "smooth":false,
       "strokeWidth":2,
-      "opacity":1},
-
-
-  "data": {
-     "url": "https://raw.githubusercontent.com/RDeconomist/RDeconomist.github.io/main/charts/ONSinflation/data_OECD_inflation2.csv"},
-
-
- "transform": [
+      "opacity":1
+    },
+    "data": {
+      "url": "https://raw.githubusercontent.com/RDeconomist/RDeconomist.github.io/main/charts/ONSinflation/data_OECD_inflation2.csv"
+    },
+    "transform": [
       {"calculate": "datum.Value/100", "as": "valueToUse"},
       {"calculate": "year(datum.TIME)", "as": "year"},
-
       {"filter":"datum.LOCATION!='JPN'"},
       {"filter":"datum.LOCATION!='CAN'"},
       {"filter":"datum.LOCATION!='ITA'"},
-
       {"filter":"datum.year >1999"}
-  ],
-
- "encoding": {
-    
-    "x": {
+    ],
+    "encoding": {
+      "x": {
         "field": "TIME",
         "type": "temporal",
-        "title":null},
-    
-    "y": {
+        "title": null
+      },
+      "y": {
         "field": "valueToUse",
         "type": "quantitative",
-        "title":null,
-        "axis":{"format":"%"}},
-    
-    "color":{
-      "field":"Country",
-      "title":null,
-      "legend": {"orient": "top-left"}
+        "title": null,
+        "axis":{"format":"%"}
+      },
+      "color": {
+        "field":"Country",
+        "title": null,
+        "legend": {"orient": "top-left"}
+      }
     }
-  }
-}
+  };
+
+  // Embed the chart into #Location3
+  vegaEmbed('#Location3', figure_3_spec);
 </script>
+
+
 </body>
     
 </html>
