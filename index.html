@@ -39,156 +39,19 @@
         
     </style>
 </head>
+<!-- ---------SECOND GRAPH-------------- -->
+var map = L.map('map').setView([51.505, -0.09], 13);
 
-<body> 
-<!-- The body tag contains the elements that visitors to our page will see. -->
-    <h1 class="big" style="margin-bottom: 0px;"> <!-- We have added a class to the header called "big" which we can use to style it in the CSS -->
-        <!-- This is a header, it is the largest text on the page -->
-        Riad Ghoneim 
-    </h1>
-    <p style="margin-top: 0px; color: darkblue">
-        <!-- we're setting the margin to 0px so the header and authour name are close together -->
-        Riad Ghoneim | <a href="https://uk.linkedin.com/in/riad-ghoneim">LinkedIn</a> | <a
-            href="https://www.github.com/its-riad">GitHub</a>
-    </p>
-    <h3 class="small"> <!-- We have added a class to the header called "small" which we can use to style it in the CSS -->
-        This page acts as your portfolio of charts. You can use it as a good starting point to display your work but make sure to customise it to make it your own, or even start from scratch.  
-    </h3>
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
-    <!-- We're organising the page into sections, with each section containing a chart, title and a description -->
-    <section>
-        <div class="chart-description">
-            <h2>Section 1: A basic chart</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
-        </div>
-        <figure id="Location1"></figure> <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-    </section>
-
-    <title>Historical Timeline Map</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #1d1f20;
-      color: #f0f0f0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    h1 {
-      margin: 20px 0 10px;
-    }
-
-    #map-container {
-      position: relative;
-      width: 80vw;
-      max-width: 1000px;
-      margin: 20px 0;
-    }
-
-    svg {
-      width: 100%;
-      height: auto;
-      background-color: #2b2b2b;
-      border-radius: 10px;
-    }
-
-    .country {
-      fill: #666;
-      stroke: #fff;
-      stroke-width: 0.5;
-      transition: fill 0.5s ease;
-    }
-
-    .active-1900 { fill: #5e81ac; }
-    .active-1950 { fill: #a3be8c; }
-    .active-2000 { fill: #bf616a; }
-
-    .tooltip {
-      position: absolute;
-      background: #333;
-      color: #fff;
-      padding: 6px 10px;
-      border-radius: 4px;
-      font-size: 14px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    #timeline {
-      margin-top: 10px;
-      width: 300px;
-    }
-
-    label {
-      display: block;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-  </style>
-</head>
-<body>
-  <h1>World Map Timeline</h1>
-  <div id="map-container">
-    <svg viewBox="0 0 1000 500">
-      <!-- Simplified sample countries -->
-      <path id="usa" class="country" d="M100,200 L200,200 L200,300 L100,300 Z" />
-      <path id="russia" class="country" d="M700,100 L900,100 L900,200 L700,200 Z" />
-      <path id="china" class="country" d="M600,250 L750,250 L750,350 L600,350 Z" />
-    </svg>
-    <div class="tooltip" id="tooltip"></div>
-  </div>
-
-  <label for="timeline">Year: <span id="year-label">1900</span></label>
-  <input type="range" id="timeline" min="1900" max="2000" step="50" value="1900" />
-
-  <script>
-    const countries = {
-      usa: { name: "United States", data: { 1900: "Low influence", 1950: "High influence", 2000: "Global power" }},
-      russia: { name: "Russia", data: { 1900: "Empire", 1950: "Soviet Union", 2000: "Federation" }},
-      china: { name: "China", data: { 1900: "Dynasty", 1950: "Communist rise", 2000: "Economic surge" }},
-    };
-
-    const tooltip = document.getElementById("tooltip");
-    const timeline = document.getElementById("timeline");
-    const yearLabel = document.getElementById("year-label");
-
-    function updateMap(year) {
-      yearLabel.textContent = year;
-
-      document.querySelectorAll(".country").forEach(el => {
-        el.classList.remove("active-1900", "active-1950", "active-2000");
-        el.classList.add(`active-${year}`);
-      });
-    }
-
-    document.querySelectorAll(".country").forEach(country => {
-      country.addEventListener("mousemove", (e) => {
-        const id = country.id;
-        const year = timeline.value;
-        tooltip.style.left = e.pageX + 15 + "px";
-        tooltip.style.top = e.pageY - 30 + "px";
-        tooltip.innerHTML = `<strong>${countries[id].name}</strong><br>${countries[id].data[year]}`;
-        tooltip.style.opacity = 1;
-      });
-
-      country.addEventListener("mouseleave", () => {
-        tooltip.style.opacity = 0;
-      });
-    });
-
-    timeline.addEventListener("input", (e) => {
-      updateMap(e.target.value);
-    });
-
-    // Initial update
-    updateMap(timeline.value);
-  </script>
+L.marker([51.5, -0.09]).addTo(map)
+    .bindPopup('A pretty CSS popup.<br> Easily customizable.')
+    .openPopup();
+<!-- 
+-------------------------------------------------------------------END OF 2-------------------------------------------- -->
+    
     <!-- Do you want to add more sections? -->
         <!-- Try copying pasting the section above -->
         <!-- You'll need to change the id of the figure "<figure id="Location3"... -->
