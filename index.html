@@ -1,124 +1,75 @@
-<!-- This HTML file provides a simple example of a portfolio page. It contains a header, a few sections, and a few charts. -->
-<!-- It works with the three css files in this folder: example1.css, example2.css and example3.css. -->
-<!-- The HTML file defines the structure of the page, and the CSS files define how it looks. -->
-<!-- The CSS examples are all designed to work with this page. Try swapping them out on line 29 and see what happens. -->
-
-<!-- Take a look around and make your own copy to adapt for your own use. -->
-
-<!-- This is a comment -->
-<!-- Comments are not displayed in the browser -->
-<!-- They can be used to leave notes in the code -->
-
 <!DOCTYPE html>
 <html> 
-    <!-- HTML is heirarchial: tags like this define elements on the page. 
-    Each tag does something different. For example:
-        - The <html> tag defines the whole document.
-        - The <h1> tag defines a large heading
-        - The <p> tag defines a paragraph
-        - Tags appear as an opening <div> and closing </div> pair
-    -->
-
 <head>    
-    <!-- The head tag links to resources our page needs and defines information about it. Tags in the <head> aren't displayed on the page. -->
-
-    <!-- This is a link to a stylesheet which contains rules about how each element on the page should be defined-->
-    <!-- Try swapping example1.css to another, and take a look at example1.css to see if you understand it-->
     <link rel="stylesheet" type="text/css" href="index.css">
-    <title>My Portfolio</title> <!-- The title displayed in the browser tab, not on the page itself -->
-
-    <!-- This is a link to the vega-lite which we're using to make graphs -->
+    <title>My Portfolio</title>
+    <!-- Vega libraries -->
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
     <style>
         #chartGrid {
             display: flex;
         }
-        
     </style>
 </head>
 
 <body> 
-<!-- The body tag contains the elements that visitors to our page will see. -->
-    <h1 class="big" style="margin-bottom: 0px;"> <!-- We have added a class to the header called "big" which we can use to style it in the CSS -->
-        <!-- This is a header, it is the largest text on the page -->
-       Riad Ghoneim 
-    </h1>
+    <h1 class="big" style="margin-bottom: 0px;">Riad Ghoneim</h1>
     <p style="margin-top: 0px; color: darkblue">
-        <!-- we're setting the margin to 0px so the header and authour name are close together -->
-        Riad Ghoneim | <a href="https://www.linkedin.com/in/riad-ghoneim/">LinkedIn</a> | <a
-            href="https://www.github.com/its-riad">GitHub</a>
+        Riad Ghoneim | <a href="https://www.linkedin.com/in/riad-ghoneim/">LinkedIn</a> | <a href="https://www.github.com/its-riad">GitHub</a>
     </p>
-    <h3 class="small"> <!-- We have added a class to the header called "small" which we can use to style it in the CSS -->
+    <h3 class="small">
         This page acts as your portfolio of charts. You can use it as a good starting point to display your work but make sure to customise it to make it your own, or even start from scratch.  
     </h3>
 
-    <!-- We're organising the page into sections, with each section containing a chart, title and a description -->
+    <!-- Section 1: Existing chart -->
     <section>
         <div class="chart-description">
             <h2>Section 1: A basic chart</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
+            <p>
                 We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
                 As a first example, we're using a basic chart from our repo.
             </p>
         </div>
-        <figure id="Location1"></figure> <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
+        <figure id="Location1"></figure>
     </section>
 
-    <!-- Do you want to add more sections? -->
-        <!-- Try copying pasting the section above -->
-        <!-- You'll need to change the id of the figure "<figure id="Location3"... -->
-        <!-- ... and add a new variable for the graph spec in the script at the bottom of the page -->
+    <!-- Section 2: CO2 Vega-Lite chart -->
+    <section>
+        <div class="chart-description">
+            <h2>Section 2: Layered Line Chart of CO2 Concentration</h2>
+            <p>
+                This chart visualizes the atmospheric CO2 concentration over time, using a layered line chart from Vega-Lite's official examples.
+            </p>
+        </div>
+        <figure id="co2_chart"></figure>
+    </section>
 
-
-    <!-- This is a script, it's a way to run JavaScript code on the page -->
+    <!-- JavaScript for embedding charts -->
     <script>
-        // This is a comment in JavaScript - it's a different language to HTML and CSS
+        // Embed the first chart from your original spec
+        let figure_1_spec = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json";
+        vegaEmbed('#Location1', figure_1_spec);
 
-        let figure_1_spec = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json"; // We're storing the URL of the graph we want to display in a variable
-                                                                                                                    // You should have a spec for a graph in this same folder. Just specify its name here, e.g. let figure_1_spec = "chart1.json"
-
-        vegaEmbed('#Location1', figure_1_spec) // We're using the vegaEmbed function to put a graph in the element with id figure_1
-
-        // Do you want to add more graphs?
-        // try defining a new variable for figure_3_spec, adding VegaEmbed for Location3, and adding a new section in the HTML
-        // e.g. 
-        // let figure_3_spec = ...
-        // vegaEmbed('#Location3', figure_3_spec)
-<div id="vis"></div>
-        <script type="text/javascript">
-  const spec = {
-  <script type="text/javascript">
-  const spec = {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "description": "Atmospheric CO2 concentration",
-    "data": {
-      "url": "https://vega.github.io/vega-datasets/data/co2-concentration.csv"
-    },
-    "layer": [
-      {
-        "mark": "line",
-        "encoding": {
-          "x": {"field": "Date", "type": "temporal"},
-          "y": {"field": "CO2", "type": "quantitative"}
-        }
-      }
-    ]
-  };
-
-  vegaEmbed('#vis', spec);
-</script>
-  };
-
-  vegaEmbed('#vis', spec);
-</script>
-
+        // Embed the CO2 concentration Vega-Lite chart
+        const co2_spec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "description": "Atmospheric CO2 concentration",
+            "data": {
+                "url": "https://vega.github.io/vega-datasets/data/co2-concentration.csv"
+            },
+            "layer": [
+                {
+                    "mark": "line",
+                    "encoding": {
+                        "x": {"field": "Date", "type": "temporal"},
+                        "y": {"field": "CO2", "type": "quantitative"}
+                    }
+                }
+            ]
+        };
+        vegaEmbed('#co2_chart', co2_spec);
     </script>
-
 </body>
-    
 </html>
