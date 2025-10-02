@@ -47,78 +47,65 @@
     </section>
 
     <!-- JavaScript for embedding charts -->
-    <script>
-        // Embed the first chart from your original spec
-        let figure_1_spec = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json";
-        vegaEmbed('#Location1', figure_1_spec);
+ <!-- Section: CO2 Vega-Lite chart with embedded data -->
+<section>
+    <div class="chart-description">
+        <h2>Section: Decadal Line Chart of CO₂ Concentration (Static Example)</h2>
+        <p>
+            This chart visualizes atmospheric CO₂ concentration by decade, using data embedded in the code.
+        </p>
+    </div>
+    <figure id="co2_chart"></figure>
+</section>
 
-        // Embed the new decadal CO2 concentration Vega-Lite chart
-        const co2_spec = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-            "data": {
-                "url": "data/co2-concentration.csv",
-                "format": {"parse": {"Date": "utc:'%Y-%m-%d'"}}
+<script>
+    const co2_spec = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+        "width": 800,
+        "height": 500,
+        "data": {
+            "values": [
+                {"Date": "1960-01-01", "CO2": 316.91},
+                {"Date": "1970-01-01", "CO2": 325.68},
+                {"Date": "1980-01-01", "CO2": 338.75},
+                {"Date": "1990-01-01", "CO2": 354.35},
+                {"Date": "2000-01-01", "CO2": 369.71},
+                {"Date": "2010-01-01", "CO2": 389.85},
+                {"Date": "2020-01-01", "CO2": 414.24}
+            ]
+        },
+        "transform": [
+            {"calculate": "year(datum.Date)", "as": "year"},
+            {"calculate": "floor(datum.year / 10)", "as": "decade"},
+            {
+                "calculate": "(datum.year % 10)",
+                "as": "scaled_date"
+            }
+        ],
+        "encoding": {
+            "x": {
+                "field": "scaled_date",
+                "type": "quantitative",
+                "title": "Year into Decade",
+                "axis": {"tickCount": 11}
             },
-            "width": 800,
-            "height": 500,
-            "transform": [
-                {"calculate": "year(datum.Date)", "as": "year"},
-                {"calculate": "floor(datum.year / 10)", "as": "decade"},
-                {
-                    "calculate": "(datum.year % 10) + (month(datum.Date)/12)",
-                    "as": "scaled_date"
-                },
-                {
-                    "calculate": "datum.first_date === datum.scaled_date ? 'first' : datum.last_date === datum.scaled_date ? 'last' : null",
-                    "as": "end"
-                }
-            ],
-            "encoding": {
-                "x": {
-                    "type": "quantitative",
-                    "title": "Year into Decade",
-                    "axis": {"tickCount": 11}
-                },
-                "y": {
-                    "title": "CO2 concentration in ppm",
-                    "type": "quantitative",
-                    "scale": {"zero": false}
-                },
-                "color": {
-                    "field": "decade",
-                    "type": "ordinal",
-                    "scale": {"scheme": "magma"},
-                    "legend": null
-                }
+            "y": {
+                "field": "CO2",
+                "title": "CO₂ concentration in ppm",
+                "type": "quantitative",
+                "scale": {"zero": false}
             },
-            "layer": [
-                {
-                    "mark": "line",
-                    "encoding": {
-                        "x": {"field": "scaled_date"},
-                        "y": {"field": "CO2"}
-                    }
-                },
-                {
-                    "mark": {"type": "text", "baseline": "top", "aria": false},
-                    "encoding": {
-                        "x": {"aggregate": "min", "field": "scaled_date"},
-                        "y": {"aggregate": {"argmin": "scaled_date"}, "field": "CO2"},
-                        "text": {"aggregate": {"argmin": "scaled_date"}, "field": "year"}
-                    }
-                },
-                {
-                    "mark": {"type": "text", "aria": false},
-                    "encoding": {
-                        "x": {"aggregate": "max", "field": "scaled_date"},
-                        "y": {"aggregate": {"argmax": "scaled_date"}, "field": "CO2"},
-                        "text": {"aggregate": {"argmax": "scaled_date"}, "field": "year"}
-                    }
-                }
-            ],
-            "config": {"text": {"align": "left", "dx": 3, "dy": 1}}
-        };
-        vegaEmbed('#co2_chart', co2_spec);
-    </script>
+            "color": {
+                "field": "decade",
+                "type": "ordinal",
+                "scale": {"scheme": "magma"},
+                "legend": null
+            }
+        },
+        "mark": "line"
+    };
+
+    vegaEmbed('#co2_chart', co2_spec);
+</script>
 </body>
 </html>
