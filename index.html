@@ -66,6 +66,15 @@
         </div>
         <figure id="Location1"></figure> <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
     </section>
+<section>
+  <div class="chart-description">
+    <h2>Section 2: London Transport Map</h2>
+    <p>
+      This interactive map shows London boroughs and Underground lines. Each line is color-coded using Transport for London's branding.
+    </p>
+  </div>
+  <figure id="londonMap"></figure>
+</section>
 
     <!-- Do you want to add more sections? -->
         <!-- Try copying pasting the section above -->
@@ -87,126 +96,79 @@
         // e.g. 
         // let figure_3_spec = ...
         // vegaEmbed('#Location3', figure_3_spec)
-{
-  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 700,
-  "height": 500,
-  "view": {
-    "stroke": "transparent"
-  },
-  "layer": [
-    {
-      "data": {
-        "url": "data/londonBoroughs.json",
-        "format": {
-          "type": "topojson",
-          "feature": "boroughs"
-        }
-      },
-      "mark": {
-        "type": "geoshape",
-        "stroke": "white",
-        "strokeWidth": 2
-      },
-      "encoding": {
-        "color": {
-          "value": "#eee"
-        }
-      }
-    },
-    {
-      "data": {
-        "url": "data/londonCentroids.json",
-        "format": {
-          "type": "json"
-        }
-      },
-      "transform": [
-        {
-          "calculate": "indexof (datum.name,' ') > 0  ? substring(datum.name,0,indexof(datum.name, ' ')) : datum.name",
-          "as": "bLabel"
-        }
-      ],
-      "mark": "text",
-      "encoding": {
-        "longitude": {
-          "field": "cx",
-          "type": "quantitative"
+<script>
+  let figure_1_spec = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json";
+
+  vegaEmbed('#Location1', figure_1_spec);
+
+  // Your London map spec as inline JS object
+  let londonMapSpec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+    "width": 700,
+    "height": 500,
+    "view": { "stroke": "transparent" },
+    "layer": [
+      {
+        "data": {
+          "url": "data/londonBoroughs.json",
+          "format": { "type": "topojson", "feature": "boroughs" }
         },
-        "latitude": {
-          "field": "cy",
-          "type": "quantitative"
+        "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 2 },
+        "encoding": { "color": { "value": "#eee" } }
+      },
+      {
+        "data": {
+          "url": "data/londonCentroids.json",
+          "format": { "type": "json" }
         },
-        "text": {
-          "field": "bLabel",
-          "type": "nominal"
-        },
-        "size": {
-          "value": 8
-        },
-        "opacity": {
-          "value": 0.6
-        }
-      }
-    },
-    {
-      "data": {
-        "url": "data/londonTubeLines.json",
-        "format": {
-          "type": "topojson",
-          "feature": "line"
+        "transform": [
+          {
+            "calculate": "indexof(datum.name,' ') > 0 ? substring(datum.name, 0, indexof(datum.name, ' ')) : datum.name",
+            "as": "bLabel"
+          }
+        ],
+        "mark": "text",
+        "encoding": {
+          "longitude": { "field": "cx", "type": "quantitative" },
+          "latitude": { "field": "cy", "type": "quantitative" },
+          "text": { "field": "bLabel", "type": "nominal" },
+          "size": { "value": 8 },
+          "opacity": { "value": 0.6 }
         }
       },
-      "mark": {
-        "type": "geoshape",
-        "filled": false,
-        "strokeWidth": 2
-      },
-      "encoding": {
-        "color": {
-          "field": "id",
-          "type": "nominal",
-          "legend": {
-            "title": null,
-            "orient": "bottom-right",
-            "offset": 0
-          },
-          "scale": {
-            "domain": [
-              "Bakerloo",
-              "Central",
-              "Circle",
-              "District",
-              "DLR",
-              "Hammersmith & City",
-              "Jubilee",
-              "Metropolitan",
-              "Northern",
-              "Piccadilly",
-              "Victoria",
-              "Waterloo & City"
-            ],
-            "range": [
-              "rgb(137,78,36)",
-              "rgb(220,36,30)",
-              "rgb(255,206,0)",
-              "rgb(1,114,41)",
-              "rgb(0,175,173)",
-              "rgb(215,153,175)",
-              "rgb(106,114,120)",
-              "rgb(114,17,84)",
-              "rgb(0,0,0)",
-              "rgb(0,24,168)",
-              "rgb(0,160,226)",
-              "rgb(106,187,170)"
-            ]
+      {
+        "data": {
+          "url": "data/londonTubeLines.json",
+          "format": { "type": "topojson", "feature": "line" }
+        },
+        "mark": { "type": "geoshape", "filled": false, "strokeWidth": 2 },
+        "encoding": {
+          "color": {
+            "field": "id",
+            "type": "nominal",
+            "legend": { "title": null, "orient": "bottom-right", "offset": 0 },
+            "scale": {
+              "domain": [
+                "Bakerloo", "Central", "Circle", "District", "DLR",
+                "Hammersmith & City", "Jubilee", "Metropolitan",
+                "Northern", "Piccadilly", "Victoria", "Waterloo & City"
+              ],
+              "range": [
+                "rgb(137,78,36)", "rgb(220,36,30)", "rgb(255,206,0)",
+                "rgb(1,114,41)", "rgb(0,175,173)", "rgb(215,153,175)",
+                "rgb(106,114,120)", "rgb(114,17,84)", "rgb(0,0,0)",
+                "rgb(0,24,168)", "rgb(0,160,226)", "rgb(106,187,170)"
+              ]
+            }
           }
         }
       }
-    }
-  ]
-}
+    ]
+  };
 
+  vegaEmbed('#londonMap', londonMapSpec);
+
+</script>
 
     </script>
 
