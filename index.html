@@ -31,7 +31,6 @@
         </div>
         <figure id="Location1"></figure>
     </section>
-    <section>
         <div class="chart-description">
             <h2>Section 2: London Transport Map</h2>
             <p>
@@ -40,77 +39,40 @@
         </div>
         <figure id="londonMap"></figure>
     </section>
-
-    <script>
-        // Embed Graph 1 (basic chart)
-        let figure_1_spec = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json";
-        vegaEmbed('#Location1', figure_1_spec);
-
-        // Embed Graph 2 (London Transport Map)
-        let londonMapSpec = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "width": 700,
-            "height": 500,
-            "view": { "stroke": "transparent" },
-            "layer": [
-                {
-                    "data": {
-                        "url": "data/londonBoroughs.json",
-                        "format": { "type": "topojson", "feature": "boroughs" }
-                    },
-                    "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 2 },
-                    "encoding": { "color": { "value": "#eee" } }
-                },
-                {
-                    "data": {
-                        "url": "data/londonCentroids.json",
-                        "format": { "type": "json" }
-                    },
-                    "transform": [
-                        {
-                            "calculate": "indexof(datum.name,' ') > 0 ? substring(datum.name, 0, indexof(datum.name, ' ')) : datum.name",
-                            "as": "bLabel"
-                        }
-                    ],
-                    "mark": "text",
-                    "encoding": {
-                        "longitude": { "field": "cx", "type": "quantitative" },
-                        "latitude": { "field": "cy", "type": "quantitative" },
-                        "text": { "field": "bLabel", "type": "nominal" },
-                        "size": { "value": 8 },
-                        "opacity": { "value": 0.6 }
-                    }
-                },
-                {
-                    "data": {
-                        "url": "data/londonTubeLines.json",
-                        "format": { "type": "topojson", "feature": "line" }
-                    },
-                    "mark": { "type": "geoshape", "filled": false, "strokeWidth": 2 },
-                    "encoding": {
-                        "color": {
-                            "field": "id",
-                            "type": "nominal",
-                            "legend": { "title": null, "orient": "bottom-right", "offset": 0 },
-                            "scale": {
-                                "domain": [
-                                    "Bakerloo", "Central", "Circle", "District", "DLR",
-                                    "Hammersmith & City", "Jubilee", "Metropolitan",
-                                    "Northern", "Piccadilly", "Victoria", "Waterloo & City"
-                                ],
-                                "range": [
-                                    "rgb(137,78,36)", "rgb(220,36,30)", "rgb(255,206,0)",
-                                    "rgb(1,114,41)", "rgb(0,175,173)", "rgb(215,153,175)",
-                                    "rgb(106,114,120)", "rgb(114,17,84)", "rgb(0,0,0)",
-                                    "rgb(0,24,168)", "rgb(0,160,226)", "rgb(106,187,170)"
-                                ]
-                            }
-                        }
-                    }
-                }
-            ]
-        };
-        vegaEmbed('#londonMap', londonMapSpec);
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "data": {"url": "data/movies.json"},
+  "transform": [{
+    "filter": {"and": [
+      {"field": "IMDB Rating", "valid": true},
+      {"field": "Rotten Tomatoes Rating", "valid": true}
+    ]}
+  }],
+  "mark": "rect",
+  "width": 300,
+  "height": 200,
+  "encoding": {
+    "x": {
+      "bin": {"maxbins":60},
+      "field": "IMDB Rating",
+      "type": "quantitative"
+    },
+    "y": {
+      "bin": {"maxbins": 40},
+      "field": "Rotten Tomatoes Rating",
+      "type": "quantitative"
+    },
+    "color": {
+      "aggregate": "count",
+      "type": "quantitative"
+    }
+  },
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    }
+  }
+}
     </script>
 </body>
 </html>
