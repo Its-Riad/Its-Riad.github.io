@@ -1,0 +1,16 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "data": {"url": "DV L2.csv"},
+  "mark": {"type": "line", "point": true},
+  "encoding": {
+    "x": {
+      "field": "Years", "type": "quantitative",
+      "scale": {"zero": false}
+    },
+    "y": {
+      "field": "Output", "type": "quantitative",
+      "scale": {"zero": false}
+    },
+    "order": {"field": "year"}
+  }
+}
