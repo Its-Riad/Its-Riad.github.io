@@ -1,0 +1,39 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "data": {"url": "stickyinflation.csv"},
+"title": {"text": "Sticky Inflation in the US (1968-2024)",
+"fontSize": 20,
+            "anchor": "start",
+            "color": "red",
+        "fontWeight": "bold",
+        "subtitle": "Source: Federal Reserve Bank of Atlanta"
+    },  
+  "encoding": {
+    "x": {
+      "field": "Date",
+      "timeUnit": "year",
+      "axis": {"title": "", "format": "%Y", "labelAngle": 30}
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "errorband", "extent": "ci"},
+      "encoding": {
+        "y": {
+          "field": "Sticky Inflation",
+          "type": "quantitative",
+          "title": "Mean of Sticky Inflation (95% CIs)"
+        }
+      }
+    },
+    {
+      "mark": "line",
+      "encoding": {
+        "y": {
+          "aggregate": "mean",
+          "field": "Sticky Inflation"
+        }
+      }
+    }
+  ]
+}

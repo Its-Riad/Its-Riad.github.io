@@ -125,7 +125,33 @@
        <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
         <figure id="Location6"></figure>
     </section>
+        </section>
+     </section>
+        <section>
+        <div class="chart-description">
+            <h2>Section 7: Sticky Inflation</h2>
+            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
+                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
+                As a first example, we're using a basic chart from our repo.
+            </p>
+        </div>
+       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
+        <figure id="Location7"></figure>
+    </section>
+    <div id="chart"></div>
     
+    <section>
+    <div class="chart-description">
+        <h2>Section 8: Live Exchange Rate (USD)</h2>
+        <p>This chart automatically updates every 30 seconds from the live Exchange Rate API.</p>
+    </div>
+    <figure id="Location8"></figure>
+    </section>
+
+    <section>
+  <h2>Live API Data</h2>
+  <div id="api-live-section"></div>
+</section>
 
 
     <!-- Do you want to add more sections? -->
@@ -144,6 +170,8 @@
         let figure_4_spec = "test3.json";
         let figure_5_spec = "test5.json";
         let figure_6_spec = "test6.json";
+        let figure_7_spec = "inflation.json";
+        let figure_8_spec = "TestLive.json";
        // You should have a spec for a graph in this same folder. Just specify its name here, e.g. let figure_1_spec = "chart1.json"
 
         vegaEmbed('#Location1', figure_1_spec) // We're using the vegaEmbed function to put a graph in the element with id figure_1
@@ -152,15 +180,45 @@
         vegaEmbed('#Location4', figure_4_spec)
         vegaEmbed('#Location5', figure_5_spec)
         vegaEmbed('#Location6', figure_6_spec)
-    
+        vegaEmbed('#Location7', figure_7_spec)
+        vegaEmbed('#Location8', figure_8_spec)
 
         // Do you want to add more graphs?
         // try defining a new variable for figure_3_spec, adding VegaEmbed for Location3, and adding a new section in the HTML
         // e.g. 
         // let figure_3_spec = ...
-        // vegaEmbed('#Location3', figure_3_spec)
+        // vegaEmbed('#Location3', figure_3_spec
+
     </script>
 
+
+    <script>
+
+    // Fetch live exchange rates and update the api-live-section with text
+    async function fetchExchangeRateText() {
+        const apiKey = "4994cf438b50cc4f63e81679";
+        const url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data.result === "success") {
+                const eur = data.conversion_rates.EUR;
+                const gbp = data.conversion_rates.GBP;
+                document.getElementById('api-live-section').innerHTML =
+                    `USD to EUR: ${eur}<br>USD to GBP: ${gbp}`;
+            } else {
+                document.getElementById('api-live-section').innerHTML =
+                    'Error loading exchange rates.';
+            }
+        } catch (error) {
+            document.getElementById('api-live-section').innerHTML =
+                'Error loading data.';
+        }
+    }
+    fetchExchangeRateText();
+    setInterval(fetchExchangeRateText, 30000);
+
+</script>
 
 </body>
     
