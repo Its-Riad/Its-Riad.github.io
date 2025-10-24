@@ -1,0 +1,31 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://api.worldbank.org/v2/country/egy;eth/indicator/NY.GDP.DEFL.KD.ZG?format=json&per_page=130",
+    "format": {"property": "[1]"}
+  },
+  "width": 700,
+  "height": 350,
+  "mark": "line",
+  "title": {
+    "text": "Egypt Inflation Rates",
+    "subtitle": "Source: World Bank"
+  },
+  "encoding": {
+    "x": {
+      "field": "date",
+      "type": "temporal",
+      "title": "",
+      "axis": {"grid": false}
+    },
+    "y": {"field": "value", "type": "quantitative", "title": ""},
+
+    "color": {
+      "field": "countryiso3code",
+      "type": "nominal",
+      "scale": {
+        "scheme": ["red", "blue"]
+      }
+    }
+  }
+}
