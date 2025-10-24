@@ -19,13 +19,9 @@
       "axis": {"grid": false}
     },
     "y": {"field": "value", "type": "quantitative", "title": ""},
-
     "color": {
       "field": "countryiso3code",
-      "type": "nominal",
-      "scale": {
-        "scheme": ["red", "blue"]
-      }
+      "type": "nominal"
     }
-  }
+    }
 }
