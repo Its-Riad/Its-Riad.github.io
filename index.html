@@ -1,202 +1,133 @@
-<!-- This HTML file provides a simple example of a portfolio page. It contains a header, a few sections, and a few charts. -->
-<!-- It works with the three css files in this folder: example1.css, example2.css and example3.css. -->
-<!-- The HTML file defines the structure of the page, and the CSS files define how it looks. -->
-<!-- The CSS examples are all designed to work with this page. Try swapping them out on line 29 and see what happens. -->
+            .hero-image {
+                max-width: 600px;
+                margin-top: 32px;
+            }<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riad Ghoneim - People Centred Data</title>
+    <link rel="stylesheet" href="style.css">
 
-<!-- Take a look around and make your own copy to adapt for your own use. -->
-
-<!-- This is a comment -->
-<!-- Comments are not displayed in the browser -->
-<!-- They can be used to leave notes in the code -->
-
-<!DOCTYPE html>
-<html> 
-    <!-- HTML is heirarchial: tags like this define elements on the page. 
-    Each tag does something different. For example:
-        - The <html> tag defines the whole document.
-        - The <h1> tag defines a large heading
-        - The <p> tag defines a paragraph
-        - Tags appear as an opening <div> and closing </div> pair
-    -->
-
-<head>    
-    <!-- The head tag links to resources our page needs and defines information about it. Tags in the <head> aren't displayed on the page. -->
-
-    <!-- This is a link to a stylesheet which contains rules about how each element on the page should be defined-->
-    <!-- Try swapping example1.css to another, and take a look at example1.css to see if you understand it-->
-    <link rel="stylesheet" type="text/css" href="index.css">
-    <title>Riad's Portfolio</title> <!-- The title displayed in the browser tab, not on the page itself -->
-
-    <!-- This is a link to the vega-lite which we're using to make graphs -->
-    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-
-    <style>
-        #chartGrid {
-            display: flex;
-        }
-        
-    </style>
 </head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="logo" data-en="Riad Ghoneim" data-ar="رياض غنيم">Riad Ghoneim</a>
+        <ul class="nav-links">
+            <li><a href="#about" data-en="About" data-ar="عني">About</a></li>
+            <li><a href="#work" data-en="Work" data-ar="أعمالي">Work</a></li>
+             <li><a href="cv.pdf" target="_blank">CV</a></li>
+             <li><a href="https://github.com/its-riad" target="_blank">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/riad-ghoneim/" target="_blank">LinkedIn</a></li>
+            <li><button class="lang-toggle" onclick="toggleLanguage()">العربية</button></li>
+        </ul>
+    </nav>
 
-<body> 
-<!-- The body tag contains the elements that visitors to our page will see. -->
-    <h1 class="big" style="margin-bottom: 0px;"> <!-- We have added a class to the header called "big" which we can use to style it in the CSS -->
-        <!-- This is a header, it is the largest text on the page -->
-        Riad Ghoneim Data Automation
-    </h1>
-    <p style="margin-top: 0px; color: rgb(139, 0, 0)">
-        <!-- we're setting the margin to 0px so the header and authour name are close together -->
-        Riad Ghoneim | <a href="https://www.linkedin.com/in/riad-ghoneim/">LinkedIn</a> | <a
-            href="https://www.github.com/its-riad">GitHub</a>
-    </p>
-    <h3 class="small"> <!-- We have added a class to the header called "small" which we can use to style it in the CSS -->
-        This is a page where I will be displaying my data automation and visulatsation work from throughout my masters at LSE. 
-    </h3>
-
-    <!-- We're organising the page into sections, with each section containing a chart, title and a description -->
-    <section>
-        <div class="chart-description">
-            <h2>Section 1: A basic chart</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 data-en="PEOPLE CENTRED<br>DATA" data-ar="بيانات تتمحور<br>حول الإنسان">PEOPLE CENTRED<br>DATA</h1>
+            <div class="hero-image">
+                <img src="tuareg.jpg" alt="Tuareg desert image">
+            </div>
         </div>
-        <figure id="Location1"></figure> <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
     </section>
 
-     <section>
-        <div class="chart-description">
-            <h2>Section 1: A more complex chart</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="main-grid">
+                <div>
+                    <h2 data-en="I'M RIAD GHONEIM" data-ar="أنا رياض غنيم">I'M RIAD GHONEIM</h2>
+                </div>
+                <div>
+                    <p data-en="I'm a Master's student at LSE and an artist." data-ar="أنا طالب ماجستير في LSE وفنان.">I'm a Master's student at LSE and an artist.</p>
+                    <p data-en="I explore where data meets human stories, where economic forces shape lives, and where research honors the people behind the numbers." data-ar="أستكشف حيث تلتقي البيانات بالقصص الإنسانية، حيث تشكل القوى الاقتصادية الحياة، وحيث يكرم البحث الناس وراء الأرقام.">I explore where data meets human stories, where economic forces shape lives, and where research honors the people behind the numbers.</p>
+                    <p data-en="My work sits at the intersection of economics, art, and people-centered research." data-ar="يقع عملي عند تقاطع الاقتصاد والفن والبحث المتمحور حول الإنسان.">My work sits at the intersection of economics, art, and people-centered research.</p>
+                </div>
+            </div>
         </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location2"></figure>
     </section>
 
-    <section>
-        <div class="chart-description">
-            <h2>Section 3: A more complex chart</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
+    <!-- Links Section -->
+    <section class="links-section" id="work">
+        <div class="container">
+            <h2 data-en="EXPLORE MY WORK" data-ar="استكشف أعمالي">EXPLORE MY WORK</h2>
+            <div class="links-grid">
+                <div class="link-item">
+                    <h3 data-en="PORTFOLIO" data-ar="المحفظة">PORTFOLIO</h3>
+                    <p data-en="My portfolio from weekly coding challenges at the LSE Data Automation and Visualisation Module." data-ar="البحوث الاقتصادية وتحليل البيانات والدراسات المتمحورة حول الإنسان.">My portfolio from weekly coding challenges at the LSE Data Automation and Visualisation Module.</p>
+                    <a href="portfolio_vis.html" data-en="VIEW PORTFOLIO" data-ar="عرض المحفظة">VIEW PORTFOLIO</a>
+                </div>
+
+                <div class="link-item">
+                    <h3 data-en="PROJECTS" data-ar="المشاريع">PROJECTS</h3>
+                    <p data-en="A case study on inflation in Egypt and consumer induced inflation momentum for the Data Automation and Visualisation module at the LSE School of Public Policy" data-ar="دراسات حالة تجمع بين علم البيانات والاقتصاد والبحث الإثنوغرافي.">A case study on inflation in Egypt and consumer induced inflation momentum for the Data Automation and Visualisation module at the LSE School of Public Policy</p>
+                    <a href="project.html" data-en="VIEW PROJECT" data-ar="عرض المشاريع">VIEW PROJECTS</a>
+                </div>
+
+                <div class="link-item">
+                    <h3 data-en="ART" data-ar="الفن">ART</h3>
+                    <p data-en="Visual work exploring data as narrative and numbers as human stories." data-ar="أعمال بصرية تستكشف البيانات كسرد والأرقام كقصص إنسانية.">Visual work exploring data as narrative and numbers as human stories.</p>
+                    <a href="/art" data-en="VIEW ART" data-ar="عرض الفن">VIEW ART</a>
+                </div>
+            </div>
         </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location3"></figure>
     </section>
-    
-    <section>
-        <div class="chart-description">
-            <h2>Section 4: A more complex chart</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p data-en="© 2025 Riad Ghoneim. People Centred Data." data-ar="© 2025 رياض غنيم. بيانات تتمحور حول الإنسان.">© 2025 Riad Ghoneim. People Centred Data.</p>
         </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location4"></figure>
-    </section>
-        <section>
-        <div class="chart-description">
-            <h2>Section 5: Lecture 2</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
-        </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location5"></figure>
-    </section>
-     </section>
-        <section>
-        <div class="chart-description">
-            <h2>Section 6: Lecture 2</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
-        </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location6"></figure>
-    </section>
-        </section>
-     </section>
-        <section>
-        <div class="chart-description">
-            <h2>Section 7: Sticky Inflation</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
-        </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location7"></figure>
-    </section>
-    <div id="chart"></div>
-    
-    <section>
-    <div class="chart-description">
-        <h2>Section 8: Live Exchange Rate (USD)</h2>
-        <p>This chart automatically updates every 30 seconds from the live Exchange Rate API.</p>
-    </div>
-    <figure id="Location8"></figure>
-    </section>
+    </footer>
 
-    
-    <section>
-    <div class="chart-description">
-        <h2>Section 9: Egypt and Ethiopia Inflation Rates</h2>
-        <p>This chart compares the inflation rates of Egypt and Ethiopia over time.</p>
-    </div>
-    <figure id="Location9"></figure>
-    </section>
-
-
-    <!-- Do you want to add more sections? -->
-        <!-- Try copying pasting the section above -->
-        <!-- You'll need to change the id of the figure "<figure id="Location3"... -->
-        <!-- ... and add a new variable for the graph spec in the script at the bottom of the page -->
-
-
-    <!-- This is a script, it's a way to run JavaScript code on the page -->
     <script>
-        // This is a comment in JavaScript - it's a different language to HTML and CSS
+        let currentLang = 'en';
 
-        let figure_1_spec = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json"; 
-        let figure_2_spec = "Test.json"; 
-        let figure_3_spec = "test2.json";
-        let figure_4_spec = "test3.json";
-        let figure_5_spec = "test5.json";
-        let figure_6_spec = "test6.json";
-        let figure_7_spec = "inflation.json";
-        let figure_8_spec = "TestLive.json";
-        let figure_9_spec = "api.json";
-       // You should have a spec for a graph in this same folder. Just specify its name here, e.g. let figure_1_spec = "chart1.json"
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const html = document.documentElement;
+            const button = document.querySelector('.lang-toggle');
+            
+            // Toggle direction
+            if (currentLang === 'ar') {
+                html.setAttribute('dir', 'rtl');
+                button.textContent = 'English';
+            } else {
+                html.setAttribute('dir', 'ltr');
+                button.textContent = 'العربية';
+            }
+            
+            // Update all text content
+            document.querySelectorAll('[data-en]').forEach(element => {
+                const text = element.getAttribute(`data-${currentLang}`);
+                if (element.tagName === 'H1') {
+                    element.innerHTML = text;
+                } else {
+                    element.textContent = text;
+                }
+            });
+        }
 
-        vegaEmbed('#Location1', figure_1_spec) // We're using the vegaEmbed function to put a graph in the element with id figure_1
-        vegaEmbed('#Location2', figure_2_spec)
-        vegaEmbed('#Location3', figure_3_spec)
-        vegaEmbed('#Location4', figure_4_spec)
-        vegaEmbed('#Location5', figure_5_spec)
-        vegaEmbed('#Location6', figure_6_spec)
-        vegaEmbed('#Location7', figure_7_spec)
-        vegaEmbed('#Location8', figure_8_spec)
-        vegaEmbed('#Location9', figure_9_spec)
-
-        // Do you want to add more graphs?
-        // try defining a new variable for figure_3_spec, adding VegaEmbed for Location3, and adding a new section in the HTML
-        // e.g. 
-        // let figure_3_spec = ...
-        // vegaEmbed('#Location3', figure_3_spec)
-
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
     </script>
-
 </body>
-    
 </html>

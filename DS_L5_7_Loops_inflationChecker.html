@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- //////////////////////////////////////  START HEAD //////////////////////////////////////// -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- LOAD VEGA-LITE -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+    <!-- APPLY SOME STYLES TO THIS PAGE -->
+    <link rel="stylesheet" type="text/css" href="DS_L5_5_DashboardStyles.css">
+</head>
+<!-- //////////////////////////////////////  START HEAD //////////////////////////////////////// -->
+
+
+<body>
+
+<!-- //////////////////////////////////////  BODY //////////////////////////////////////// -->
+    
+        <div class="wrap">
+            <h1>Inflation checker - <span style="color: #86d0bb">loops</span></h1>
+            <span style="display:block; height: 10px;"></span>
+            <p id="rubric" class="rubric">An automated dashboard for inflation charts from the ECO API</p>
+            <span style="display:block; height: 10px;"></span>
+        </div>
+
+
+    <!-- STEP 1: INPUT BOXES FOR COUNTRY CODES -->
+        <div class="controls">
+            <section class="control-card">
+                <p>Input country codes</p>
+                <div id="countryInputs">
+                    <input class="countryInput" type="text" placeholder="Enter country code" maxlength="3">
+                    <input class="countryInput" type="text" placeholder="e.g. usa" maxlength="3">
+                    <input class="countryInput" type="text" placeholder="e.g. fra" maxlength="3">
+                </div>
+                <button class="btn" id="addCountryButton" onclick="addInputBox()">Add country</button>
+            </section>
+        </div>
+
+
+
+        <!-- STEP 3: RUN BUTTON -->
+        <button class="btn" id="runButton" onclick="run()">Go</button>
+
+
+        <!-- STEP 4: OUTPUT DIVS FOR CHARTS -->
+        <div id="charts"></div>
+
+
+        <!-- /////// IMPORT JAVASCRIPT CHART BUILDER /////// -->
+        <script src="DS_L5_7_ecoApiInflationCheckerSimple.js"></script>
+
+
+    <!-- //////////////////////////////////////  END BODY //////////////////////////////////////// -->
+</body>
+</html>

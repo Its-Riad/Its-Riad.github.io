@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riad's Portfolio</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">Riad Ghoneim</a>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#work">Work</a></li>
+            
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header>
+
+            
+
+<body>
+    <div class="container">
+        <h1>Riad Ghoneim's Portfolio</h1>
+
+        <!-- CC1: HOSTING -->
+        <section class="week-section">
+            <h2>CC1: Hosting. Display charts in your own site.</h2>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Chart 1: Basic Visualization</h4>                </div>
+                <figure id="CC1_Location1"></figure>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Chart 2: Second Visualization</h4>
+                </div>
+                <figure id="CC1_Location2"></figure>
+            </div>
+        </section>
+
+        <!-- CC2: BUILDING -->
+        <section class="week-section">
+            <h2>CC2: Building. Create your own visualisations</h2>
+        
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Chart 1: Custom Built Visualization</h4>
+                </div>
+                <figure id="CC2_Location1"></figure>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Chart 2: Map of the London Underground System</h4>
+                </div>
+                <figure id="CC2_Location2"></figure>
+            </div>
+        </section>
+
+        <!-- CC3: DEBATE -->
+        <section class="week-section">
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Policy Topic:</h4>
+                    <p> Minimum wages are bad for employment rates</p>
+                    <h4>Chart 1: Supporting Evidence</h4>
+                    <p>[Insert your commentary here - max 25 words]</p>
+                </div>
+                <figure id="CC3_Location1"></figure>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Chart 2: Additional Evidence</h4>
+                    <p>[Insert your commentary here - max 25 words]</p>
+                </div>
+                <figure id="CC3_Location2"></figure>
+            </div>
+        </section>
+
+        <!-- CC4: REPLICATION -->
+        <section class="week-section">
+            <h2>CC4: Replication. Re-create, then improve, someone else's chart</h2>
+            <div class="week-description">
+                <p>Find a chart from a policy organization or journalist. Display their original chart, replicate it in Vega-Lite, then improve it. Explain improvements (max 25 words).</p>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Original Chart:</h4>
+                    <p>Source: [Insert source]</p>
+                </div>
+                <!-- Add image here: <img src="original-chart.jpg" style="max-width: 100%;"> -->
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Replicated Chart:</h4>
+                    <p>Recreation of the original in Vega-Lite.</p>
+                </div>
+                <figure id="CC4_Location1"></figure>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Improved Chart:</h4>
+                    <p>[Explain improvements here - max 25 words]</p>
+                </div>
+                <figure id="CC4_Location2"></figure>
+            </div>
+        </section>
+
+        <!-- CC5: ACCESSING DATA -->
+        <section class="week-section">
+            <h2>CC5: Accessing data: Scraper and API</h2>
+            <div class="week-description">
+                <p>API task: Add chart with live link to API and describe the API. Scraper task: Scrape website using Google Colab, clean data, export to TIDY format, and create chart.</p>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>API Chart: Live Exchange Rate (USD)</h4>
+                    <p>This chart automatically updates every 30 seconds from the live Exchange Rate API.</p>
+                    <p><strong>API Description:</strong> [Describe base URL and elements needed to call data]</p>
+                </div>
+                <figure id="CC5_API"></figure>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Scraper Chart: Egypt and Ethiopia Inflation Rates</h4>
+                    <p>This chart compares inflation rates scraped and cleaned from [source].</p>
+                    <p><strong>Colab Notebook:</strong> <a href="#">[Insert link to public Google Colab]</a></p>
+                    <p>[Commentary on data source and challenges - max 25 words]</p>
+                </div>
+                <figure id="CC5_Scraper"></figure>
+            </div>
+        </section>
+
+        <!-- CC6: LOOPS -->
+        <section class="week-section">
+            <h2>CC6: Loops. Build a dashboard</h2>
+            <div class="week-description">
+                <p>Use loops to batch download six different series as JSON files. Display as grid (3x2 or 2x3). Link to Google Colab notebook.</p>
+            </div>
+
+            <div class="chart-description">
+                <p><strong>Colab Notebook:</strong> <a href="#">[Insert link to public Google Colab]</a></p>
+                <p>Dashboard theme: [Describe your theme]</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px;">
+                <figure id="CC6_Location1"></figure>
+                <figure id="CC6_Location2"></figure>
+                <figure id="CC6_Location3"></figure>
+                <figure id="CC6_Location4"></figure>
+                <figure id="CC6_Location5"></figure>
+                <figure id="CC6_Location6"></figure>
+            </div>
+        </section>
+
+        <!-- CC7: MAPS -->
+        <section class="week-section">
+            <h2>CC7: Maps. Base maps and choropleths</h2>
+            <div class="week-description">
+                <p>Produce two maps: one of Scotland, one of Wales. One should be a coordinates map, the other a choropleth.</p>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Map 1: Scotland [Coordinates/Choropleth]</h4>
+                    <p>Mapping: [Describe what you're mapping]</p>
+                </div>
+                <figure id="CC7_Location1"></figure>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Map 2: Wales [Choropleth/Coordinates]</h4>
+                    <p>Mapping: [Describe what you're mapping]</p>
+                </div>
+                <figure id="CC7_Location2"></figure>
+            </div>
+        </section>
+
+        <!-- CC8: BIG DATA -->
+        <section class="week-section">
+            <h2>CC8: Big Data. Extracting a story from millions of prices</h2>
+            <div class="week-description">
+                <p>Produce two charts using UK prices datasets (LRPD or AutoCPI). Explain in max 50 words what you have done.</p>
+            </div>
+
+            <div class="chart-description">
+                <p><strong>Dataset used:</strong> [LRPD / AutoCPI / Both]</p>
+                <p>[Explanation - max 50 words]</p>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Chart 1: Price Analysis</h4>
+                </div>
+                <figure id="CC8_Location1"></figure>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Chart 2: Price Trends</h4>
+                </div>
+                <figure id="CC8_Location2"></figure>
+            </div>
+        </section>
+
+        <!-- CC9: INTERACTIVE -->
+        <section class="week-section">
+            <h2>CC9: Interactive charts. Analytics charts</h2>
+            <div class="week-description">
+                <p>Interactive chart: Include slider, drop-down, or clickable legend. Advanced analytics chart: Use bubble, histogram, de-trended, shock analysis, Diff-in-Diff, or heat maps.</p>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Interactive Chart</h4>
+                    <p>Features: [Describe interactive elements]</p>
+                </div>
+                <figure id="CC9_Interactive"></figure>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-description">
+                    <h4>Advanced Analytics Chart</h4>
+                    <p>Method: [Describe analytical method used]</p>
+                </div>
+                <figure id="CC9_Analytics"></figure>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // CC1: Hosting charts
+        let cc1_chart1 = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json";
+        let cc1_chart2 = "Test.json";
+
+        // CC2: Building charts
+        let cc2_chart1 = "test2.json";
+        let cc2_chart2 = "test3.json";
+
+        // CC3: Debate charts
+        let cc3_chart1 = "test5.json";
+        let cc3_chart2 = "test6.json";
+
+        // CC4: Replication charts
+        let cc4_replicated = "inflation.json";
+        let cc4_improved = "inflation.json"; // Replace with your improved version
+
+        // CC5: API and Scraper
+        let cc5_api = "TestLive.json";
+        let cc5_scraper = "api.json";
+
+        // CC6: Loop dashboard (6 charts)
+        let cc6_charts = [
+            "chart1.json",
+            "chart2.json", 
+            "chart3.json",
+            "chart4.json",
+            "chart5.json",
+            "chart6.json"
+        ];
+
+        // CC7: Maps
+        let cc7_map1 = "map_scotland.json";
+        let cc7_map2 = "map_wales.json";
+
+        // CC8: Big Data
+        let cc8_chart1 = "prices1.json";
+        let cc8_chart2 = "prices2.json";
+
+        // CC9: Interactive & Analytics
+        let cc9_interactive = "interactive.json";
+        let cc9_analytics = "analytics.json";
+
+        // Embed all charts
+        vegaEmbed('#CC1_Location1', cc1_chart1);
+        vegaEmbed('#CC1_Location2', cc1_chart2);
+        
+        vegaEmbed('#CC2_Location1', cc2_chart1);
+        vegaEmbed('#CC2_Location2', cc2_chart2);
+        
+        vegaEmbed('#CC3_Location1', cc3_chart1);
+        vegaEmbed('#CC3_Location2', cc3_chart2);
+        
+        vegaEmbed('#CC4_Location1', cc4_replicated);
+        vegaEmbed('#CC4_Location2', cc4_improved);
+        
+        vegaEmbed('#CC5_API', cc5_api);
+        vegaEmbed('#CC5_Scraper', cc5_scraper);
+
+        // CC6: Loop through dashboard charts
+        for(let i = 0; i < 6; i++) {
+            vegaEmbed('#CC6_Location' + (i+1), cc6_charts[i]);
+        }
+
+        vegaEmbed('#CC7_Location1', cc7_map1);
+        vegaEmbed('#CC7_Location2', cc7_map2);
+        
+        vegaEmbed('#CC8_Location1', cc8_chart1);
+        vegaEmbed('#CC8_Location2', cc8_chart2);
+        
+        vegaEmbed('#CC9_Interactive', cc9_interactive);
+        vegaEmbed('#CC9_Analytics', cc9_analytics);
+    </script>
+</body>
+</html>

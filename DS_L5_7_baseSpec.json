@@ -1,0 +1,29 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+        "text": "", // This is injected via code, added from the csv that we load above.
+        "subtitle": ["",""], // Added from csv
+        "subtitleFontStyle":"italic",
+        "subtitleFontSize":10,
+        "anchor": "start",
+        "color": "black"},
+    "view": {"stroke": "transparent"}, // Make box around chart clear
+    "data":{
+        "url": "", // Added from loop
+        "format":{
+            "type": "json",
+            "property": "data"}},
+
+    "transform": [
+        {"calculate":"year(datum.date)", "as": "year"},
+        {"filter": "datum.year >= 2000"}
+    ],
+        
+    "height": 200,
+    "width": 200,
+    "mark": {"type": "line", "color": "#58b3c7", "interpolate": "basis"},
+    "encoding": {
+        "x":{"field": "date", "type": "temporal", "title": null, "axis": {"grid": false,}},
+        "y":{"field": "value", "type": "quantitative", "title": null, "axis": {"grid": false}}
+    }
+}

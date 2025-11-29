@@ -1,0 +1,218 @@
+<!-- This HTML file provides a simple example of a portfolio page. It contains a header, a few sections, and a few charts. -->
+<!-- It works with the three css files in this folder: example1.css, example2.css and example3.css. -->
+<!-- The HTML file defines the structure of the page, and the CSS files define how it looks. -->
+<!-- The CSS examples are all designed to work with this page. Try swapping them out on line 29 and see what happens. -->
+
+<!-- Take a look around and make your own copy to adapt for your own use. -->
+
+<!-- This is a comment -->
+<!-- Comments are not displayed in the browser -->
+<!-- They can be used to leave notes in the code -->
+
+<!DOCTYPE html>
+<html> 
+    <!-- HTML is heirarchial: tags like this define elements on the page. 
+    Each tag does something different. For example:
+        - The <html> tag defines the whole document.
+        - The <h1> tag defines a large heading
+        - The <p> tag defines a paragraph
+        - Tags appear as an opening <div> and closing </div> pair
+    -->
+
+<head>    
+    <!-- The head tag links to resources our page needs and defines information about it. Tags in the <head> aren't displayed on the page. -->
+
+    <!-- This is a link to a stylesheet which contains rules about how each element on the page should be defined-->
+    <!-- Try swapping example1.css to another, and take a look at example1.css to see if you understand it-->
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <title>Riad's Portfolio</title> <!-- The title displayed in the browser tab, not on the page itself -->
+
+    <!-- This is a link to the vega-lite which we're using to make graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+    <style>
+        #chartGrid {
+            display: flex;
+        }
+        
+    </style>
+</head>
+
+<body> 
+<!-- The body tag contains the elements that visitors to our page will see. -->
+    <h1 class="big" style="margin-bottom: 0px;"> <!-- We have added a class to the header called "big" which we can use to style it in the CSS -->
+        <!-- This is a header, it is the largest text on the page -->
+        Riad Ghoneim Data Automation
+    </h1>
+    <p style="margin-top: 0px; color: rgb(139, 0, 0)">
+        <!-- we're setting the margin to 0px so the header and authour name are close together -->
+        Riad Ghoneim | <a href="https://www.linkedin.com/in/riad-ghoneim/">LinkedIn</a> | <a
+            href="https://www.github.com/its-riad">GitHub</a>
+    </p>
+    <h3 class="small"> <!-- We have added a class to the header called "small" which we can use to style it in the CSS -->
+        This is a page where I will be displaying my data automation and visulatsation work from throughout my masters at LSE. 
+    </h3>
+
+    <!-- We're organising the page into sections, with each section containing a chart, title and a description -->
+    <section>
+        <div class="chart-description">
+            <h2>Section 1: A basic chart</h2>
+            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
+                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
+                As a first example, we're using a basic chart from our repo.
+            </p>
+        </div>
+        <figure id="Location1"></figure> <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
+    </section>
+
+     <section>
+        <div class="chart-description">
+            <h2>Section 1: A more complex chart</h2>
+            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
+                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
+                As a first example, we're using a basic chart from our repo.
+            </p>
+        </div>
+       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
+        <figure id="Location2"></figure>
+    </section>
+
+    <section>
+        <div class="chart-description">
+            <h2>Section 3: A more complex chart</h2>
+            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
+                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
+                As a first example, we're using a basic chart from our repo.
+            </p>
+        </div>
+       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
+        <figure id="Location3"></figure>
+    </section>
+    
+    <section>
+        <div class="chart-description">
+            <h2>Section 4: A more complex chart</h2>
+            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
+                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
+                As a first example, we're using a basic chart from our repo.
+            </p>
+        </div>
+       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
+        <figure id="Location4"></figure>
+    </section>
+        <section>
+        <div class="chart-description">
+            <h2>Section 5: Lecture 2</h2>
+            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
+                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
+                As a first example, we're using a basic chart from our repo.
+            </p>
+        </div>
+       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
+        <figure id="Location5"></figure>
+    </section>
+     </section>
+        <section>
+        <div class="chart-description">
+            <h2>Section 6: Lecture 2</h2>
+            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
+                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
+                As a first example, we're using a basic chart from our repo.
+            </p>
+        </div>
+       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
+        <figure id="Location6"></figure>
+    </section>
+        </section>
+     </section>
+        <section>
+        <div class="chart-description">
+            <h2>Section 7: Sticky Inflation</h2>
+            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
+                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
+                As a first example, we're using a basic chart from our repo.
+            </p>
+        </div>
+       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
+        <figure id="Location7"></figure>
+    </section>
+    <div id="chart"></div>
+    
+    <section>
+    <div class="chart-description">
+        <h2>Section 8: Live Exchange Rate (USD)</h2>
+        <p>This chart automatically updates every 30 seconds from the live Exchange Rate API.</p>
+    </div>
+    <figure id="Location8"></figure>
+    </section>
+
+    
+    <section>
+    <div class="chart-description">
+        <h2>Section 9: Egypt and Ethiopia Inflation Rates</h2>
+        <p>This chart compares the inflation rates of Egypt and Ethiopia over time.</p>
+    </div>
+    <figure id="Location9"></figure>
+    </section>
+
+
+    <!-- Do you want to add more sections? -->
+        <!-- Try copying pasting the section above -->
+        <!-- You'll need to change the id of the figure "<figure id="Location3"... -->
+        <!-- ... and add a new variable for the graph spec in the script at the bottom of the page -->
+
+
+    <!-- This is a script, it's a way to run JavaScript code on the page -->
+    <script>
+        // This is a comment in JavaScript - it's a different language to HTML and CSS
+
+        let figure_1_spec = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json"; 
+        let figure_2_spec = "Test.json"; 
+        let figure_3_spec = "test2.json";
+        let figure_4_spec = "test3.json";
+        let figure_5_spec = "test5.json";
+        let figure_6_spec = "test6.json";
+        let figure_7_spec = "inflation.json";
+        let figure_8_spec = "TestLive.json";
+        let figure_9_spec = "api.json";
+       // You should have a spec for a graph in this same folder. Just specify its name here, e.g. let figure_1_spec = "chart1.json"
+
+        vegaEmbed('#Location1', figure_1_spec) // We're using the vegaEmbed function to put a graph in the element with id figure_1
+        vegaEmbed('#Location2', figure_2_spec)
+        vegaEmbed('#Location3', figure_3_spec)
+        vegaEmbed('#Location4', figure_4_spec)
+        vegaEmbed('#Location5', figure_5_spec)
+        vegaEmbed('#Location6', figure_6_spec)
+        vegaEmbed('#Location7', figure_7_spec)
+        vegaEmbed('#Location8', figure_8_spec)
+        vegaEmbed('#Location9', figure_9_spec)
+
+        // Do you want to add more graphs?
+        // try defining a new variable for figure_3_spec, adding VegaEmbed for Location3, and adding a new section in the HTML
+        // e.g. 
+        // let figure_3_spec = ...
+        // vegaEmbed('#Location3', figure_3_spec)
+
+        let test_files = [ 
+            "api.json"
+        ]
+
+        let chard_ids = [
+            "Location9"
+        ]
+
+        for(let i=0; i<1; i++) {
+            console.log(i)
+            console.log(chart_files[i], chart_ids[i])       
+
+            vegaEmbed('#' + chart_ids[i], chart_files[i]);
+        }
+
+
+    </script>
+
+</body>
+    
+</html>
