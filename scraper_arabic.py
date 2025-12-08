@@ -106,15 +106,11 @@ def extract_date_from_arabic_url(url):
 
 
 # ============================================================================
-# YOUM7 SCRAPER
+# YOUM7 SCRAPER - FIXED BASED ON YOUR INSPECTION
 # ============================================================================
 
 def scrape_youm7_economy_page(page_num=1):
-    """
-    Scrape Youm7 economy section page
-    
-    URL structure: https://www.youm7.com/Section/اقتصاد-وبورصة/297/{page}
-    """
+    """Scrape Youm7 economy section page - FIXED VERSION"""
     url = f"https://www.youm7.com/Section/اقتصاد-وبورصة/297/{page_num}"
     
     try:
@@ -124,27 +120,38 @@ def scrape_youm7_economy_page(page_num=1):
         
         articles = []
         
-        # Youm7 uses div with class containing "story" or similar
-        # We need to find article links
-        story_divs = soup.find_all('div', class_=lambda x: x and 'bigOneSec' in x)
+        # Find all links with /story/ in href
+        story_links = soup.find_all('a', href=lambda x: x and '/story/' in str(x))
         
-        for div in story_divs:
-            link_tag = div.find('a', href=True)
-            if link_tag:
-                article_url = link_tag['href']
-                if not article_url.startswith('http'):
-                    article_url = 'https://www.youm7.com' + article_url
+        for link in story_links:
+            href = link.get('href')
+            title = link.get_text(strip=True)
+            
+            # Skip if no text or too short
+            if not title or len(title) < 10:
+                continue
+            
+            # Only keep if parent is <h3> (filters out sidebar/related links)
+            if link.parent and link.parent.name == 'h3':
+                # Make full URL
+                if not href.startswith('http'):
+                    href = 'https://www.youm7.com' + href
                 
-                title_tag = link_tag.find('h2') or link_tag
-                title = title_tag.get_text(strip=True) if title_tag else ""
-                
-                if title and article_url:
-                    articles.append({
-                        'url': article_url,
-                        'title': title
-                    })
+                articles.append({
+                    'url': href,
+                    'title': title,
+                    'source': 'youm7'
+                })
         
-        return articles
+        # Remove duplicates
+        seen = set()
+        unique_articles = []
+        for article in articles:
+            if article['url'] not in seen:
+                seen.add(article['url'])
+                unique_articles.append(article)
+        
+        return unique_articles
         
     except Exception as e:
         print(f"  ❌ Error scraping Youm7 page {page_num}: {e}")
@@ -152,7 +159,7 @@ def scrape_youm7_economy_page(page_num=1):
 
 
 def scrape_youm7_article(url):
-    """Scrape full article from Youm7"""
+    """Scrape full article from Youm7 - FIXED VERSION"""
     try:
         response = requests.get(url, timeout=30)
         response.raise_for_status()
@@ -162,16 +169,15 @@ def scrape_youm7_article(url):
         title_tag = soup.find('h1')
         title = title_tag.get_text(strip=True) if title_tag else "No Title"
         
-        # Content - Youm7 has specific structure
-        content_divs = soup.find_all('div', class_=lambda x: x and 'articl' in str(x).lower())
+        # Content - Get ALL <p> tags (simple approach)
+        all_paragraphs = soup.find_all('p')
         content_parts = []
         
-        for div in content_divs:
-            paragraphs = div.find_all('p')
-            for p in paragraphs:
-                text = p.get_text(strip=True)
-                if text:
-                    content_parts.append(text)
+        for p in all_paragraphs:
+            text = p.get_text(strip=True)
+            # Filter out very short paragraphs (likely navigation/ads)
+            if text and len(text) > 20:
+                content_parts.append(text)
         
         content = '\n'.join(content_parts)
         
@@ -193,15 +199,11 @@ def scrape_youm7_article(url):
 
 
 # ============================================================================
-# AL-MASRY AL-YOUM SCRAPER
+# AL-MASRY AL-YOUM SCRAPER - FIXED BASED ON YOUR INSPECTION
 # ============================================================================
 
 def scrape_almasry_economy_page(page_num=1):
-    """
-    Scrape Al-Masry Al-Youm economy section
-    
-    URL: https://www.almasryalyoum.com/section/index/4?page={page}
-    """
+    """Scrape Al-Masry Al-Youm economy section - FIXED VERSION"""
     url = f"https://www.almasryalyoum.com/section/index/4?page={page_num}"
     
     try:
@@ -211,20 +213,19 @@ def scrape_almasry_economy_page(page_num=1):
         
         articles = []
         
-        # Find article links
-        article_links = soup.find_all('a', href=lambda x: x and '/news/details/' in str(x))
+        # Find all links with class "article-title"
+        article_links = soup.find_all('a', class_='article-title')
         
         for link in article_links:
-            article_url = link['href']
-            if not article_url.startswith('http'):
-                article_url = 'https://www.almasryalyoum.com' + article_url
-            
+            href = link.get('href')
             title = link.get_text(strip=True)
             
-            if title and article_url:
+            if href and title and len(title) > 10:
+                # URL is already full, no need to prepend domain
                 articles.append({
-                    'url': article_url,
-                    'title': title
+                    'url': href,
+                    'title': title,
+                    'source': 'almasry_alyoum'
                 })
         
         # Remove duplicates
@@ -243,24 +244,27 @@ def scrape_almasry_economy_page(page_num=1):
 
 
 def scrape_almasry_article(url):
-    """Scrape full article from Al-Masry Al-Youm"""
+    """Scrape full article from Al-Masry Al-Youm - FIXED VERSION"""
     try:
         response = requests.get(url, timeout=30)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'lxml')
         
         # Title
-        title_tag = soup.find('h1') or soup.find('h2', class_='title')
+        title_tag = soup.find('h1') or soup.find('h2')
         title = title_tag.get_text(strip=True) if title_tag else "No Title"
         
-        # Content
-        content_div = soup.find('div', class_=lambda x: x and 'content' in str(x).lower())
+        # Content - Get ALL <p> tags (simple approach)
+        all_paragraphs = soup.find_all('p')
+        content_parts = []
         
-        if content_div:
-            paragraphs = content_div.find_all('p')
-            content = '\n'.join([p.get_text(strip=True) for p in paragraphs if p.get_text(strip=True)])
-        else:
-            content = ""
+        for p in all_paragraphs:
+            text = p.get_text(strip=True)
+            # Filter out very short paragraphs (likely navigation/ads)
+            if text and len(text) > 20:
+                content_parts.append(text)
+        
+        content = '\n'.join(content_parts)
         
         # Date from URL
         date_published = extract_date_from_arabic_url(url)
