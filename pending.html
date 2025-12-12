@@ -1,35 +1,250 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riad's Portfolio</title>
-    
-    <link rel="stylesheet" href="style.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav>
-        <a href="index.html" class="logo">Riad Ghoneim</a>
-        <ul class="nav-links">
-            <li><a href="index.html#about">About</a></li>
-            <li><a href="index.html#work">Work</a></li>
-            
-        </ul>
-    </nav>
+import React, { useState, useEffect } from 'react';
+import { DollarSign, Sandwich } from 'lucide-react';
 
- <div class="container">
-    <header style="margin-top: 120px; margin-bottom: 80px; padding: 40px;">
-        <h1 style="margin-bottom: 40px;">Riad's Data Visualization Portfolio</h1>
+const IncomeInflationViz = () => {
+  const [nominalIncome, setNominalIncome] = useState(500000);
+  const [inflationRate, setInflationRate] = useState(25);
+  const [actualInflation, setActualInflation] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  // Fetch current Egypt inflation rate from World Bank API
+  useEffect(() => {
+    const fetchInflation = async () => {
+      try {
+        const response = await fetch(
+          'https://api.worldbank.org/v2/country/EGY/indicator/FP.CPI.TOTL.ZG?format=json&date=2024:2025&per_page=1'
+        );
+        const data = await response.json();
+        if (data[1] && data[1][0] && data[1][0].value) {
+          setActualInflation(parseFloat(data[1][0].value).toFixed(1));
+        } else {
+          // Fallback to latest known rate (November 2025)
+          setActualInflation('12.3');
+        }
+      } catch (error) {
+        console.error('Error fetching inflation data:', error);
+        // Fallback to latest known rate
+        setActualInflation('12.3');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchInflation();
+  }, []);
+  
+  // Calculate real income based on inflation
+  const realIncome = nominalIncome / (1 + inflationRate / 100);
+  
+  // Calculate purchasing power (fava beans at 15 EGP each)
+  const beanPrice = 15;
+  const nominalBeans = Math.floor(nominalIncome / beanPrice);
+  const realBeans = Math.floor(realIncome / beanPrice);
+  
+  // Circle sizing - nominal (outer) circle grows with income, real (inner) shrinks with inflation
+  const maxRadius = 230;
+  const nominalRadius = Math.min((nominalIncome / 500000) * 150 + 100, maxRadius);
+  const realRadius = nominalRadius / (1 + inflationRate / 100);
+  
+  // Calculate the inflation ring radius based on Egypt's actual current inflation rate (fixed)
+  const currentEgyptInflation = actualInflation ? parseFloat(actualInflation) : 12.3;
+  const inflationRingRadius = nominalRadius / (1 + currentEgyptInflation / 100);
+  
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-stone-100 to-amber-50 p-8" style={{fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'}}>
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-5xl font-light text-stone-800 mb-2 text-center tracking-tight" style={{letterSpacing: '-0.02em'}}>
+          PURCHASING POWER
+        </h1>
+        <p className="text-stone-600 text-center mb-12 font-light tracking-wide">
+          Cairo Inflation Visualizer
+        </p>
         
-        <p style="margin: 40px 60px;">What you can expect from my Data Automation and Visualisation Project.</p>
-        
-        <p style="margin: 40px 60px;">The Purpose of this Project: To automate a dashboard that visualises Egypt's inflation crisis and how social feedback loops perpetuate inflation</p>
-        
-        <p style="margin: 40px 60px 24px;">What visualisations this project will include:</p>
-        
-        <p style="margin-bottom: 12px;">Line Charts showing inflation trends over time in Egypt</p>
+        <div className="grid grid-cols-1 gap-8">
+          {/* Main Visualization */}
+          <div className="bg-white rounded-sm shadow-lg p-12">
+            <div className="flex flex-col items-center">
+              {/* SVG Circle Visualization */}
+              <div className="relative mb-12">
+                <svg width="500" height="500" viewBox="0 0 500 500">
+                  {/* Outer circle (Nominal Income) - grows with income */}
+                  <circle
+                    cx="250"
+                    cy="250"
+                    r={nominalRadius}
+                    fill="#ffffff"
+                    opacity="1"
+                  />
+                  <circle
+                    cx="250"
+                    cy="250"
+                    r={nominalRadius}
+                    fill="none"
+                    stroke="#1e3a8a"
+                    strokeWidth="2"
+                  />
+                  
+                  {/* Inflation Rate Ring - fixed at Egypt's current inflation rate */}
+                  <circle
+                    cx="250"
+                    cy="250"
+                    r={inflationRingRadius}
+                    fill="none"
+                    stroke="#ef4444"
+                    strokeWidth="3"
+                    strokeDasharray="10,5"
+                    opacity="0.7"
+                  />
+                  
+                  {/* Current Egypt inflation label */}
+                  <text
+                    x="250"
+                    y={250 - inflationRingRadius - 15}
+                    textAnchor="middle"
+                    className="text-sm font-light fill-red-600"
+                    style={{fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'}}
+                  >
+                    {loading ? 'Loading...' : `Egypt Current: ${actualInflation}%`}
+                  </text>
+                  
+                  {/* Inner circle (Real Income) - shrinks with inflation */}
+                  <circle
+                    cx="250"
+                    cy="250"
+                    r={realRadius}
+                    fill="#3b82f6"
+                    opacity="0.5"
+                  />
+                  <circle
+                    cx="250"
+                    cy="250"
+                    r={realRadius}
+                    fill="none"
+                    stroke="#1e40af"
+                    strokeWidth="2"
+                  />
+                  
+                  {/* Labels */}
+                  <text
+                    x="250"
+                    y="240"
+                    textAnchor="middle"
+                    className="text-lg font-light fill-blue-900"
+                    style={{fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'}}
+                  >
+                    Real Income
+                  </text>
+                  <text
+                    x="250"
+                    y="265"
+                    textAnchor="middle"
+                    className="text-2xl font-light fill-blue-900"
+                    style={{fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'}}
+                  >
+                    {realIncome.toLocaleString('en-US', {maximumFractionDigits: 0})} EGP
+                  </text>
+                </svg>
+                
+                {/* Legend */}
+                <div className="flex justify-center gap-8 mt-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 bg-white border-2 border-blue-900"></div>
+                    <span className="text-sm text-stone-600 font-light tracking-wide">Nominal Income</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 border-2 border-dashed border-red-500"></div>
+                    <span className="text-sm text-stone-600 font-light tracking-wide">
+                      Egypt Inflation {!loading && actualInflation && `(${actualInflation}%)`}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 bg-blue-500 opacity-50 border border-blue-800"></div>
+                    <span className="text-sm text-stone-600 font-light tracking-wide">Real Income</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Controls */}
+              <div className="w-full max-w-2xl space-y-8">
+                <div>
+                  <div className="flex justify-between items-center mb-3">
+                    <label className="text-sm font-light text-stone-700 tracking-wide uppercase">
+                      Nominal Income
+                    </label>
+                    <span className="text-2xl font-light text-stone-900">
+                      {nominalIncome.toLocaleString()} EGP
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="100000"
+                    max="500000"
+                    step="25000"
+                    value={nominalIncome}
+                    onChange={(e) => setNominalIncome(Number(e.target.value))}
+                    className="w-full h-1 bg-stone-200 rounded-full appearance-none cursor-pointer"
+                    style={{
+                      accentColor: '#ffffff',
+                      WebkitAppearance: 'none',
+                    }}
+                  />
+                  <style jsx>{`
+                    input[type="range"]::-webkit-slider-thumb {
+                      appearance: none;
+                      width: 20px;
+                      height: 20px;
+                      border-radius: 50%;
+                      background: white;
+                      border: 2px solid #57534e;
+                      cursor: pointer;
+                      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    }
+                    input[type="range"]::-moz-range-thumb {
+                      width: 20px;
+                      height: 20px;
+                      border-radius: 50%;
+                      background: white;
+                      border: 2px solid #57534e;
+                      cursor: pointer;
+                      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    }
+                  `}</style>
+                </div>
+                
+                <div>
+                  <div className="flex justify-between items-center mb-3">
+                    <label className="text-sm font-light text-stone-700 tracking-wide uppercase">
+                      Inflation Rate (Adjust to explore)
+                    </label>
+                    <span className="text-2xl font-light text-stone-900">
+                      {inflationRate}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="50"
+                    step="1"
+                    value={inflationRate}
+                    onChange={(e) => setInflationRate(Number(e.target.value))}
+                    className="w-full h-1 bg-stone-200 rounded-full appearance-none cursor-pointer"
+                    style={{
+                      accentColor: '#ffffff',
+                    }}
+                  />
+                  {!loading && actualInflation && (
+                    <p className="text-xs text-stone-500 mt-2 font-light">
+                      Current Egypt inflation: {actualInflation}% (World Bank data)
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default IncomeInflationViz;
