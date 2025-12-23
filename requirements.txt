@@ -4,9 +4,10 @@ lxml==4.9.3
 pandas==2.1.0
 transformers==4.35.0
 torch==2.1.0
-numpy<2
+numpy==1.26.4
 sentencepiece==0.1.99
 flask==3.0.0
 flask-cors==4.0.0
-opencv-python-headless==4.8.1.78
+opencv-python-headless==4.9.0.80
 gunicorn==21.2.0
+Pillow==10.2.0
