@@ -6,3 +6,7 @@ transformers==4.35.0
 torch==2.1.0
 numpy<2
 sentencepiece==0.1.99
+flask==3.0.0
+flask-cors==4.0.0
+opencv-python-headless==4.8.1.78
+gunicorn==21.2.0
