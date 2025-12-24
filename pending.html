@@ -49,23 +49,14 @@
 </head>
 <body class="min-h-screen p-8">
     <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-3 gap-12 mb-4">
-            <div class="col-span-2">
-                <h2 class="text-3xl font-normal text-white mb-8 tracking-tight">VISUALISATION</h2>
-            </div>
-            <div class="col-span-1">
-                <h2 class="text-3xl font-normal text-white mb-8 tracking-tight text-right">Toggles</h2>
-            </div>
-        </div>
-        
         <div class="grid grid-cols-3 gap-12 items-start">
             <div class="col-span-2">
                 <!-- CIRCLES VIEW -->
-                <div id="circlesView" class="bg-white rounded-sm shadow-lg p-12">
+                <div id="circlesView" class="rounded-sm shadow-lg p-12" style="background-color: #1e3a8a;">
                     <div class="flex flex-col items-center">
                         <svg width="500" height="500" viewBox="0 0 500 500">
                             <circle id="nominalCircle" cx="250" cy="250" r="200" fill="#ffffff" opacity="1" />
-                            <circle id="nominalCircleStroke" cx="250" cy="250" r="200" fill="none" stroke="#1e3a8a" stroke-width="2" />
+                            <circle id="nominalCircleStroke" cx="250" cy="250" r="200" fill="none" stroke="#ffffff" stroke-width="2" />
                             <circle id="inflationRing" cx="250" cy="250" r="160" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="10,5" opacity="0.7" />
                             <text id="inflationText" x="250" y="70" text-anchor="middle" class="text-sm font-normal fill-red-600" style="font-family: 'Courier New', Courier, monospace">
                                 Egypt Current: <tspan id="actualInflationSVG">12.3</tspan>%
@@ -79,32 +70,32 @@
                         </svg>
                         <div class="flex justify-center gap-8 mt-6">
                             <div class="flex items-center gap-3">
-                                <div class="w-5 h-5 bg-white border-2 border-blue-900"></div>
-                                <span class="text-sm text-blue-900 font-normal">Nominal Income</span>
+                                <div class="w-5 h-5 bg-white border-2 border-white"></div>
+                                <span class="text-sm text-white font-normal">Nominal Income</span>
                             </div>
                             <div class="flex items-center gap-3">
                                 <div class="w-5 h-5 border-2 border-dashed border-red-500"></div>
-                                <span class="text-sm text-blue-900 font-normal">Egypt Inflation</span>
+                                <span class="text-sm text-white font-normal">Egypt Inflation</span>
                             </div>
                             <div class="flex items-center gap-3">
                                 <div class="w-5 h-5 bg-blue-500 opacity-50 border border-blue-800"></div>
-                                <span class="text-sm text-blue-900 font-normal">Real Income</span>
+                                <span class="text-sm text-white font-normal">Real Income</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- BARS VIEW -->
-                <div id="barsView" class="bg-white rounded-sm shadow-lg p-12" style="display: none;">
-                    <h2 class="text-2xl font-normal text-blue-900 mb-8 text-center">Income Breakdown</h2>
+                <div id="barsView" class="rounded-sm shadow-lg p-12" style="display: none; background-color: #1e3a8a;">
+                    <h2 class="text-2xl font-normal text-white mb-8 text-center">Income Breakdown</h2>
                     <div class="space-y-8">
                         <div>
                             <div class="flex justify-between items-center mb-3">
-                                <span class="text-sm font-normal text-blue-900 uppercase">Your Scenario (<span id="inflationRateBar1">25</span>% inflation)</span>
-                                <span class="text-lg font-normal text-blue-900"><span id="nominalIncomeBar1">50,000</span> EGP</span>
+                                <span class="text-sm font-normal text-white uppercase">Your Scenario (<span id="inflationRateBar1">25</span>% inflation)</span>
+                                <span class="text-lg font-normal text-white"><span id="nominalIncomeBar1">50,000</span> EGP</span>
                             </div>
-                            <div class="relative bg-white rounded-sm overflow-hidden border-2 border-blue-900 transition-all duration-300" 
-                                 style="height: 100px" id="bar1Container">
+                            <div class="relative bg-blue-900 rounded-sm overflow-hidden border-2 border-white transition-all duration-300" 
+                                 id="bar1Container">
                                 <div class="absolute left-0 top-0 h-full bg-blue-500 opacity-70 transition-all duration-300" 
                                      style="width: 80%" id="bar1Real">
                                     <div class="flex items-center justify-center h-full text-white font-normal text-sm px-2" id="bar1RealText">
@@ -121,11 +112,11 @@
                         </div>
                         <div>
                             <div class="flex justify-between items-center mb-3">
-                                <span class="text-sm font-normal text-blue-900 uppercase">Egypt Current (<span id="actualInflationBar">12.3</span>% inflation)</span>
-                                <span class="text-lg font-normal text-blue-900"><span id="nominalIncomeBar2">50,000</span> EGP</span>
+                                <span class="text-sm font-normal text-white uppercase">Egypt Current (<span id="actualInflationBar">12.3</span>% inflation)</span>
+                                <span class="text-lg font-normal text-white"><span id="nominalIncomeBar2">50,000</span> EGP</span>
                             </div>
-                            <div class="relative bg-white rounded-sm overflow-hidden border-2 border-red-400 transition-all duration-300" 
-                                 style="height: 100px" id="bar2Container">
+                            <div class="relative bg-blue-900 rounded-sm overflow-hidden border-2 border-red-400 transition-all duration-300" 
+                                 id="bar2Container">
                                 <div class="absolute left-0 top-0 h-full bg-blue-500 opacity-70" 
                                      style="width: 89%" id="bar2Real">
                                     <div class="flex items-center justify-center h-full text-white font-normal text-sm px-2" id="bar2RealText">
@@ -144,18 +135,18 @@
                 </div>
 
                 <!-- TAXI METER -->
-                <div class="bg-white rounded-sm shadow-lg p-8 mt-8">
-                    <h3 class="text-xl font-normal text-blue-900 mb-6 text-center">Purchasing Power</h3>
+                <div class="rounded-sm shadow-lg p-8 mt-8" style="background-color: #1e3a8a;">
+                    <h3 class="text-xl font-normal text-white mb-6 text-center">Purchasing Power</h3>
                     <div class="flex flex-col items-center">
                         <div class="meter-container">
                             <img src="taxi_meter_base.png" alt="Taxi Meter Base" class="base">
                             <div class="meter-digits" id="meterDigits"></div>
                         </div>
                         <div class="text-center mt-4">
-                            <p class="text-sm text-blue-900 font-normal">
+                            <p class="text-sm text-white font-normal">
                                 With <span class="font-bold" id="realIncomeText">0</span> EGP real income,
                             </p>
-                            <p class="text-sm text-blue-900 font-normal">
+                            <p class="text-sm text-white font-normal">
                                 you can buy <span class="font-bold" id="itemsCountText">0</span> items at 10 EGP each
                             </p>
                         </div>
@@ -269,7 +260,11 @@
                 document.getElementById('actualInflationSVG').textContent = actualInflation.toFixed(1);
                 document.getElementById('realIncomeTextSVG').textContent = Math.floor(realIncome).toLocaleString() + ' EGP';
             } else {
-                // Update bars
+                // Update bars with dynamic height
+                const barHeight = Math.max(60, (nominalIncome / 50000) * 200);
+                document.getElementById('bar1Container').style.height = barHeight + 'px';
+                document.getElementById('bar2Container').style.height = barHeight + 'px';
+                
                 const realPercent = (realIncome / nominalIncome) * 100;
                 const lossPercent = 100 - realPercent;
                 
