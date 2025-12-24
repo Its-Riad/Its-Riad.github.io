@@ -3,93 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taxi Meter - Purchasing Power</title>
+    <title>Income Inflation Visualization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
-            background: #f0f4f8;
-            padding: 40px;
-            text-align: center;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+        input[type="range"][orient="vertical"] {
+            writing-mode: bt-lr;
+            -webkit-appearance: slider-vertical;
+            width: 8px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
             background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid #1e3a8a;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .meter-display {
-            letter-spacing: 4px;
-            margin: 20px 0;
+        .meter-container {
+            position: relative;
+            width: 800px;
+            margin: 0 auto;
         }
-        .meter-display img {
+        .meter-container img.base {
+            width: 100%;
+            height: auto;
+        }
+        .meter-digits {
+            position: absolute;
+            left: 238px;
+            top: 186px;
+        }
+        .meter-digits img {
             width: 48px;
             height: 65px;
             display: inline-block;
-        }
-        .controls {
-            margin: 30px 0;
-        }
-        input[type="range"] {
-            width: 300px;
-            margin: 10px;
-        }
-        .info {
-            color: #1e3a8a;
-            margin: 20px 0;
+            margin-right: 4px;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Purchasing Power Calculator</h1>
-        
-        <div class="controls">
-            <div>
-                <label>Nominal Income: <span id="incomeValue">500000</span> EGP</label><br>
-                <input type="range" id="incomeSlider" min="100000" max="500000" step="25000" value="500000">
+<body class="min-h-screen bg-white p-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-3 gap-12 mb-4">
+            <div class="col-span-2">
+                <h2 class="text-3xl font-normal text-blue-900 mb-8 tracking-tight">VISUALISATION</h2>
             </div>
-            <div>
-                <label>Inflation Rate: <span id="inflationValue">25</span>%</label><br>
-                <input type="range" id="inflationSlider" min="0" max="50" step="1" value="25">
+            <div class="col-span-1">
+                <h2 class="text-3xl font-normal text-blue-900 mb-8 tracking-tight text-right">Toggles</h2>
             </div>
         </div>
-
-        <h2>Items You Can Buy (10 EGP each)</h2>
-        <div class="meter-display" id="meterDisplay"></div>
         
-        <div class="info">
-            <p>Real Income: <strong id="realIncome">0</strong> EGP</p>
-            <p>Number of Items: <strong id="itemCount">0</strong></p>
+        <div class="grid grid-cols-3 gap-12 items-start">
+            <div class="col-span-2">
+                <div id="visualization" class="bg-blue-50 rounded-sm shadow-lg p-12"></div>
+
+                <!-- TAXI METER -->
+                <div class="bg-blue-50 rounded-sm shadow-lg p-8 mt-8">
+                    <h3 class="text-xl font-normal text-blue-900 mb-6 text-center">Purchasing Power</h3>
+                    <div class="flex flex-col items-center">
+                        <div class="meter-container">
+                            <img src="taxi_meter_base.png" alt="Taxi Meter Base" class="base">
+                            <div class="meter-digits" id="meterDigits"></div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <p class="text-sm text-blue-900 font-normal">
+                                With <span class="font-bold" id="realIncomeText">0</span> EGP real income,
+                            </p>
+                            <p class="text-sm text-blue-900 font-normal">
+                                you can buy <span class="font-bold" id="itemsCountText">0</span> items at 10 EGP each
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-span-1">
+                <div class="flex gap-3 mb-8">
+                    <button onclick="setViewMode('circles')" id="btnCircles" class="flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-blue-900 text-white">
+                        Circle View
+                    </button>
+                    <button onclick="setViewMode('bars')" id="btnBars" class="flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-white text-blue-900" style="border: 3px solid #1e3a8a">
+                        Bar Chart View
+                    </button>
+                </div>
+                
+                <div class="flex justify-center gap-8">
+                    <div class="flex flex-col items-center">
+                        <label class="text-sm font-normal text-blue-900 uppercase mb-4">Nominal Income</label>
+                        <div class="text-2xl font-normal text-blue-900 mb-4" id="incomeValue">500,000</div>
+                        <input
+                            type="range"
+                            orient="vertical"
+                            min="100000"
+                            max="500000"
+                            step="25000"
+                            value="500000"
+                            id="incomeSlider"
+                            class="h-96 cursor-pointer bg-blue-200 rounded-full"
+                        />
+                        <div class="text-xs text-blue-700 mt-4">EGP</div>
+                    </div>
+                    
+                    <div class="flex flex-col items-center">
+                        <label class="text-sm font-normal text-blue-900 uppercase mb-4">Inflation</label>
+                        <div class="text-2xl font-normal text-blue-900 mb-4" id="inflationValue">25</div>
+                        <input
+                            type="range"
+                            orient="vertical"
+                            min="0"
+                            max="50"
+                            step="1"
+                            value="25"
+                            id="inflationSlider"
+                            class="h-96 cursor-pointer bg-blue-200 rounded-full"
+                        />
+                        <div class="text-xs text-blue-700 mt-4 text-center">Egypt: <span id="actualInflation">12.3</span>%</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        function updateDisplay() {
-            const nominalIncome = parseInt(document.getElementById('incomeSlider').value);
-            const inflationRate = parseInt(document.getElementById('inflationSlider').value);
-            
-            // Update display values
-            document.getElementById('incomeValue').textContent = nominalIncome.toLocaleString();
-            document.getElementById('inflationValue').textContent = inflationRate;
-            
-            // Calculate real income
-            const realIncome = nominalIncome / (1 + inflationRate / 100);
-            const itemsCanBuy = Math.floor(realIncome / 10);
-            
-            // Update info
-            document.getElementById('realIncome').textContent = Math.floor(realIncome).toLocaleString();
-            document.getElementById('itemCount').textContent = itemsCanBuy.toLocaleString();
-            
-            // Update meter
-            updateMeter(itemsCanBuy);
-        }
-        
+        let nominalIncome = 500000;
+        let inflationRate = 25;
+        let actualInflation = 12.3;
+        let viewMode = 'circles';
+
         function updateMeter(value) {
             const valueStr = String(value).padStart(5, '0');
             const firstNonZero = valueStr.search(/[1-9]/);
-            const meterDiv = document.getElementById('meterDisplay');
+            const meterDiv = document.getElementById('meterDigits');
             
             meterDiv.innerHTML = '';
             
@@ -107,13 +155,74 @@
                 meterDiv.appendChild(img);
             }
         }
-        
-        // Event listeners
-        document.getElementById('incomeSlider').addEventListener('input', updateDisplay);
-        document.getElementById('inflationSlider').addEventListener('input', updateDisplay);
-        
-        // Initial display
-        updateDisplay();
+
+        function updateCalculations() {
+            const realIncome = nominalIncome / (1 + inflationRate / 100);
+            const itemsCanBuy = Math.floor(realIncome / 10);
+            
+            document.getElementById('incomeValue').textContent = nominalIncome.toLocaleString();
+            document.getElementById('inflationValue').textContent = inflationRate;
+            document.getElementById('realIncomeText').textContent = Math.floor(realIncome).toLocaleString();
+            document.getElementById('itemsCountText').textContent = itemsCanBuy.toLocaleString();
+            
+            updateMeter(itemsCanBuy);
+            renderVisualization();
+        }
+
+        function renderVisualization() {
+            const realIncome = nominalIncome / (1 + inflationRate / 100);
+            const viz = document.getElementById('visualization');
+            
+            if (viewMode === 'circles') {
+                viz.innerHTML = '<div class="text-center text-blue-900">Circle visualization here</div>';
+            } else {
+                viz.innerHTML = '<div class="text-center text-blue-900">Bar chart visualization here</div>';
+            }
+        }
+
+        function setViewMode(mode) {
+            viewMode = mode;
+            const btnCircles = document.getElementById('btnCircles');
+            const btnBars = document.getElementById('btnBars');
+            
+            if (mode === 'circles') {
+                btnCircles.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-blue-900 text-white';
+                btnCircles.style.border = 'none';
+                btnBars.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-white text-blue-900';
+                btnBars.style.border = '3px solid #1e3a8a';
+            } else {
+                btnBars.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-blue-900 text-white';
+                btnBars.style.border = 'none';
+                btnCircles.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-white text-blue-900';
+                btnCircles.style.border = '3px solid #1e3a8a';
+            }
+            
+            renderVisualization();
+        }
+
+        document.getElementById('incomeSlider').addEventListener('input', function(e) {
+            nominalIncome = Number(e.target.value);
+            updateCalculations();
+        });
+
+        document.getElementById('inflationSlider').addEventListener('input', function(e) {
+            inflationRate = Number(e.target.value);
+            updateCalculations();
+        });
+
+        // Fetch actual inflation
+        fetch('https://api.worldbank.org/v2/country/EGY/indicator/FP.CPI.TOTL.ZG?format=json&date=2024:2025&per_page=1')
+            .then(r => r.json())
+            .then(data => {
+                if (data[1] && data[1][0] && data[1][0].value) {
+                    actualInflation = parseFloat(data[1][0].value);
+                    document.getElementById('actualInflation').textContent = actualInflation.toFixed(1);
+                }
+            })
+            .catch(() => {});
+
+        // Initial render
+        updateCalculations();
     </script>
 </body>
 </html>
