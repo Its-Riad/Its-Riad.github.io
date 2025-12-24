@@ -1,26 +1,316 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Your Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxi Meter Display</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .meter-container {
+            text-align: center;
+            margin: 30px 0;
+            background: #f5f5f5;
+            padding: 40px;
+            border-radius: 15px;
+        }
+        
+        #meterDisplay {
+            display: inline-block;
+            background: #000;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        #meterDisplay img {
+            vertical-align: middle;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        input[type="number"] {
+            padding: 15px 20px;
+            font-size: 18px;
+            width: 200px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            max-width: 500px;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .quick-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .quick-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .quick-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .value-display {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            justify-content: center;
+        }
+
+        .toggle-container span {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
 </head>
 <body>
-    <!-- Your existing content -->
-    
-    <input type="range" id="incomeSlider" min="0" max="99999" step="100" value="10000">
-    <div id="meterDisplay"></div>
+    <div class="container">
+        <h1>🚕 Taxi Meter Display</h1>
+        
+        <div class="meter-container">
+            <div id="meterDisplay"></div>
+        </div>
+
+        <div class="value-display">
+            Current Value: <span id="currentValue">0</span> EGP
+        </div>
+        
+        <div class="controls">
+            <input type="range" id="fareSlider" min="0" max="99999" step="100" value="0">
+        </div>
+
+        <div class="controls">
+            <input type="number" id="fareInput" placeholder="Enter fare" value="0" min="0" max="99999">
+            <button onclick="updateFromInput()">Update</button>
+        </div>
+
+        <div class="quick-buttons">
+            <button class="quick-btn" onclick="setFare(0)">Reset</button>
+            <button class="quick-btn" onclick="setFare(1000)">1,000</button>
+            <button class="quick-btn" onclick="setFare(5000)">5,000</button>
+            <button class="quick-btn" onclick="setFare(10000)">10,000</button>
+            <button class="quick-btn" onclick="setFare(50000)">50,000</button>
+            <button class="quick-btn" onclick="setFare(99999)">Max</button>
+        </div>
+        
+        <div class="controls">
+            <div class="toggle-container">
+                <span>Auto Increment:</span>
+                <label class="switch">
+                    <input type="checkbox" id="autoToggle" onchange="toggleAuto()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div id="status" class="status inactive">
+            Status: Manual Mode
+        </div>
+    </div>
 
     <script>
+        let autoUpdate = false;
+        let intervalId = null;
+
         function updateMeter(value) {
+            // Convert to string and pad with zeros
             const valueStr = String(value).padStart(5, '0');
             const meterDiv = document.getElementById('meterDisplay');
             
+            // Clear previous display
             meterDiv.innerHTML = '';
             
+            // Find first non-zero position
+            const firstNonZero = valueStr.search(/[1-9]/);
+            
+            // Create image for each digit position
             for (let i = 0; i < 5; i++) {
                 const digit = valueStr[i];
                 const img = document.createElement('img');
                 
-                if (digit === '0' && i < valueStr.search(/[1-9]/)) {
+                // If this is a leading zero (before first non-zero digit), use null
+                if (digit === '0' && (firstNonZero === -1 || i < firstNonZero)) {
                     img.src = 'meter(null).png';
                 } else {
                     img.src = 'meter(' + digit + ').png';
@@ -29,16 +319,76 @@
                 img.style.width = '48px';
                 img.style.height = '65px';
                 img.style.display = 'inline-block';
+                img.onerror = function() {
+                    console.error('Failed to load image:', this.src);
+                };
                 
                 meterDiv.appendChild(img);
             }
+
+            // Update display value
+            document.getElementById('currentValue').textContent = value.toLocaleString();
         }
-        
-        document.getElementById('incomeSlider').addEventListener('input', function(e) {
-            updateMeter(e.target.value);
+
+        function setFare(value) {
+            document.getElementById('fareSlider').value = value;
+            document.getElementById('fareInput').value = value;
+            updateMeter(value);
+        }
+
+        function updateFromInput() {
+            const value = parseInt(document.getElementById('fareInput').value) || 0;
+            const clampedValue = Math.max(0, Math.min(99999, value));
+            setFare(clampedValue);
+        }
+
+        function toggleAuto() {
+            const toggle = document.getElementById('autoToggle');
+            const status = document.getElementById('status');
+            autoUpdate = toggle.checked;
+            
+            if (autoUpdate) {
+                status.textContent = 'Status: Auto Mode (Running)';
+                status.className = 'status active';
+                
+                // Start auto-incrementing
+                let currentFare = parseInt(document.getElementById('fareSlider').value) || 0;
+                intervalId = setInterval(() => {
+                    currentFare += 100;
+                    if (currentFare > 99999) currentFare = 0;
+                    setFare(currentFare);
+                }, 1000); // Update every second
+            } else {
+                status.textContent = 'Status: Manual Mode';
+                status.className = 'status inactive';
+                
+                // Stop auto-incrementing
+                if (intervalId) {
+                    clearInterval(intervalId);
+                    intervalId = null;
+                }
+            }
+        }
+
+        // Update meter when slider moves
+        document.getElementById('fareSlider').addEventListener('input', function(e) {
+            const value = parseInt(e.target.value);
+            document.getElementById('fareInput').value = value;
+            updateMeter(value);
         });
-        
-        updateMeter(10000);
+
+        // Update meter when input changes
+        document.getElementById('fareInput').addEventListener('input', function(e) {
+            const value = parseInt(e.target.value) || 0;
+            const clampedValue = Math.max(0, Math.min(99999, value));
+            document.getElementById('fareSlider').value = clampedValue;
+            updateMeter(clampedValue);
+        });
+
+        // Load initial meter on page load
+        window.onload = function() {
+            updateMeter(0);
+        };
     </script>
 </body>
 </html>
