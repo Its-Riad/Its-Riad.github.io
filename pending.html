@@ -8,6 +8,7 @@
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
+            background-color: #1e3a8a;
         }
         input[type="range"][orient="vertical"] {
             writing-mode: bt-lr;
@@ -36,7 +37,7 @@
         .meter-digits {
             position: absolute;
             left: 238px;
-            top: 186px;
+            top: 170px;
         }
         .meter-digits img {
             width: 48px;
@@ -46,23 +47,104 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-white p-8">
+<body class="min-h-screen p-8">
     <div class="max-w-7xl mx-auto">
         <div class="grid grid-cols-3 gap-12 mb-4">
             <div class="col-span-2">
-                <h2 class="text-3xl font-normal text-blue-900 mb-8 tracking-tight">VISUALISATION</h2>
+                <h2 class="text-3xl font-normal text-white mb-8 tracking-tight">VISUALISATION</h2>
             </div>
             <div class="col-span-1">
-                <h2 class="text-3xl font-normal text-blue-900 mb-8 tracking-tight text-right">Toggles</h2>
+                <h2 class="text-3xl font-normal text-white mb-8 tracking-tight text-right">Toggles</h2>
             </div>
         </div>
         
         <div class="grid grid-cols-3 gap-12 items-start">
             <div class="col-span-2">
-                <div id="visualization" class="bg-blue-50 rounded-sm shadow-lg p-12"></div>
+                <!-- CIRCLES VIEW -->
+                <div id="circlesView" class="bg-white rounded-sm shadow-lg p-12">
+                    <div class="flex flex-col items-center">
+                        <svg width="500" height="500" viewBox="0 0 500 500">
+                            <circle id="nominalCircle" cx="250" cy="250" r="200" fill="#ffffff" opacity="1" />
+                            <circle id="nominalCircleStroke" cx="250" cy="250" r="200" fill="none" stroke="#1e3a8a" stroke-width="2" />
+                            <circle id="inflationRing" cx="250" cy="250" r="160" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="10,5" opacity="0.7" />
+                            <text id="inflationText" x="250" y="70" text-anchor="middle" class="text-sm font-normal fill-red-600" style="font-family: 'Courier New', Courier, monospace">
+                                Egypt Current: <tspan id="actualInflationSVG">12.3</tspan>%
+                            </text>
+                            <circle id="realCircle" cx="250" cy="250" r="160" fill="#3b82f6" opacity="0.5" />
+                            <circle id="realCircleStroke" cx="250" cy="250" r="160" fill="none" stroke="#1e40af" stroke-width="2" />
+                            <text x="250" y="240" text-anchor="middle" class="text-lg font-normal fill-blue-900" style="font-family: 'Courier New', Courier, monospace">Real Income</text>
+                            <text id="realIncomeTextSVG" x="250" y="265" text-anchor="middle" class="text-2xl font-normal fill-blue-900" style="font-family: 'Courier New', Courier, monospace">
+                                0 EGP
+                            </text>
+                        </svg>
+                        <div class="flex justify-center gap-8 mt-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 bg-white border-2 border-blue-900"></div>
+                                <span class="text-sm text-blue-900 font-normal">Nominal Income</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 border-2 border-dashed border-red-500"></div>
+                                <span class="text-sm text-blue-900 font-normal">Egypt Inflation</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 bg-blue-500 opacity-50 border border-blue-800"></div>
+                                <span class="text-sm text-blue-900 font-normal">Real Income</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BARS VIEW -->
+                <div id="barsView" class="bg-white rounded-sm shadow-lg p-12" style="display: none;">
+                    <h2 class="text-2xl font-normal text-blue-900 mb-8 text-center">Income Breakdown</h2>
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-sm font-normal text-blue-900 uppercase">Your Scenario (<span id="inflationRateBar1">25</span>% inflation)</span>
+                                <span class="text-lg font-normal text-blue-900"><span id="nominalIncomeBar1">50,000</span> EGP</span>
+                            </div>
+                            <div class="relative bg-white rounded-sm overflow-hidden border-2 border-blue-900 transition-all duration-300" 
+                                 style="height: 100px" id="bar1Container">
+                                <div class="absolute left-0 top-0 h-full bg-blue-500 opacity-70 transition-all duration-300" 
+                                     style="width: 80%" id="bar1Real">
+                                    <div class="flex items-center justify-center h-full text-white font-normal text-sm px-2" id="bar1RealText">
+                                        Real: 40,000 EGP
+                                    </div>
+                                </div>
+                                <div class="absolute right-0 top-0 h-full bg-blue-200 transition-all duration-300" 
+                                     style="width: 20%" id="bar1Loss">
+                                    <div class="flex items-center justify-center h-full text-blue-900 font-normal text-xs px-2" id="bar1LossText">
+                                        Loss: 10,000 EGP
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-sm font-normal text-blue-900 uppercase">Egypt Current (<span id="actualInflationBar">12.3</span>% inflation)</span>
+                                <span class="text-lg font-normal text-blue-900"><span id="nominalIncomeBar2">50,000</span> EGP</span>
+                            </div>
+                            <div class="relative bg-white rounded-sm overflow-hidden border-2 border-red-400 transition-all duration-300" 
+                                 style="height: 100px" id="bar2Container">
+                                <div class="absolute left-0 top-0 h-full bg-blue-500 opacity-70" 
+                                     style="width: 89%" id="bar2Real">
+                                    <div class="flex items-center justify-center h-full text-white font-normal text-sm px-2" id="bar2RealText">
+                                        Real: 44,500 EGP
+                                    </div>
+                                </div>
+                                <div class="absolute right-0 top-0 h-full bg-blue-200" 
+                                     style="width: 11%" id="bar2Loss">
+                                    <div class="flex items-center justify-center h-full text-blue-900 font-normal text-xs px-2" id="bar2LossText">
+                                        Loss: 5,500 EGP
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- TAXI METER -->
-                <div class="bg-blue-50 rounded-sm shadow-lg p-8 mt-8">
+                <div class="bg-white rounded-sm shadow-lg p-8 mt-8">
                     <h3 class="text-xl font-normal text-blue-900 mb-6 text-center">Purchasing Power</h3>
                     <div class="flex flex-col items-center">
                         <div class="meter-container">
@@ -83,34 +165,34 @@
             
             <div class="col-span-1">
                 <div class="flex gap-3 mb-8">
-                    <button onclick="setViewMode('circles')" id="btnCircles" class="flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-blue-900 text-white">
+                    <button onclick="setViewMode('circles')" id="btnCircles" class="flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-white text-blue-900">
                         Circle View
                     </button>
-                    <button onclick="setViewMode('bars')" id="btnBars" class="flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-white text-blue-900" style="border: 3px solid #1e3a8a">
+                    <button onclick="setViewMode('bars')" id="btnBars" class="flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition text-white" style="border: 3px solid white">
                         Bar Chart View
                     </button>
                 </div>
                 
                 <div class="flex justify-center gap-8">
                     <div class="flex flex-col items-center">
-                        <label class="text-sm font-normal text-blue-900 uppercase mb-4">Nominal Income</label>
-                        <div class="text-2xl font-normal text-blue-900 mb-4" id="incomeValue">500,000</div>
+                        <label class="text-sm font-normal text-white uppercase mb-4">Nominal Income</label>
+                        <div class="text-2xl font-normal text-white mb-4" id="incomeValue">50,000</div>
                         <input
                             type="range"
                             orient="vertical"
-                            min="100000"
-                            max="500000"
-                            step="25000"
-                            value="500000"
+                            min="10000"
+                            max="50000"
+                            step="5000"
+                            value="50000"
                             id="incomeSlider"
                             class="h-96 cursor-pointer bg-blue-200 rounded-full"
                         />
-                        <div class="text-xs text-blue-700 mt-4">EGP</div>
+                        <div class="text-xs text-blue-200 mt-4">EGP</div>
                     </div>
                     
                     <div class="flex flex-col items-center">
-                        <label class="text-sm font-normal text-blue-900 uppercase mb-4">Inflation</label>
-                        <div class="text-2xl font-normal text-blue-900 mb-4" id="inflationValue">25</div>
+                        <label class="text-sm font-normal text-white uppercase mb-4">Inflation</label>
+                        <div class="text-2xl font-normal text-white mb-4" id="inflationValue">25</div>
                         <input
                             type="range"
                             orient="vertical"
@@ -121,7 +203,7 @@
                             id="inflationSlider"
                             class="h-96 cursor-pointer bg-blue-200 rounded-full"
                         />
-                        <div class="text-xs text-blue-700 mt-4 text-center">Egypt: <span id="actualInflation">12.3</span>%</div>
+                        <div class="text-xs text-blue-200 mt-4 text-center">Egypt: <span id="actualInflation">12.3</span>%</div>
                     </div>
                 </div>
             </div>
@@ -129,7 +211,7 @@
     </div>
 
     <script>
-        let nominalIncome = 500000;
+        let nominalIncome = 50000;
         let inflationRate = 25;
         let actualInflation = 12.3;
         let viewMode = 'circles';
@@ -171,12 +253,44 @@
 
         function renderVisualization() {
             const realIncome = nominalIncome / (1 + inflationRate / 100);
-            const viz = document.getElementById('visualization');
+            const maxRadius = 230;
+            const nominalRadius = Math.min((nominalIncome / 50000) * 150 + 100, maxRadius);
+            const realRadius = nominalRadius / (1 + inflationRate / 100);
+            const inflationRingRadius = nominalRadius / (1 + actualInflation / 100);
             
             if (viewMode === 'circles') {
-                viz.innerHTML = '<div class="text-center text-blue-900">Circle visualization here</div>';
+                // Update circles
+                document.getElementById('nominalCircle').setAttribute('r', nominalRadius);
+                document.getElementById('nominalCircleStroke').setAttribute('r', nominalRadius);
+                document.getElementById('realCircle').setAttribute('r', realRadius);
+                document.getElementById('realCircleStroke').setAttribute('r', realRadius);
+                document.getElementById('inflationRing').setAttribute('r', inflationRingRadius);
+                document.getElementById('inflationText').setAttribute('y', 250 - inflationRingRadius - 15);
+                document.getElementById('actualInflationSVG').textContent = actualInflation.toFixed(1);
+                document.getElementById('realIncomeTextSVG').textContent = Math.floor(realIncome).toLocaleString() + ' EGP';
             } else {
-                viz.innerHTML = '<div class="text-center text-blue-900">Bar chart visualization here</div>';
+                // Update bars
+                const realPercent = (realIncome / nominalIncome) * 100;
+                const lossPercent = 100 - realPercent;
+                
+                document.getElementById('inflationRateBar1').textContent = inflationRate;
+                document.getElementById('nominalIncomeBar1').textContent = nominalIncome.toLocaleString();
+                document.getElementById('nominalIncomeBar2').textContent = nominalIncome.toLocaleString();
+                document.getElementById('actualInflationBar').textContent = actualInflation.toFixed(1);
+                
+                document.getElementById('bar1Real').style.width = realPercent + '%';
+                document.getElementById('bar1Loss').style.width = lossPercent + '%';
+                document.getElementById('bar1RealText').textContent = 'Real: ' + Math.floor(realIncome).toLocaleString() + ' EGP';
+                document.getElementById('bar1LossText').textContent = 'Loss: ' + Math.floor(nominalIncome - realIncome).toLocaleString() + ' EGP';
+                
+                const egyptRealIncome = nominalIncome / (1 + actualInflation / 100);
+                const egyptRealPercent = (egyptRealIncome / nominalIncome) * 100;
+                const egyptLossPercent = 100 - egyptRealPercent;
+                
+                document.getElementById('bar2Real').style.width = egyptRealPercent + '%';
+                document.getElementById('bar2Loss').style.width = egyptLossPercent + '%';
+                document.getElementById('bar2RealText').textContent = 'Real: ' + Math.floor(egyptRealIncome).toLocaleString() + ' EGP';
+                document.getElementById('bar2LossText').textContent = 'Loss: ' + Math.floor(nominalIncome - egyptRealIncome).toLocaleString() + ' EGP';
             }
         }
 
@@ -184,17 +298,23 @@
             viewMode = mode;
             const btnCircles = document.getElementById('btnCircles');
             const btnBars = document.getElementById('btnBars');
+            const circlesView = document.getElementById('circlesView');
+            const barsView = document.getElementById('barsView');
             
             if (mode === 'circles') {
-                btnCircles.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-blue-900 text-white';
-                btnCircles.style.border = 'none';
-                btnBars.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-white text-blue-900';
-                btnBars.style.border = '3px solid #1e3a8a';
-            } else {
-                btnBars.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-blue-900 text-white';
-                btnBars.style.border = 'none';
                 btnCircles.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-white text-blue-900';
-                btnCircles.style.border = '3px solid #1e3a8a';
+                btnCircles.style.border = 'none';
+                btnBars.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition text-white';
+                btnBars.style.border = '3px solid white';
+                circlesView.style.display = 'block';
+                barsView.style.display = 'none';
+            } else {
+                btnBars.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-white text-blue-900';
+                btnBars.style.border = 'none';
+                btnCircles.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition text-white';
+                btnCircles.style.border = '3px solid white';
+                circlesView.style.display = 'none';
+                barsView.style.display = 'block';
             }
             
             renderVisualization();
@@ -217,6 +337,7 @@
                 if (data[1] && data[1][0] && data[1][0].value) {
                     actualInflation = parseFloat(data[1][0].value);
                     document.getElementById('actualInflation').textContent = actualInflation.toFixed(1);
+                    updateCalculations();
                 }
             })
             .catch(() => {});
