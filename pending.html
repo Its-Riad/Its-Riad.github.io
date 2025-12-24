@@ -1,394 +1,284 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taxi Meter Display</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+import React, { useState, useEffect } from 'react';
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+function IncomeInflationViz() {
+  const [nominalIncome, setNominalIncome] = useState(500000);
+  const [inflationRate, setInflationRate] = useState(25);
+  const [actualInflation, setActualInflation] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState('circles');
+  
+  useEffect(() => {
+    const fetchInflation = async () => {
+      try {
+        const response = await fetch(
+          'https://api.worldbank.org/v2/country/EGY/indicator/FP.CPI.TOTL.ZG?format=json&date=2024:2025&per_page=1'
+        );
+        const data = await response.json();
+        if (data[1] && data[1][0] && data[1][0].value) {
+          setActualInflation(parseFloat(data[1][0].value).toFixed(1));
+        } else {
+          setActualInflation('12.3');
         }
-        
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 40px;
-            max-width: 900px;
-            width: 100%;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 2em;
-        }
-        
-        .meter-container {
-            text-align: center;
-            margin: 30px 0;
-            background: #f5f5f5;
-            padding: 40px;
-            border-radius: 15px;
-        }
-        
-        #meterDisplay {
-            display: inline-block;
-            background: #000;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        #meterDisplay img {
-            vertical-align: middle;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-        
-        input[type="number"] {
-            padding: 15px 20px;
-            font-size: 18px;
-            width: 200px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            transition: border-color 0.3s;
-        }
-
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            max-width: 500px;
-            height: 8px;
-            border-radius: 5px;
-            background: #ddd;
-            outline: none;
-            -webkit-appearance: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: #667eea;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        input[type="range"]::-moz-range-thumb {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: #667eea;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .quick-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        .quick-btn {
-            padding: 10px 20px;
-            font-size: 14px;
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 600;
-        }
-
-        .quick-btn:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        .value-display {
-            text-align: center;
-            margin: 20px 0;
-            font-size: 24px;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px 25px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            justify-content: center;
-        }
-
-        .toggle-container span {
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-        
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .slider {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        .status {
-            text-align: center;
-            margin-top: 20px;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-
-        .status.active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status.inactive {
-            background: #f8d7da;
-            color: #721c24;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🚕 Taxi Meter Display</h1>
-        
-        <div class="meter-container">
-            <div id="meterDisplay"></div>
-        </div>
-
-        <div class="value-display">
-            Current Value: <span id="currentValue">0</span> EGP
+      } catch (error) {
+        setActualInflation('12.3');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchInflation();
+    const interval = setInterval(fetchInflation, 300000);
+    return () => clearInterval(interval);
+  }, []);
+  
+  const realIncome = nominalIncome / (1 + inflationRate / 100);
+  const itemsCanBuy = Math.floor(realIncome / 10); // Number of 10 EGP items
+  
+  const maxRadius = 230;
+  const nominalRadius = Math.min((nominalIncome / 500000) * 150 + 100, maxRadius);
+  const realRadius = nominalRadius / (1 + inflationRate / 100);
+  const currentEgyptInflation = actualInflation ? parseFloat(actualInflation) : 12.3;
+  const inflationRingRadius = nominalRadius / (1 + currentEgyptInflation / 100);
+  
+  // Taxi meter digit display function
+  const renderMeterDigits = (value) => {
+    const valueStr = String(value).padStart(5, '0');
+    const firstNonZero = valueStr.search(/[1-9]/);
+    
+    return valueStr.split('').map((digit, i) => {
+      const shouldShowNull = digit === '0' && (firstNonZero === -1 || i < firstNonZero);
+      const imageName = shouldShowNull ? 'meter(null).png' : `meter(${digit}).png`;
+      
+      return (
+        <img 
+          key={i}
+          src={imageName}
+          alt={digit}
+          style={{
+            width: '48px',
+            height: '65px',
+            display: 'inline-block'
+          }}
+        />
+      );
+    });
+  };
+  
+  return (
+    <div className="min-h-screen bg-white p-8" style={{fontFamily: '"Courier New", Courier, monospace'}}>
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-3 gap-12 mb-4">
+          <div className="col-span-2">
+            <h2 className="text-3xl font-normal text-blue-900 mb-8 tracking-tight">VISUALISATION</h2>
+          </div>
+          <div className="col-span-1">
+            <h2 className="text-3xl font-normal text-blue-900 mb-8 tracking-tight text-right">Toggles</h2>
+          </div>
         </div>
         
-        <div class="controls">
-            <input type="range" id="fareSlider" min="0" max="99999" step="100" value="0">
-        </div>
-
-        <div class="controls">
-            <input type="number" id="fareInput" placeholder="Enter fare" value="0" min="0" max="99999">
-            <button onclick="updateFromInput()">Update</button>
-        </div>
-
-        <div class="quick-buttons">
-            <button class="quick-btn" onclick="setFare(0)">Reset</button>
-            <button class="quick-btn" onclick="setFare(1000)">1,000</button>
-            <button class="quick-btn" onclick="setFare(5000)">5,000</button>
-            <button class="quick-btn" onclick="setFare(10000)">10,000</button>
-            <button class="quick-btn" onclick="setFare(50000)">50,000</button>
-            <button class="quick-btn" onclick="setFare(99999)">Max</button>
-        </div>
-        
-        <div class="controls">
-            <div class="toggle-container">
-                <span>Auto Increment:</span>
-                <label class="switch">
-                    <input type="checkbox" id="autoToggle" onchange="toggleAuto()">
-                    <span class="slider"></span>
-                </label>
+        <div className="grid grid-cols-3 gap-12 items-start">
+          <div className="col-span-2">
+            {viewMode === 'circles' ? (
+              <div className="bg-blue-50 rounded-sm shadow-lg p-12">
+                <div className="flex flex-col items-center">
+                  <svg width="500" height="500" viewBox="0 0 500 500">
+                    <circle cx="250" cy="250" r={nominalRadius} fill="#ffffff" opacity="1" />
+                    <circle cx="250" cy="250" r={nominalRadius} fill="none" stroke="#1e3a8a" strokeWidth="2" />
+                    <circle cx="250" cy="250" r={inflationRingRadius} fill="none" stroke="#ef4444" strokeWidth="3" strokeDasharray="10,5" opacity="0.7" />
+                    <text x="250" y={250 - inflationRingRadius - 15} textAnchor="middle" className="text-sm font-normal fill-red-600" style={{fontFamily: '"Courier New", Courier, monospace'}}>
+                      {loading ? 'Loading...' : `Egypt Current: ${actualInflation}%`}
+                    </text>
+                    <circle cx="250" cy="250" r={realRadius} fill="#3b82f6" opacity="0.5" />
+                    <circle cx="250" cy="250" r={realRadius} fill="none" stroke="#1e40af" strokeWidth="2" />
+                    <text x="250" y="240" textAnchor="middle" className="text-lg font-normal fill-blue-900" style={{fontFamily: '"Courier New", Courier, monospace'}}>Real Income</text>
+                    <text x="250" y="265" textAnchor="middle" className="text-2xl font-normal fill-blue-900" style={{fontFamily: '"Courier New", Courier, monospace'}}>
+                      {realIncome.toLocaleString('en-US', {maximumFractionDigits: 0})} EGP
+                    </text>
+                  </svg>
+                  <div className="flex justify-center gap-8 mt-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 bg-white border-2 border-blue-900"></div>
+                      <span className="text-sm text-blue-900 font-normal">Nominal Income</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 border-2 border-dashed border-red-500"></div>
+                      <span className="text-sm text-blue-900 font-normal">Egypt Inflation</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 bg-blue-500 opacity-50 border border-blue-800"></div>
+                      <span className="text-sm text-blue-900 font-normal">Real Income</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : viewMode === 'bars' ? (
+              <div className="bg-blue-50 rounded-sm shadow-lg p-12">
+                <h2 className="text-2xl font-normal text-blue-900 mb-8 text-center">Income Breakdown</h2>
+                <div className="space-y-8">
+                  <div>
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm font-normal text-blue-900 uppercase">Your Scenario ({inflationRate}% inflation)</span>
+                      <span className="text-lg font-normal text-blue-900">{nominalIncome.toLocaleString()} EGP</span>
+                    </div>
+                    <div className="relative bg-white rounded-sm overflow-hidden border-2 border-blue-900 transition-all duration-300" 
+                         style={{height: `${Math.max(60, (nominalIncome / 500000) * 200)}px`}}>
+                      <div className="absolute left-0 top-0 h-full bg-blue-500 opacity-70 transition-all duration-300" 
+                           style={{width: `${(realIncome / nominalIncome) * 100}%`}}>
+                        <div className="flex items-center justify-center h-full text-white font-normal text-sm px-2">
+                          Real: {realIncome.toLocaleString('en-US', {maximumFractionDigits: 0})} EGP
+                        </div>
+                      </div>
+                      <div className="absolute right-0 top-0 h-full bg-blue-200 transition-all duration-300" 
+                           style={{width: `${((nominalIncome - realIncome) / nominalIncome) * 100}%`}}>
+                        <div className="flex items-center justify-center h-full text-blue-900 font-normal text-xs px-2">
+                          Loss: {(nominalIncome - realIncome).toLocaleString('en-US', {maximumFractionDigits: 0})} EGP
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm font-normal text-blue-900 uppercase">Egypt Current ({actualInflation}% inflation)</span>
+                      <span className="text-lg font-normal text-blue-900">{nominalIncome.toLocaleString()} EGP</span>
+                    </div>
+                    <div className="relative bg-white rounded-sm overflow-hidden border-2 border-red-400 transition-all duration-300" 
+                         style={{height: `${Math.max(60, (nominalIncome / 500000) * 200)}px`}}>
+                      <div className="absolute left-0 top-0 h-full bg-blue-500 opacity-70" 
+                           style={{width: `${(1 / (1 + currentEgyptInflation / 100)) * 100}%`}}>
+                        <div className="flex items-center justify-center h-full text-white font-normal text-sm px-2">
+                          Real: {(nominalIncome / (1 + currentEgyptInflation / 100)).toLocaleString('en-US', {maximumFractionDigits: 0})} EGP
+                        </div>
+                      </div>
+                      <div className="absolute right-0 top-0 h-full bg-blue-200" 
+                           style={{width: `${(currentEgyptInflation / (100 + currentEgyptInflation)) * 100}%`}}>
+                        <div className="flex items-center justify-center h-full text-blue-900 font-normal text-xs px-2">
+                          Loss: {(nominalIncome - (nominalIncome / (1 + currentEgyptInflation / 100))).toLocaleString('en-US', {maximumFractionDigits: 0})} EGP
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-blue-50 rounded-sm shadow-lg p-12">
+                <h2 className="text-2xl font-normal text-blue-900 mb-8 text-center">Purchasing Power</h2>
+                <div className="flex flex-col items-center">
+                  <div className="mb-6">
+                    <img src="taxi_meter_base.png" alt="Taxi Meter Base" style={{maxWidth: '100%'}} />
+                  </div>
+                  <div className="mb-8" style={{letterSpacing: '4px'}}>
+                    {renderMeterDigits(itemsCanBuy)}
+                  </div>
+                  <div className="text-center space-y-2">
+                    <p className="text-lg text-blue-900 font-normal">
+                      With your real income of <span className="font-bold">{realIncome.toLocaleString('en-US', {maximumFractionDigits: 0})} EGP</span>
+                    </p>
+                    <p className="text-lg text-blue-900 font-normal">
+                      You can buy <span className="font-bold text-2xl">{itemsCanBuy.toLocaleString()}</span> items at 10 EGP each
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <div className="col-span-1">
+            <div className="flex flex-col gap-3 mb-8">
+              <button
+                onClick={() => setViewMode('circles')}
+                className={`px-6 py-4 rounded-lg font-normal tracking-wide transition ${
+                  viewMode === 'circles' ? 'bg-blue-900 text-white' : 'bg-white text-blue-900'
+                }`}
+                style={{border: viewMode === 'circles' ? 'none' : '3px solid #1e3a8a'}}
+              >
+                Circle View
+              </button>
+              <button
+                onClick={() => setViewMode('bars')}
+                className={`px-6 py-4 rounded-lg font-normal tracking-wide transition ${
+                  viewMode === 'bars' ? 'bg-blue-900 text-white' : 'bg-white text-blue-900'
+                }`}
+                style={{border: viewMode === 'bars' ? 'none' : '3px solid #1e3a8a'}}
+              >
+                Bar Chart View
+              </button>
+              <button
+                onClick={() => setViewMode('meter')}
+                className={`px-6 py-4 rounded-lg font-normal tracking-wide transition ${
+                  viewMode === 'meter' ? 'bg-blue-900 text-white' : 'bg-white text-blue-900'
+                }`}
+                style={{border: viewMode === 'meter' ? 'none' : '3px solid #1e3a8a'}}
+              >
+                Purchasing Power
+              </button>
             </div>
+            
+            <div className="flex justify-center gap-8">
+              <div className="flex flex-col items-center">
+                <label className="text-sm font-normal text-blue-900 uppercase mb-4">Nominal Income</label>
+                <div className="text-2xl font-normal text-blue-900 mb-4">{nominalIncome.toLocaleString()}</div>
+                <input
+                  type="range"
+                  orient="vertical"
+                  min="100000"
+                  max="500000"
+                  step="25000"
+                  value={nominalIncome}
+                  onChange={(e) => setNominalIncome(Number(e.target.value))}
+                  className="h-96 cursor-pointer bg-blue-200 rounded-full"
+                  style={{writingMode: 'bt-lr', WebkitAppearance: 'slider-vertical', width: '8px'}}
+                />
+                <div className="text-xs text-blue-700 mt-4">EGP</div>
+              </div>
+              
+              <div className="flex flex-col items-center">
+                <label className="text-sm font-normal text-blue-900 uppercase mb-4">Inflation</label>
+                <div className="text-2xl font-normal text-blue-900 mb-4">{inflationRate}%</div>
+                <input
+                  type="range"
+                  orient="vertical"
+                  min="0"
+                  max="50"
+                  step="1"
+                  value={inflationRate}
+                  onChange={(e) => setInflationRate(Number(e.target.value))}
+                  className="h-96 cursor-pointer bg-blue-200 rounded-full"
+                  style={{writingMode: 'bt-lr', WebkitAppearance: 'slider-vertical', width: '8px'}}
+                />
+                <div className="text-xs text-blue-700 mt-4 text-center">Egypt: {actualInflation}%</div>
+              </div>
+            </div>
+            
+            <style>{`
+              input[type="range"][orient="vertical"] {
+                writing-mode: bt-lr;
+                -webkit-appearance: slider-vertical;
+              }
+              input[type="range"]::-webkit-slider-thumb {
+                appearance: none;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: white;
+                border: 2px solid #1e3a8a;
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+              }
+              input[type="range"]::-moz-range-thumb {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: white;
+                border: 2px solid #1e3a8a;
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+              }
+            `}</style>
+          </div>
         </div>
-
-        <div id="status" class="status inactive">
-            Status: Manual Mode
-        </div>
+      </div>
     </div>
+  );
+}
 
-    <script>
-        let autoUpdate = false;
-        let intervalId = null;
-
-        function updateMeter(value) {
-            // Convert to string and pad with zeros
-            const valueStr = String(value).padStart(5, '0');
-            const meterDiv = document.getElementById('meterDisplay');
-            
-            // Clear previous display
-            meterDiv.innerHTML = '';
-            
-            // Find first non-zero position
-            const firstNonZero = valueStr.search(/[1-9]/);
-            
-            // Create image for each digit position
-            for (let i = 0; i < 5; i++) {
-                const digit = valueStr[i];
-                const img = document.createElement('img');
-                
-                // If this is a leading zero (before first non-zero digit), use null
-                if (digit === '0' && (firstNonZero === -1 || i < firstNonZero)) {
-                    img.src = 'meter(null).png';
-                } else {
-                    img.src = 'meter(' + digit + ').png';
-                }
-                
-                img.style.width = '48px';
-                img.style.height = '65px';
-                img.style.display = 'inline-block';
-                img.onerror = function() {
-                    console.error('Failed to load image:', this.src);
-                };
-                
-                meterDiv.appendChild(img);
-            }
-
-            // Update display value
-            document.getElementById('currentValue').textContent = value.toLocaleString();
-        }
-
-        function setFare(value) {
-            document.getElementById('fareSlider').value = value;
-            document.getElementById('fareInput').value = value;
-            updateMeter(value);
-        }
-
-        function updateFromInput() {
-            const value = parseInt(document.getElementById('fareInput').value) || 0;
-            const clampedValue = Math.max(0, Math.min(99999, value));
-            setFare(clampedValue);
-        }
-
-        function toggleAuto() {
-            const toggle = document.getElementById('autoToggle');
-            const status = document.getElementById('status');
-            autoUpdate = toggle.checked;
-            
-            if (autoUpdate) {
-                status.textContent = 'Status: Auto Mode (Running)';
-                status.className = 'status active';
-                
-                // Start auto-incrementing
-                let currentFare = parseInt(document.getElementById('fareSlider').value) || 0;
-                intervalId = setInterval(() => {
-                    currentFare += 100;
-                    if (currentFare > 99999) currentFare = 0;
-                    setFare(currentFare);
-                }, 1000); // Update every second
-            } else {
-                status.textContent = 'Status: Manual Mode';
-                status.className = 'status inactive';
-                
-                // Stop auto-incrementing
-                if (intervalId) {
-                    clearInterval(intervalId);
-                    intervalId = null;
-                }
-            }
-        }
-
-        // Update meter when slider moves
-        document.getElementById('fareSlider').addEventListener('input', function(e) {
-            const value = parseInt(e.target.value);
-            document.getElementById('fareInput').value = value;
-            updateMeter(value);
-        });
-
-        // Update meter when input changes
-        document.getElementById('fareInput').addEventListener('input', function(e) {
-            const value = parseInt(e.target.value) || 0;
-            const clampedValue = Math.max(0, Math.min(99999, value));
-            document.getElementById('fareSlider').value = clampedValue;
-            updateMeter(clampedValue);
-        });
-
-        // Load initial meter on page load
-        window.onload = function() {
-            updateMeter(0);
-        };
-    </script>
-</body>
-</html>
+export default IncomeInflationViz;
