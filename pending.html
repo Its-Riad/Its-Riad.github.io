@@ -1,4 +1,16 @@
-<!DOCTYPE html>
+.view-buttons button {
+            padding: 12px 24px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            white-space: nowrap;
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,53 +18,349 @@
     <title>Income Inflation Visualization</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Courier New', Courier, monospace;
-            background-color: #1e3a8a;
+            background-color: #141d44;
+            color: #ffffff;
+            line-height: 1.5;
         }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1, h2, h3 {
+            font-weight: normal;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 60px 0 40px 0;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
         input[type="range"][orient="vertical"] {
             writing-mode: bt-lr;
             -webkit-appearance: slider-vertical;
             width: 8px;
         }
+
         input[type="range"]::-webkit-slider-thumb {
             appearance: none;
+            -webkit-appearance: none;
             width: 20px;
             height: 20px;
             border-radius: 50%;
             background: white;
-            border: 2px solid #1e3a8a;
+            border: 2px solid #141d44;
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(255,255,255,0.2);
         }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #141d44;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(255,255,255,0.2);
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: #333;
+            height: 4px;
+            border-radius: 2px;
+        }
+
         .meter-container {
             position: relative;
-            width: 800px;
+            width: 400px;
+            max-width: 90%;
             margin: 0 auto;
         }
+
         .meter-container img.base {
             width: 100%;
             height: auto;
         }
+
         .meter-digits {
             position: absolute;
-            left: 238px;
-            top: 170px;
+            left: 119px;
+            top: 85px;
         }
+
         .meter-digits img {
-            width: 48px;
-            height: 65px;
+            width: 24px;
+            height: 32.5px;
             display: inline-block;
-            margin-right: 4px;
+            margin-right: 2px;
+        }
+
+        .left-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            min-width: 200px;
+        }
+
+        .view-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+            padding: 12px 24px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            white-space: nowrap;
+        }
+
+        .view-buttons button.active {
+            background: white;
+            color: #141d44;
+        }
+
+        .view-buttons button:hover {
+            background: white;
+            color: #141d44;
+        }
+
+        .visualization-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .visualization-area {
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .controls-area {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .slider-control {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .slider-control label {
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            min-width: 140px;
+        }
+
+        .slider-control .value-display {
+            font-size: 1.5rem;
+            font-weight: normal;
+            min-width: 80px;
+        }
+
+        .slider-control input[type="range"] {
+            height: 4px;
+            width: 200px;
+            writing-mode: initial;
+            -webkit-appearance: none;
+        }
+
+        .slider-control .range-label {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            text-align: left;
+            min-width: 100px;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+
+        .legend-box {
+            width: 20px;
+            height: 20px;
+        }
+
+        .info-text {
+            text-align: center;
+            font-size: 0.95rem;
+            margin-top: 30px;
+            line-height: 1.8;
+        }
+
+        .info-text span {
+            font-weight: bold;
+        }
+
+        /* Bar chart specific styles */
+        .bar-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .bar-row {
+            margin-bottom: 60px;
+        }
+
+        .bar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .bar-header-left {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .bar-header-right {
+            font-size: 1.1rem;
+        }
+
+        .bar-visual {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            background: #1a1a1a;
+            border: 2px solid white;
+            overflow: hidden;
+            transition: height 0.3s ease;
+        }
+
+        .bar-segment {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            transition: width 0.3s ease;
+        }
+
+        .bar-real {
+            left: 0;
+            background: #3b82f6;
+            opacity: 0.7;
+            color: white;
+        }
+
+        .bar-loss {
+            right: 0;
+            background: #60a5fa;
+            opacity: 0.3;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .visualization-wrapper {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .left-sidebar {
+                width: 100%;
+            }
+            
+            .view-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .controls-area {
+                gap: 30px;
+            }
+            
+            .slider-control {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .slider-control input[type="range"] {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body class="min-h-screen p-8">
     <div class="max-w-7xl mx-auto">
+        <!-- TAXI METER AT TOP -->
+        <div class="text-center mb-8">
+            <h3 class="text-xl font-normal text-white mb-6">Purchasing Power</h3>
+            <div class="flex flex-col items-center">
+                <div class="meter-container">
+                    <img src="taxi_meter_base.png" alt="Taxi Meter Base" class="base">
+                    <div class="meter-digits" id="meterDigits"></div>
+                </div>
+                <div class="text-center mt-4">
+                    <p class="text-sm text-white font-normal">
+                        With <span class="font-bold" id="realIncomeText">0</span> EGP real income,
+                    </p>
+                    <p class="text-sm text-white font-normal">
+                        you can buy <span class="font-bold" id="itemsCountText">0</span> items at 10 EGP each
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <div class="grid grid-cols-3 gap-12 items-start">
             <div class="col-span-2">
                 <!-- CIRCLES VIEW -->
-                <div id="circlesView" class="rounded-sm shadow-lg p-12" style="background-color: #1e3a8a;">
+                <div id="circlesView">
                     <div class="flex flex-col items-center">
                         <svg width="500" height="500" viewBox="0 0 500 500">
                             <circle id="nominalCircle" cx="250" cy="250" r="200" fill="#ffffff" opacity="1" />
@@ -86,7 +394,7 @@
                 </div>
 
                 <!-- BARS VIEW -->
-                <div id="barsView" class="rounded-sm shadow-lg p-12" style="display: none; background-color: #1e3a8a;">
+                <div id="barsView" style="display: none;">
                     <h2 class="text-2xl font-normal text-white mb-8 text-center">Income Breakdown</h2>
                     <div class="space-y-8">
                         <div>
@@ -94,19 +402,12 @@
                                 <span class="text-sm font-normal text-white uppercase">Your Scenario (<span id="inflationRateBar1">25</span>% inflation)</span>
                                 <span class="text-lg font-normal text-white"><span id="nominalIncomeBar1">50,000</span> EGP</span>
                             </div>
-                            <div class="relative bg-blue-900 rounded-sm overflow-hidden border-2 border-white transition-all duration-300" 
-                                 id="bar1Container">
-                                <div class="absolute left-0 top-0 h-full bg-blue-500 opacity-70 transition-all duration-300" 
-                                     style="width: 80%" id="bar1Real">
-                                    <div class="flex items-center justify-center h-full text-white font-normal text-sm px-2" id="bar1RealText">
-                                        Real: 40,000 EGP
-                                    </div>
+                            <div class="bar-visual" id="bar1Container">
+                                <div class="bar-segment bar-real" style="width: 80%" id="bar1Real">
+                                    <span id="bar1RealText">Real: 40,000 EGP</span>
                                 </div>
-                                <div class="absolute right-0 top-0 h-full bg-blue-200 transition-all duration-300" 
-                                     style="width: 20%" id="bar1Loss">
-                                    <div class="flex items-center justify-center h-full text-blue-900 font-normal text-xs px-2" id="bar1LossText">
-                                        Loss: 10,000 EGP
-                                    </div>
+                                <div class="bar-segment bar-loss" style="width: 20%" id="bar1Loss">
+                                    <span id="bar1LossText">Loss: 10,000 EGP</span>
                                 </div>
                             </div>
                         </div>
@@ -115,40 +416,14 @@
                                 <span class="text-sm font-normal text-white uppercase">Egypt Current (<span id="actualInflationBar">12.3</span>% inflation)</span>
                                 <span class="text-lg font-normal text-white"><span id="nominalIncomeBar2">50,000</span> EGP</span>
                             </div>
-                            <div class="relative bg-blue-900 rounded-sm overflow-hidden border-2 border-red-400 transition-all duration-300" 
-                                 id="bar2Container">
-                                <div class="absolute left-0 top-0 h-full bg-blue-500 opacity-70" 
-                                     style="width: 89%" id="bar2Real">
-                                    <div class="flex items-center justify-center h-full text-white font-normal text-sm px-2" id="bar2RealText">
-                                        Real: 44,500 EGP
-                                    </div>
+                            <div class="bar-visual" id="bar2Container" style="border-color: #ef4444;">
+                                <div class="bar-segment bar-real" style="width: 89%" id="bar2Real">
+                                    <span id="bar2RealText">Real: 44,500 EGP</span>
                                 </div>
-                                <div class="absolute right-0 top-0 h-full bg-blue-200" 
-                                     style="width: 11%" id="bar2Loss">
-                                    <div class="flex items-center justify-center h-full text-blue-900 font-normal text-xs px-2" id="bar2LossText">
-                                        Loss: 5,500 EGP
-                                    </div>
+                                <div class="bar-segment bar-loss" style="width: 11%" id="bar2Loss">
+                                    <span id="bar2LossText">Loss: 5,500 EGP</span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAXI METER -->
-                <div class="rounded-sm shadow-lg p-8 mt-8" style="background-color: #1e3a8a;">
-                    <h3 class="text-xl font-normal text-white mb-6 text-center">Purchasing Power</h3>
-                    <div class="flex flex-col items-center">
-                        <div class="meter-container">
-                            <img src="taxi_meter_base.png" alt="Taxi Meter Base" class="base">
-                            <div class="meter-digits" id="meterDigits"></div>
-                        </div>
-                        <div class="text-center mt-4">
-                            <p class="text-sm text-white font-normal">
-                                With <span class="font-bold" id="realIncomeText">0</span> EGP real income,
-                            </p>
-                            <p class="text-sm text-white font-normal">
-                                you can buy <span class="font-bold" id="itemsCountText">0</span> items at 10 EGP each
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -156,10 +431,10 @@
             
             <div class="col-span-1">
                 <div class="flex gap-3 mb-8">
-                    <button onclick="setViewMode('circles')" id="btnCircles" class="flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-white text-blue-900">
+                    <button onclick="setViewMode('circles')" id="btnCircles" class="flex-1 active">
                         Circle View
                     </button>
-                    <button onclick="setViewMode('bars')" id="btnBars" class="flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition text-white" style="border: 3px solid white">
+                    <button onclick="setViewMode('bars')" id="btnBars" class="flex-1 inactive">
                         Bar Chart View
                     </button>
                 </div>
@@ -176,9 +451,10 @@
                             step="5000"
                             value="50000"
                             id="incomeSlider"
-                            class="h-96 cursor-pointer bg-blue-200 rounded-full"
+                            class="h-96 cursor-pointer"
+                            style="background: #60a5fa;"
                         />
-                        <div class="text-xs text-blue-200 mt-4">EGP</div>
+                        <div class="text-xs text-white mt-4" style="opacity: 0.7;">EGP</div>
                     </div>
                     
                     <div class="flex flex-col items-center">
@@ -192,9 +468,10 @@
                             step="1"
                             value="25"
                             id="inflationSlider"
-                            class="h-96 cursor-pointer bg-blue-200 rounded-full"
+                            class="h-96 cursor-pointer"
+                            style="background: #60a5fa;"
                         />
-                        <div class="text-xs text-blue-200 mt-4 text-center">Egypt: <span id="actualInflation">12.3</span>%</div>
+                        <div class="text-xs text-white mt-4 text-center" style="opacity: 0.7;">Egypt: <span id="actualInflation">12.3</span>%</div>
                     </div>
                 </div>
             </div>
@@ -209,10 +486,10 @@
         let currentFrame = 0;
         let animationInterval = null;
         const frames = [
-            'meter_horse_1.png',
-            'meter_horse_2.png',
-            'meter_horse_3.png',
-            'meter_horse_4.png'
+            'taxi_meter_base.png',
+            'taxi_meter_frame2.png',
+            'taxi_meter_frame3.png',
+            'taxi_meter_frame4.png'
         ];
 
         function updateMeter(value) {
@@ -249,8 +526,8 @@
             // Calculate frame rate based on purchasing power
             // Higher purchasing power = faster animation
             // Range: 1000ms (slow) at 0 items to 100ms (fast) at 5000+ items
-            const maxSpeed = 50; // milliseconds (fastest)
-            const minSpeed = 750; // milliseconds (slowest)
+            const maxSpeed = 100; // milliseconds (fastest)
+            const minSpeed = 1000; // milliseconds (slowest)
             const speedRange = minSpeed - maxSpeed;
             
             // Normalize items (0-5000 range)
@@ -337,17 +614,13 @@
             const barsView = document.getElementById('barsView');
             
             if (mode === 'circles') {
-                btnCircles.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-white text-blue-900';
-                btnCircles.style.border = 'none';
-                btnBars.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition text-white';
-                btnBars.style.border = '3px solid white';
+                btnCircles.className = 'flex-1 active';
+                btnBars.className = 'flex-1 inactive';
                 circlesView.style.display = 'block';
                 barsView.style.display = 'none';
             } else {
-                btnBars.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition bg-white text-blue-900';
-                btnBars.style.border = 'none';
-                btnCircles.className = 'flex-1 px-6 py-4 rounded-lg font-normal tracking-wide transition text-white';
-                btnCircles.style.border = '3px solid white';
+                btnBars.className = 'flex-1 active';
+                btnCircles.className = 'flex-1 inactive';
                 circlesView.style.display = 'none';
                 barsView.style.display = 'block';
             }
@@ -382,4 +655,3 @@
     </script>
 </body>
 </html>
-
