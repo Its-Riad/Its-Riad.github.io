@@ -249,8 +249,8 @@
             // Calculate frame rate based on purchasing power
             // Higher purchasing power = faster animation
             // Range: 1000ms (slow) at 0 items to 100ms (fast) at 5000+ items
-            const maxSpeed = 100; // milliseconds (fastest)
-            const minSpeed = 1000; // milliseconds (slowest)
+            const maxSpeed = 50; // milliseconds (fastest)
+            const minSpeed = 750; // milliseconds (slowest)
             const speedRange = minSpeed - maxSpeed;
             
             // Normalize items (0-5000 range)
@@ -382,3 +382,4 @@
     </script>
 </body>
 </html>
+
