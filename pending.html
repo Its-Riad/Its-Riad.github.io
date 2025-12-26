@@ -206,6 +206,14 @@
         let inflationRate = 25;
         let actualInflation = 12.3;
         let viewMode = 'circles';
+        let currentFrame = 0;
+        let animationInterval = null;
+        const frames = [
+            'taxi_meter_base.png',
+            'taxi_meter_frame2.png',
+            'taxi_meter_frame3.png',
+            'taxi_meter_frame4.png'
+        ];
 
         function updateMeter(value) {
             const valueStr = String(value).padStart(5, '0');
@@ -227,6 +235,38 @@
                 img.alt = digit;
                 meterDiv.appendChild(img);
             }
+            
+            // Update animation speed based on purchasing power
+            updateMeterAnimation(value);
+        }
+
+        function updateMeterAnimation(itemsCanBuy) {
+            // Clear existing animation
+            if (animationInterval) {
+                clearInterval(animationInterval);
+            }
+            
+            // Calculate frame rate based on purchasing power
+            // Higher purchasing power = faster animation
+            // Range: 1000ms (slow) at 0 items to 100ms (fast) at 5000+ items
+            const maxSpeed = 100; // milliseconds (fastest)
+            const minSpeed = 1000; // milliseconds (slowest)
+            const speedRange = minSpeed - maxSpeed;
+            
+            // Normalize items (0-5000 range)
+            const normalizedItems = Math.min(itemsCanBuy, 5000);
+            const speedFactor = normalizedItems / 5000;
+            
+            const frameDelay = minSpeed - (speedRange * speedFactor);
+            
+            // Start animation
+            animationInterval = setInterval(() => {
+                currentFrame = (currentFrame + 1) % frames.length;
+                const baseImg = document.querySelector('.meter-container img.base');
+                if (baseImg) {
+                    baseImg.src = frames[currentFrame];
+                }
+            }, frameDelay);
         }
 
         function updateCalculations() {
