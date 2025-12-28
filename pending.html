@@ -119,6 +119,13 @@
             margin-right: 1.5px;
         }
 
+        .button-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 4px;
+        }
+
         .left-sidebar {
             display: flex;
             flex-direction: column;
@@ -343,7 +350,7 @@
             <h3 class="text-xl font-normal text-white mb-6">Purchasing Power</h3>
             <div class="flex flex-col items-center">
                 <div class="meter-container">
-                    <img src="taxi_meter_1.png" alt="Taxi Meter Base" class="base">
+                    <img src="taxi_meter_base.png" alt="Taxi Meter Base" class="base">
                     <div class="meter-digits" id="meterDigits"></div>
                 </div>
                 <div class="text-center mt-4">
@@ -430,16 +437,18 @@
             </div>
             
             <div class="col-span-1">
-                <div class="flex gap-3 mb-8">
-                    <button onclick="setViewMode('circles')" id="btnCircles" class="flex-1 active">
-                        Circle View
-                    </button>
-                    <button onclick="setViewMode('bars')" id="btnBars" class="flex-1 inactive">
-                        Bar Chart View
-                    </button>
+                <div class="button-card">
+                    <div class="flex gap-3 mb-8">
+                        <button onclick="setViewMode('circles')" id="btnCircles" class="flex-1 active">
+                            Circle View
+                        </button>
+                        <button onclick="setViewMode('bars')" id="btnBars" class="flex-1 inactive">
+                            Bar Chart View
+                        </button>
+                    </div>
                 </div>
                 
-                <div class="flex justify-center gap-8">
+                <div class="flex justify-center gap-8" style="margin-top: 32px;">
                     <div class="flex flex-col items-center">
                         <label class="text-sm font-normal text-white uppercase mb-4">Nominal Income</label>
                         <div class="text-2xl font-normal text-white mb-4" id="incomeValue">50,000</div>
@@ -486,10 +495,10 @@
         let currentFrame = 0;
         let animationInterval = null;
         const frames = [
-            'meter_horse_1.png',
-            'meter_horse_2.png',
-            'meter_horse_3.png',
-            'meter_horse_4.png'
+            'taxi_meter_base.png',
+            'taxi_meter_frame2.png',
+            'taxi_meter_frame3.png',
+            'taxi_meter_frame4.png'
         ];
 
         function updateMeter(value) {
@@ -526,8 +535,8 @@
             // Calculate frame rate based on purchasing power
             // Higher purchasing power = faster animation
             // Range: 1000ms (slow) at 0 items to 100ms (fast) at 5000+ items
-            const maxSpeed = 30; // milliseconds (fastest)
-            const minSpeed = 400; // milliseconds (slowest)
+            const maxSpeed = 100; // milliseconds (fastest)
+            const minSpeed = 1000; // milliseconds (slowest)
             const speedRange = minSpeed - maxSpeed;
             
             // Normalize items (0-5000 range)
@@ -655,9 +664,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
