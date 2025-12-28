@@ -108,13 +108,13 @@
 
         .meter-digits {
             position: absolute;
-            left: 119px;
-            top: 85px;
+            left: 112px;
+            top: 89px;
         }
 
         .meter-digits img {
-            width: 24px;
-            height: 32.5px;
+            width: 27px;
+            height: 35.5px;
             display: inline-block;
             margin-right: 2px;
         }
@@ -527,7 +527,7 @@
             // Higher purchasing power = faster animation
             // Range: 1000ms (slow) at 0 items to 100ms (fast) at 5000+ items
             const maxSpeed = 30; // milliseconds (fastest)
-            const minSpeed = 500; // milliseconds (slowest)
+            const minSpeed = 400; // milliseconds (slowest)
             const speedRange = minSpeed - maxSpeed;
             
             // Normalize items (0-5000 range)
@@ -655,5 +655,6 @@
     </script>
 </body>
 </html>
+
 
 
