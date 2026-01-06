@@ -1,44 +1,42 @@
-name: Update Egypt Inflation Forecast
+name: Update Monthly Inflation Forecast
 
 on:
   schedule:
-    - cron: '0 0 1 * *'  # 1st of every month
-  workflow_dispatch:      # Manual trigger
+    - cron: '0 0 10 * *'  # 10th of every month (after CBE releases data)
+  workflow_dispatch:
 
 permissions:
-  contents: write  # Allow pushing to repo
+  contents: write
 
 jobs:
   update-forecast:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
       
       - name: Install dependencies
         run: |
-          pip install pandas numpy requests
+          pip install pandas numpy requests python-dateutil
       
-      - name: Run forecast calculation
+      - name: Calculate 6-month forecast
         run: |
           python calculate_forecast.py
       
-      - name: Commit and push changes
+      - name: Commit forecast
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/egypt_inflation_forecast.csv
           if git diff --staged --quiet; then
-            echo "No changes to commit"
+            echo "No changes"
           else
-            git commit -m "🤖 Auto-update: Inflation forecast $(date +'%Y-%m-%d')"
+            git commit -m "🤖 Monthly forecast update: $(date +'%B %Y')"
             git push
           fi
