@@ -5,34 +5,48 @@
     "view": {"stroke": null},
     "axis": {
       "labelColor": "white",
-      "titleColor": "white"
+      "titleColor": "white",
+      "labelFontSize": 14,
+      "titleFontSize": 16,
+      "gridColor": "#444",
+      "domainColor": "white"
+    },
+    "legend": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 14
     },
     "title": {
       "color": "white",
-      "fontSize": 20
+      "fontSize": 20,
+      "subtitleColor": "white",
+      "subtitleFontSize": 14
     }
   },
-  "title": "Inflation: Actual vs Forecast",
-  "width": 800,
-  "height": 400,
+  "title": {
+    "text": "Egypt Inflation: 6-Month Forecast",
+    "subtitle": "OLS model with media sentiment (20% weight) and inflation momentum (80%)"
+  },
+  "width": 880,
+  "height": 500,
   "data": {
-    "url": "ols_forecast_clean.csv"
+    "url": "https://raw.githubusercontent.com/Its-Riad/Its-Riad.github.io/main/data/egypt_inflation_forecast.csv"
   },
   "mark": {
     "type": "line",
-    "strokeWidth": 3,
-    "point": true
+    "strokeWidth": 4,
+    "point": {"size": 150, "filled": true}
   },
   "encoding": {
     "x": {
       "field": "date",
       "type": "temporal",
-      "title": "Date"
+      "title": ""
     },
     "y": {
       "field": "inflation",
       "type": "quantitative",
-      "title": "Inflation %"
+      "title": "Inflation (%)"
     },
     "color": {
       "field": "type",
@@ -40,7 +54,8 @@
       "scale": {
         "domain": ["actual", "forecast"],
         "range": ["#10b981", "#ef4444"]
-      }
+      },
+      "legend": {"title": null}
     },
     "strokeDash": {
       "field": "type",
@@ -49,6 +64,11 @@
         "domain": ["actual", "forecast"],
         "range": [[1], [8, 4]]
       }
-    }
+    },
+    "tooltip": [
+      {"field": "date", "type": "temporal", "title": "Date", "format": "%b %Y"},
+      {"field": "inflation", "type": "quantitative", "title": "Inflation (%)", "format": ".1f"},
+      {"field": "type", "type": "nominal", "title": "Type"}
+    ]
   }
 }
