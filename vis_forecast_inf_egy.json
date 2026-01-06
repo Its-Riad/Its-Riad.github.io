@@ -1,0 +1,54 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {
+    "background": null,
+    "view": {"stroke": null},
+    "axis": {
+      "labelColor": "white",
+      "titleColor": "white"
+    },
+    "title": {
+      "color": "white",
+      "fontSize": 20
+    }
+  },
+  "title": "Inflation: Actual vs Forecast",
+  "width": 800,
+  "height": 400,
+  "data": {
+    "url": "ols_forecast_clean.csv"
+  },
+  "mark": {
+    "type": "line",
+    "strokeWidth": 3,
+    "point": true
+  },
+  "encoding": {
+    "x": {
+      "field": "date",
+      "type": "temporal",
+      "title": "Date"
+    },
+    "y": {
+      "field": "inflation",
+      "type": "quantitative",
+      "title": "Inflation %"
+    },
+    "color": {
+      "field": "type",
+      "type": "nominal",
+      "scale": {
+        "domain": ["actual", "forecast"],
+        "range": ["#10b981", "#ef4444"]
+      }
+    },
+    "strokeDash": {
+      "field": "type",
+      "type": "nominal",
+      "scale": {
+        "domain": ["actual", "forecast"],
+        "range": [[1], [8, 4]]
+      }
+    }
+  }
+}

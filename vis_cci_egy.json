@@ -1,0 +1,82 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 880,
+  "height": 400,
+  "title": {
+    "text": "Sources of Inflation: Consumer Sentiment vs Other Factors",
+    "color": "white",
+    "fontSize": 18
+  },
+  "config": {
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 12,
+      "titleFontSize": 14,
+      "gridColor": "#444",
+      "domainColor": "white"
+    },
+    "legend": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 14,
+      "titleFontSize": 16
+    }
+  },
+  "data": {
+    "url": "egypt_inflation_decomposition.csv"
+  },
+  "transform": [
+    {
+      "fold": ["consumer_sentiment", "other_factors"],
+      "as": ["category", "value"]
+    }
+  ],
+  "mark": {
+    "type": "area",
+    "tooltip": true,
+    "opacity": 0.7
+  },
+  "encoding": {
+    "x": {
+      "field": "date",
+      "type": "temporal",
+      "title": "Year"
+    },
+    "y": {
+      "field": "value",
+      "type": "quantitative",
+      "title": "Inflation (%)",
+      "stack": "zero"
+    },
+    "color": {
+      "field": "category",
+      "type": "nominal",
+      "scale": {
+        "domain": ["consumer_sentiment", "other_factors"],
+        "range": ["#ef4444", "#3b82f6"]
+      },
+      "legend": {
+        "title": "Inflation Source",
+        "labelExpr": "datum.label == 'consumer_sentiment' ? 'Consumer Sentiment (20-25%)' : 'Other Factors (75-80%)'"
+      }
+    },
+    "opacity": {
+      "condition": {
+        "test": "datum.category == 'other_factors'",
+        "value": 0.3
+      },
+      "value": 0.7
+    },
+    "tooltip": [
+      {"field": "year", "type": "quantitative", "title": "Year"},
+      {"field": "category", "type": "nominal", "title": "Source"},
+      {"field": "value", "type": "quantitative", "title": "Contribution (%)", "format": ".2f"},
+      {"field": "total_inflation", "type": "quantitative", "title": "Total Inflation (%)", "format": ".2f"}
+    ]
+  }
+}
