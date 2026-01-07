@@ -1,66 +1,89 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "description": "Egyptian purchasing power loss over time.",
-  "width": 880,
-  "height": 400,
-  "config": {
-    "background": null,
-    "view": {
-      "stroke": null
+  "description": "Purchasing Power Loss in Egypt, Morocco, and Algeria (2010-2024)",
+  "data": {"url": "north_africa_purchasing_power_combined.csv"},
+  "transform": [
+    {
+      "fold": [
+        "egypt_purchasing_power",
+        "morocco_purchasing_power",
+        "algeria_purchasing_power"
+      ],
+      "as": ["country", "purchasing_power"]
     },
-    "axis": {
-      "labelColor": "white",
-      "titleColor": "white",
-      "labelFontSize": 12,
-      "titleFontSize": 14,
-      "gridColor": "#444",
-      "domainColor": "white"
+    {
+      "calculate": "replace(datum.country, '_purchasing_power', '')",
+      "as": "country_name"
+    },
+    {
+      "calculate": "upper(slice(datum.country_name, 0, 1)) + slice(datum.country_name, 1)",
+      "as": "country_display"
+    },
+    {
+      "calculate": "datum.country_name === 'egypt' ? datum.egypt_inflation : (datum.country_name === 'morocco' ? datum.morocco_inflation : datum.algeria_inflation)",
+      "as": "inflation_rate"
     }
-  },
-  "data": {
-    "url": "egypt_purchasing_power_cumulative.csv"
-  },
+  ],
   "mark": {
-    "type": "area",
-    "line": {
-      "color": "darkred"
-    },
-    "color": {
-      "x1": 1,
-      "y1": 1,
-      "x2": 1,
-      "y2": 0,
-      "gradient": "linear",
-      "stops": [
-        {
-          "offset": 0,
-          "color": "white"
-        },
-        {
-          "offset": 1,
-          "color": "darkred"
-        }
-      ]
-    },
-    "tooltip": true
+    "type": "line",
+    "point": true,
+    "strokeWidth": 2.5
   },
   "encoding": {
     "x": {
       "field": "date",
-      "type": "temporal"
+      "type": "temporal",
+      "title": "Year",
+      "axis": {
+        "format": "%Y",
+        "labelAngle": -45
+      }
     },
     "y": {
       "field": "purchasing_power",
       "type": "quantitative",
+      "title": "Purchasing Power (Base 100 = 2010)",
+      "scale": {"domain": [0, 105]}
+    },
+    "color": {
+      "field": "country_display",
+      "type": "nominal",
+      "title": "Country",
       "scale": {
-        "domain": [0, 100]
-      },
-      "title": "Purchasing Power (2010=100)"
+        "domain": ["Egypt", "Morocco", "Algeria"],
+        "range": ["#C41E3A", "#006233", "#007229"]
+      }
     },
     "tooltip": [
-      {"field": "year", "type": "quantitative", "title": "Year"},
-      {"field": "purchasing_power", "type": "quantitative", "title": "Purchasing Power", "format": ".2f"},
-      {"field": "inflation", "type": "quantitative", "title": "Inflation (%)", "format": ".2f"}
+      {
+        "field": "country_display",
+        "type": "nominal",
+        "title": "Country"
+      },
+      {
+        "field": "year",
+        "type": "quantitative",
+        "title": "Year"
+      },
+      {
+        "field": "purchasing_power",
+        "type": "quantitative",
+        "title": "Purchasing Power",
+        "format": ".2f"
+      },
+      {
+        "field": "inflation_rate",
+        "type": "quantitative",
+        "title": "Inflation Rate (%)",
+        "format": ".2f"
+      }
     ]
+  },
+  "width": 700,
+  "height": 400,
+  "title": {
+    "text": "Cumulative Purchasing Power Loss: Egypt, Morocco & Algeria",
+    "fontSize": 16,
+    "fontWeight": "bold"
   }
 }
