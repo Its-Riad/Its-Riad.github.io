@@ -1,6 +1,6 @@
 """
 Egypt Monthly Inflation Forecaster
-Creates 1-6 month ahead forecasts based on sentiment with proper lag structure
+Creates 1-6 month ahead forecasts based on sentiment with lag structure from dissertation
 """
 
 import pandas as pd
@@ -27,13 +27,12 @@ inflation_df = pd.DataFrame(MONTHLY_INFLATION)
 inflation_df['date'] = pd.to_datetime(inflation_df['date'])
 inflation_df['type'] = 'actual'
 
-print(f"📊 Loaded {len(inflation_df)} months of inflation data")
+print(f"Loaded {len(inflation_df)} months of inflation data")
 print(f"Latest: {inflation_df.iloc[-1]['date'].strftime('%b %Y')} = {inflation_df.iloc[-1]['inflation']:.1f}%")
 
 # ============================================================================
 # FETCH SENTIMENT FROM GITHUB AND AGGREGATE TO MONTHLY
 # ============================================================================
-print("\n📰 Fetching sentiment...")
 
 arabic_url = "https://raw.githubusercontent.com/Its-Riad/Its-Riad.github.io/main/data/arabic_news.csv"
 
@@ -58,7 +57,7 @@ try:
     arabic_monthly.columns = ['year_month', 'sentiment']
     arabic_monthly['date'] = arabic_monthly['year_month'].dt.to_timestamp()
     
-    print(f"✅ Loaded {len(arabic_daily)} days → {len(arabic_monthly)} months of sentiment")
+    print(f"Loaded {len(arabic_daily)} days → {len(arabic_monthly)} months of sentiment")
     print(f"Latest sentiment: {arabic_monthly.iloc[-1]['date'].strftime('%b %Y')} = {arabic_monthly.iloc[-1]['sentiment']:.2f}")
     
 except Exception as e:
@@ -71,7 +70,7 @@ except Exception as e:
 # ============================================================================
 # MERGE INFLATION AND SENTIMENT ON SAME DATES
 # ============================================================================
-print("\n🔗 Merging data...")
+print("\n Merging data...")
 
 merged = inflation_df.merge(arabic_monthly[['date', 'sentiment']], on='date', how='left')
 merged['sentiment'] = merged['sentiment'].ffill().bfill()
@@ -82,7 +81,7 @@ print(merged[['date', 'inflation', 'sentiment']].tail())
 # ============================================================================
 # CALCULATE FORECASTS WITH PROPER LAG STRUCTURE
 # ============================================================================
-print("\n🧮 Calculating forecasts...")
+print("\n Calculating forecasts...")
 
 SENTIMENT_WEIGHTS = [1.00, 0.70, 0.49, 0.34, 0.24, 0.17, 0.12, 0.08, 0.06]
 INFLATION_WEIGHTS = [0.60, 0.25, 0.10, 0.05]
@@ -114,7 +113,7 @@ print(f"  Inflation (4 lags): {[f'{i:.1f}' for i in inflation_lags]}")
 # ============================================================================
 # GENERATE MULTI-STEP FORECASTS (1-6 months ahead)
 # ============================================================================
-print("\n📅 Generating multi-step forecasts...")
+print("\n Generating multi-step forecasts...")
 
 last_date = merged['date'].max()
 forecasts = []
@@ -168,7 +167,7 @@ combined = combined.sort_values('date')
 os.makedirs('data', exist_ok=True)
 combined.to_csv('data/egypt_inflation_forecast.csv', index=False)
 
-print(f"\n✅ Saved to data/egypt_inflation_forecast.csv")
+print(f"\n Saved to data/egypt_inflation_forecast.csv")
 print(f"   Historical: {len(inflation_df)} months")
 print(f"   Forecast: {len(forecast_df)} months")
-print(f"\n📈 Forecast range: {forecast_df['inflation'].min():.1f}% to {forecast_df['inflation'].max():.1f}%")
+print(f"\n Forecast range: {forecast_df['inflation'].min():.1f}% to {forecast_df['inflation'].max():.1f}%")
