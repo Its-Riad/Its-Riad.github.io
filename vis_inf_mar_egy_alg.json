@@ -57,7 +57,10 @@
     {"filter": "datum.year >= minYear"},
     {"filter": "datum.year <= maxYear"}
   ],
-  "mark": {"type": "line", "point": true, "tooltip": true},
+  "mark": {
+    "type": "line", 
+    "point": true
+  },
   "title": {
     "text": "Inflation in North Africa",
     "subtitle": "Source: World Bank API"
@@ -77,6 +80,25 @@
       "field": "country.value",
       "type": "nominal",
       "legend": {"title": null}
-    }
+    },
+    "tooltip": [
+      {
+        "field": "date",
+        "type": "temporal",
+        "title": "Year",
+        "format": "%Y"
+      },
+      {
+        "field": "country.value",
+        "type": "nominal",
+        "title": "Country"
+      },
+      {
+        "field": "value",
+        "type": "quantitative",
+        "title": "Inflation %",
+        "format": ".2f"
+      }
+    ]
   }
 }

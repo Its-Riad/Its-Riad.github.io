@@ -1,0 +1,82 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Top Tax Rate Change: Bush Tax Cuts Expiration",
+    "subtitle": "Comparison of tax rates before and after policy change. Source: IRS 2012",
+    "color": "white",
+    "subtitleColor": "white",
+    "fontSize": 20
+  },
+  "config": {
+    "background": null,
+    "axis": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 14,
+      "titleFontSize": 16,
+      "gridColor": "#444",
+      "domainColor": "white"
+    }
+  },
+  "width": 500,
+  "height": 400,
+  "data": {
+    "values": [
+      {"period": "2012 (Current)", "rate": 35.0},
+      {"period": "Jan 1, 2013 (Proposed)", "rate": 39.6}
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "color": "#60a5fa",
+        "width": 100,
+        "opacity": 0.8
+      },
+      "encoding": {
+        "x": {
+          "field": "period",
+          "type": "nominal",
+          "axis": {"title": "", "labelAngle": 0, "labelFontSize": 14}
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative",
+          "title": "Tax Rate (%)",
+          "scale": {"domain": [0, 45]},
+          "axis": {"labelFontSize": 14}
+        },
+        "tooltip": [
+          {"field": "period", "type": "nominal", "title": "Period"},
+          {"field": "rate", "type": "quantitative", "title": "Tax Rate (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dy": -10,
+        "fontSize": 16,
+        "fontWeight": "bold",
+        "color": "white"
+      },
+      "encoding": {
+        "x": {"field": "period", "type": "nominal"},
+        "y": {"field": "rate", "type": "quantitative"},
+        "text": {"field": "rate", "type": "quantitative", "format": ".1f"}
+      }
+    },
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#ef4444",
+        "strokeWidth": 2,
+        "strokeDash": [5, 5]
+      },
+      "encoding": {
+        "y": {"datum": 35}
+      }
+    }
+  ]
+}

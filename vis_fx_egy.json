@@ -8,14 +8,21 @@
     "axis": {
       "labelColor": "white",
       "titleColor": "white",
-      "labelFontSize": 12,
-      "titleFontSize": 14,
+      "labelFontSize": 14,
+      "titleFontSize": 16,
       "gridColor": "#444",
       "domainColor": "white"
     },
     "legend": {
       "labelColor": "white",
-      "titleColor": "white"
+      "titleColor": "white",
+      "labelFontSize": 14
+    },
+    "title": {
+      "color": "white",
+      "fontSize": 20,
+      "subtitleColor": "white",
+      "subtitleFontSize": 14
     }
   },
   "vconcat": [{
@@ -23,11 +30,10 @@
     "height": 200,
     "title": {
       "text": "Annual Value Loss (%)",
-      "color": "white",
-      "fontSize": 16
+      "subtitle": "Calculated from World Bank inflation data"
     },
     "data": {"url": "egypt_value_loss_rate.csv"},
-    "mark": {"type": "area", "color": "#ef4444", "opacity": 0.7, "tooltip": true},
+    "mark": {"type": "area", "color": "#ef4444", "opacity": 0.7},
     "encoding": {
       "x": {
         "field": "date",
@@ -46,14 +52,13 @@
     "height": 100,
     "title": {
       "text": "Inflation (%)",
-      "color": "white",
-      "fontSize": 16
+      "subtitle": "Source: World Bank API"
     },
     "data": {
       "url": "https://api.worldbank.org/v2/country/egy/indicator/NY.GDP.DEFL.KD.ZG?format=json&per_page=300&date=2010:2024",
       "format": {"property": "[1]"}
     },
-    "mark": {"type": "area", "color": "#10b981", "opacity": 0.7, "tooltip": true},
+    "mark": {"type": "area", "color": "#10b981", "opacity": 0.7},
     "encoding": {
       "x": {
         "field": "date",
@@ -72,14 +77,13 @@
     "height": 100,
     "title": {
       "text": "EGP Devaluation",
-      "color": "white",
-      "fontSize": 16
+      "subtitle": "Source: World Bank API"
     },
     "data": {
       "url": "https://api.worldbank.org/v2/country/egy/indicator/PA.NUS.FCRF?format=json&per_page=300&date=2010:2024",
       "format": {"property": "[1]"}
     },
-    "mark": {"type": "area", "color": "#f59e0b", "opacity": 0.7, "tooltip": true},
+    "mark": {"type": "area", "color": "#f59e0b", "opacity": 0.7},
     "params": [{
       "name": "brush",
       "select": {"type": "interval", "encodings": ["x"]}

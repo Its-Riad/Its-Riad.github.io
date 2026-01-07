@@ -39,14 +39,14 @@
 
 .meter-digits {
     position: absolute;
-    left: 105px;
-    top: 89px;
+    left: 150px;
+    top: 135px;
     pointer-events: none;
 }
 
 .meter-digits img {
-    width: 27px;
-    height: 35.5px;
+    width: 42px;
+    height: 49.5px;
     display: inline-block;
     margin-right: 1.5px;
 }

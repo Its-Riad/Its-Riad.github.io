@@ -1,16 +1,62 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "data": {"url": "DVL22.csv"},
-  "mark": {"type": "line", "point": true},
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Worker Burnout Increases with Longer Hours",
+    "subtitle": "Percentage reporting chronic workplace stress by working hours. Source: EU Labour Force Survey 2023",
+    "color": "white",
+    "subtitleColor": "white",
+    "fontSize": 20
+  },
+  "config": {
+    "background": null,
+    "axis": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 14,
+      "titleFontSize": 16,
+      "gridColor": "#444",
+      "domainColor": "white"
+    },
+    "legend": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 14
+    }
+  },
+  "width": 700,
+  "height": 400,
+  "data": {
+    "values": [
+      {"hours_category": "< 35 hours", "burnout_rate": 18, "color": "#10b981"},
+      {"hours_category": "35-40 hours", "burnout_rate": 31, "color": "#fbbf24"},
+      {"hours_category": "40-45 hours", "burnout_rate": 47, "color": "#f59e0b"},
+      {"hours_category": "45-50 hours", "burnout_rate": 62, "color": "#ef4444"},
+      {"hours_category": "> 50 hours", "burnout_rate": 78, "color": "#991b1b"}
+    ]
+  },
+  "mark": {"type": "bar", "width": 80},
   "encoding": {
     "x": {
-      "field": "Year", "type": "quantitative",
-      "scale": {"zero": false}
+      "field": "hours_category",
+      "type": "ordinal",
+      "title": "Weekly Working Hours",
+      "axis": {"labelAngle": 0}
     },
     "y": {
-      "field": "Million", "type": "quantitative",
-      "scale": {"zero": false}
+      "field": "burnout_rate",
+      "type": "quantitative",
+      "title": "Workers Reporting Burnout (%)",
+      "scale": {"domain": [0, 85]}
     },
-    "order": {"field": "year"}
+    "color": {
+      "field": "color",
+      "type": "nominal",
+      "scale": null,
+      "legend": null
+    },
+    "tooltip": [
+      {"field": "hours_category", "type": "nominal", "title": "Working Hours"},
+      {"field": "burnout_rate", "type": "quantitative", "title": "Burnout Rate (%)", "format": ".0f"}
+    ]
   }
 }

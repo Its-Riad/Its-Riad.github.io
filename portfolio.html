@@ -1,218 +1,449 @@
-<!-- This HTML file provides a simple example of a portfolio page. It contains a header, a few sections, and a few charts. -->
-<!-- It works with the three css files in this folder: example1.css, example2.css and example3.css. -->
-<!-- The HTML file defines the structure of the page, and the CSS files define how it looks. -->
-<!-- The CSS examples are all designed to work with this page. Try swapping them out on line 29 and see what happens. -->
-
-<!-- Take a look around and make your own copy to adapt for your own use. -->
-
-<!-- This is a comment -->
-<!-- Comments are not displayed in the browser -->
-<!-- They can be used to leave notes in the code -->
-
 <!DOCTYPE html>
-<html> 
-    <!-- HTML is heirarchial: tags like this define elements on the page. 
-    Each tag does something different. For example:
-        - The <html> tag defines the whole document.
-        - The <h1> tag defines a large heading
-        - The <p> tag defines a paragraph
-        - Tags appear as an opening <div> and closing </div> pair
-    -->
-
-<head>    
-    <!-- The head tag links to resources our page needs and defines information about it. Tags in the <head> aren't displayed on the page. -->
-
-    <!-- This is a link to a stylesheet which contains rules about how each element on the page should be defined-->
-    <!-- Try swapping example1.css to another, and take a look at example1.css to see if you understand it-->
-    <link rel="stylesheet" type="text/css" href="index.css">
-    <title>Riad's Portfolio</title> <!-- The title displayed in the browser tab, not on the page itself -->
-
-    <!-- This is a link to the vega-lite which we're using to make graphs -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riad's Portfolio</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-
+    
     <style>
-        #chartGrid {
-            display: flex;
+        .portfolio-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
         }
         
-    </style>
-</head>
-
-<body> 
-<!-- The body tag contains the elements that visitors to our page will see. -->
-    <h1 class="big" style="margin-bottom: 0px;"> <!-- We have added a class to the header called "big" which we can use to style it in the CSS -->
-        <!-- This is a header, it is the largest text on the page -->
-        Riad Ghoneim Data Automation
-    </h1>
-    <p style="margin-top: 0px; color: rgb(139, 0, 0)">
-        <!-- we're setting the margin to 0px so the header and authour name are close together -->
-        Riad Ghoneim | <a href="https://www.linkedin.com/in/riad-ghoneim/">LinkedIn</a> | <a
-            href="https://www.github.com/its-riad">GitHub</a>
-    </p>
-    <h3 class="small"> <!-- We have added a class to the header called "small" which we can use to style it in the CSS -->
-        This is a page where I will be displaying my data automation and visulatsation work from throughout my masters at LSE. 
-    </h3>
-
-    <!-- We're organising the page into sections, with each section containing a chart, title and a description -->
-    <section>
-        <div class="chart-description">
-            <h2>Section 1: A basic chart</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
-        </div>
-        <figure id="Location1"></figure> <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-    </section>
-
-     <section>
-        <div class="chart-description">
-            <h2>Section 1: A more complex chart</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
-        </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location2"></figure>
-    </section>
-
-    <section>
-        <div class="chart-description">
-            <h2>Section 3: A more complex chart</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
-        </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location3"></figure>
-    </section>
-    
-    <section>
-        <div class="chart-description">
-            <h2>Section 4: A more complex chart</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
-        </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location4"></figure>
-    </section>
-        <section>
-        <div class="chart-description">
-            <h2>Section 5: Lecture 2</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
-        </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location5"></figure>
-    </section>
-     </section>
-        <section>
-        <div class="chart-description">
-            <h2>Section 6: Lecture 2</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
-        </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location6"></figure>
-    </section>
-        </section>
-     </section>
-        <section>
-        <div class="chart-description">
-            <h2>Section 7: Sticky Inflation</h2>
-            <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
-                We've organised the page into sections, with each section containing a chart, title and a description. Here, we can describe the chart and give some context.
-                As a first example, we're using a basic chart from our repo.
-            </p>
-        </div>
-       <!-- we give it an id so we can put a vega-lite graph here with VegaEmbed -->
-        <figure id="Location7"></figure>
-    </section>
-    <div id="chart"></div>
-    
-    <section>
-    <div class="chart-description">
-        <h2>Section 8: Live Exchange Rate (USD)</h2>
-        <p>This chart automatically updates every 30 seconds from the live Exchange Rate API.</p>
-    </div>
-    <figure id="Location8"></figure>
-    </section>
-
-    
-    <section>
-    <div class="chart-description">
-        <h2>Section 9: Egypt and Ethiopia Inflation Rates</h2>
-        <p>This chart compares the inflation rates of Egypt and Ethiopia over time.</p>
-    </div>
-    <figure id="Location9"></figure>
-    </section>
-
-
-    <!-- Do you want to add more sections? -->
-        <!-- Try copying pasting the section above -->
-        <!-- You'll need to change the id of the figure "<figure id="Location3"... -->
-        <!-- ... and add a new variable for the graph spec in the script at the bottom of the page -->
-
-
-    <!-- This is a script, it's a way to run JavaScript code on the page -->
-    <script>
-        // This is a comment in JavaScript - it's a different language to HTML and CSS
-
-        let figure_1_spec = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json"; 
-        let figure_2_spec = "Test.json"; 
-        let figure_3_spec = "test2.json";
-        let figure_4_spec = "test3.json";
-        let figure_5_spec = "test5.json";
-        let figure_6_spec = "test6.json";
-        let figure_7_spec = "inflation.json";
-        let figure_8_spec = "TestLive.json";
-        let figure_9_spec = "api.json";
-       // You should have a spec for a graph in this same folder. Just specify its name here, e.g. let figure_1_spec = "chart1.json"
-
-        vegaEmbed('#Location1', figure_1_spec) // We're using the vegaEmbed function to put a graph in the element with id figure_1
-        vegaEmbed('#Location2', figure_2_spec)
-        vegaEmbed('#Location3', figure_3_spec)
-        vegaEmbed('#Location4', figure_4_spec)
-        vegaEmbed('#Location5', figure_5_spec)
-        vegaEmbed('#Location6', figure_6_spec)
-        vegaEmbed('#Location7', figure_7_spec)
-        vegaEmbed('#Location8', figure_8_spec)
-        vegaEmbed('#Location9', figure_9_spec)
-
-        // Do you want to add more graphs?
-        // try defining a new variable for figure_3_spec, adding VegaEmbed for Location3, and adding a new section in the HTML
-        // e.g. 
-        // let figure_3_spec = ...
-        // vegaEmbed('#Location3', figure_3_spec)
-
-        let test_files = [ 
-            "api.json"
-        ]
-
-        let chard_ids = [
-            "Location9"
-        ]
-
-        for(let i=0; i<1; i++) {
-            console.log(i)
-            console.log(chart_files[i], chart_ids[i])       
-
-            vegaEmbed('#' + chart_ids[i], chart_files[i]);
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .portfolio-header h1 {
+            margin-bottom: 10px;
+        }
+        
+        .portfolio-header p {
+            color: #ccc;
+            font-size: 1.1em;
+        }
+        
+        .cc-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cc-card h2 {
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+        
+        .cc-card .week-description {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 30px;
+            font-size: 1em;
+        }
+        
+        .chart-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .chart-section h4 {
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .chart-section p {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .chart-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 30px;
+        }
+        
+        .api-description {
+            background: #2d3748;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .api-description code {
+            background: #1e293b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #60a5fa;
         }
 
+        .code-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #2d3748;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            transition: background 0.2s;
+            border: 1px solid #4a5568;
+        }
+        
+        .code-button:hover {
+            background: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">Riad Ghoneim</a>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#work">Work</a></li>
+        </ul>
+    </nav>
 
-    </script>
+    <div class="portfolio-container">
+        <header class="portfolio-header">
+            <h1>Riad Ghoneim's Portfolio</h1>
+            <p>Data Science & Visualization Portfolio - LSE Course Challenges</p>
+        </header>
 
-</body>
+    <!-- // First Coding Challenge -->
+
+
+        <div class="cc-card">
+            <h2>CC1: Hosting</h2>
+            <p class="week-description">Display charts in your own site.</p>
+
+            <div class="chart-section">
+                <h4>Chart 1: Basic Visualization</h4>
+                <figure id="CC1_Location1"></figure>
+            </div>
+
+            <div class="chart-section">
+                <h4>Chart 2: Second Visualization</h4>
+                <figure id="CC1_Location2"></figure>
+            </div>
+        </div>
+
+       <!-- challenge 2 -->
+
+        <div class="cc-card">
+            <h2>CC2: Building</h2>
+            <p class="week-description">Create your own visualizations.</p>
+        
+            <div class="chart-section">
+                <h4>Chart 1: Custom Built Visualization</h4>
+                <figure id="CC2_Location1"></figure>
+            </div>
+
+            <div class="chart-section">
+                <h4>Chart 2: Map of the London Underground System</h4>
+                <figure id="CC2_Location2"></figure>
+            </div>
+        </div>
+
+       <!-- Challenge 3 -->
+        <div class="cc-card">
+            <h2>CC3: Debate</h2>
+            <p class="week-description">Use visualizations in policy commentary.</p>
+
+            <div class="chart-section">
+                <h4>Policy Topic</h4>
+                <p style="font-style: italic; color: #ccc; max-width: 800px; margin: 0 auto;">
+                    The UK should implement a four-day work week to improve productivity and worker wellbeing, 
+                    as international evidence shows reduced hours increase output per hour.
+                </p>
+            </div>
+
+            <div class="chart-section">
+                <h4>Chart 1: Productivity vs Working Hours</h4>
+                <p>Countries working fewer hours demonstrate higher productivity per hour.</p>
+                <figure id="CC3_Location1"></figure>
+            </div>
+
+            <div class="chart-section">
+                <h4>Chart 2: Worker Burnout Rates</h4>
+                <p>Burnout rates quadruple from part-time to overtime schedules.</p>
+                <figure id="CC3_Location2"></figure>
+            </div>
+        </div>
+
+      <!-- challenge 4 -->
+
+        <div class="cc-card">
+            <h2>CC4: Replication</h2>
+            <p class="week-description">Re-create, then improve, someone else's chart.</p>
+
+            <div class="chart-section">
+                <h4>Original Chart</h4>
+                <p>Source: Fox News Bush Tax Cuts (2012)</p>
+                <img src="bush.png" alt="Original Fox News Chart" style="max-width: 600px; width: 100%; border: 2px solid #444; border-radius: 8px; margin: 20px auto; display: block;"> 
+            </div>
+
+            <div class="chart-section">
+                <h4>Improved Chart</h4>
+                <p style="max-width: 800px; margin: 0 auto 20px;">
+                    <strong>Improvements:</strong> Fixed truncated Y-axis to start at zero, added proper context and labels, 
+                    included data source, used clear colors, and showed true proportional change.
+                </p>
+                <figure id="CC4_Location1"></figure>
+            </div>
+        </div>
+
+        <!-- Challenge 5 -->
+
+        <div class="cc-card">
+            <h2>CC5: Accessing Data</h2>
+            <p class="week-description">API and web scraping tasks.</p>
+
+            <div class="chart-section">
+                <h4>API Chart: Inflation Across North Africa</h4>
+                <figure id="CC5_API"></figure>
+                
+                <div class="api-description" style="max-width: 900px; margin: 20px auto;">
+                    <p><strong>API Description:</strong></p>
+                    <p><strong>Base URL:</strong> <code>https://api.worldbank.org/v2/</code></p>
+                    <p><strong>Elements:</strong> country codes (mar;egy;dza), indicator (NY.GDP.DEFL.KD.ZG), format (json), per_page (300), date range (1990:2024)</p>
+                    <p style="word-break: break-all;"><strong>Full URL:</strong> <code>https://api.worldbank.org/v2/country/mar;egy;dza/indicator/NY.GDP.DEFL.KD.ZG?format=json&per_page=300&date=1990:2024</code></p>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <h4>Scraper Chart: Egypt Economic Media Sentiment</h4>
+                <figure id="CC5_Scraper"></figure>
+                
+                <div style="margin-top: 20px;">
+                    <p>This chart shows scraped data on Egyptian media sentiment from Arabic news sources.</p>
+                    <p><strong>Challenge:</strong> The main challenge was finding websites without CloudFlare protection.</p>
+                    <a href="https://github.com/Its-Riad/Its-Riad.github.io/blob/main/scraper_arabic.py" target="_blank" class="code-button" style="margin-top: 10px;">
+                        &lt;/&gt; View Scraper Code
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 6 -->
+        <div class="cc-card">
+            <h2>CC6: Loops</h2>
+            <p class="week-description">Build a dashboard using batch-downloaded data.</p>
+
+            <div class="chart-section">
+                <p><strong>Colab Notebook:</strong> <a href="#" class="code-button">View Python Code</a></p>
+                <p><strong>Dashboard theme:</strong> Egypt Economic Indicators (2000-2024)</p>
+            </div>
+
+            <div class="chart-grid-3">
+                <figure id="CC6_Location1"></figure>
+                <figure id="CC6_Location2"></figure>
+                <figure id="CC6_Location3"></figure>
+                <figure id="CC6_Location4"></figure>
+                <figure id="CC6_Location5"></figure>
+                <figure id="CC6_Location6"></figure>
+            </div>
+        </div>
+        <a href="https://colab.research.google.com/drive/1ylmnj51TZaMw89NA_tbg2NLUV-g-qLLS?usp=sharing" target="_blank" class="code-button" style="margin-top: 10px;">
+    &lt;/&gt; View Python Loop Code
+</a>
+
+ <!-- Challenge 7 -->
+        <div class="cc-card">
+            <h2>CC7: Maps</h2>
+            <p class="week-description">Base maps and choropleths.</p>
+
+            <div class="chart-section">
+                <h4>Map 1: Scotland - Major Cities</h4>
+                <p>Coordinates map: Circle size represents population of major Scottish cities.</p>
+                <figure id="CC7_Location1"></figure>
+            </div>
+
+            <div class="chart-section">
+                <h4>Map 2: Wales - Disposable Income</h4>
+                <p>Choropleth: Color intensity shows disposable income by region.</p>
+                <figure id="CC7_Location2"></figure>
+            </div>
+        </div>
+
+        <!-- Challenge 8 -->
+        <div class="cc-card">
+            <h2>CC8: Big Data</h2>
+            <p class="week-description">Extracting stories from millions of prices.</p>
+
+            <div class="chart-section">
+                <p><strong>Dataset used:</strong> AutoCPI</p>
+                <p>Using daily supermarket price data, I tracked essential food prices to show UK inflation trends from 2023-2024, revealing butter experienced the highest increase at 12.3%.</p>
+            </div>
+
+            <div class="chart-section">
+                <h4>Chart 1: Essential Food Price Trends</h4>
+                <figure id="CC8_Location1"></figure>
+            </div>
+
+            <div class="chart-section">
+                <h4>Chart 2: Price Change Comparison</h4>
+                <figure id="CC8_Location2"></figure>
+            </div>
+        </div>
+
+        <!-- Challenge 9 -->
+        <div class="cc-card">
+            <h2>CC9: Interactive & Analytics Charts</h2>
+            <p class="week-description">Advanced interactive and analytical visualizations.</p>
+
+            <div class="chart-section">
+                <h4>Interactive Chart: Consumer Confidence</h4>
+                <p>Features: Date range sliders for exploring temporal patterns.</p>
+                <figure id="CC9_Interactive"></figure>
+            </div>
+
+            <div class="chart-section">
+                <h4>Analytics Chart: Regional Inflation Comparison</h4>
+                <p>Method: Multi-country time series analysis.</p>
+                <figure id="CC9_Analytics"></figure>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="cc-card">
+            <h2>CC10: Advanced Analysis</h2>
+        
+
+            <div class="chart-section">
+                <h4>An Advacned Impuolse Response Function From My Dissertation used for the Project</h4>
+                <figure id="CC10_irf"></figure>
+            </div>
+
+            <div class="chart-section">
+                <h4>Analytics Chart: Regional Inflation Comparison</h4>
+                <p>Method: Multi-country time series analysis.</p>
+                <figure id="CC10_2"></figure>
+            </div>
+           
+            <div class="cc-card">
+              <h2>CC10: Machine Learning</h2>
+                  <p class="week-description">Supervised learning using regression.</p>
+
+             <div class="chart-section">
+                <h4>Hypothesis</h4>
+             <p style="font-style: italic;">Higher inflation correlates with lower GDP growth in Egypt. Using regression, I test whether current inflation predicts next year's economic growth.</p>
+        </div>
+        <a href="https://colab.research.google.com/drive/1MzXN_GLqdABwg02uDsxNs3re8wv48VbT?usp=sharing" target="_blank" class="code-button" style="margin-top: 10px;">
+            View Colab Notebook
+        </a>
+    </div>
+</div>
+        </div>
+    </div>
+
+    <script>
+     
+        // CC1: Hosting charts
+        const cc1_chart1 = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json";
+        const cc1_chart2 = "Test.json";
+
+        // CC2: Building charts
+        const cc2_chart1 = "test2.json";
+        const cc2_chart2 = "test3.json";
+
+        // CC3: Debate charts
+        const cc3_chart1 = "test5.json";
+        const cc3_chart2 = "test6.json";
+
+        // CC4: Replication
+        const cc4_improved = "improved_bush.json";
+
+        // CC5: API and Scraper
+        const cc5_api = "vis_inf_mar_egy_alg.json";
+        const cc5_scraper = "vis_media_egy.json";
+
+        // CC6: Loop dashboard
+        const cc6_charts = [
+            "chart1.json",
+            "chart2.json", 
+            "chart3.json",
+            "chart4.json",
+            "chart5.json",
+            "chart6.json"
+        ];
+
+        // CC7: Maps
+        const cc7_map1 = "map_scotland.json";
+        const cc7_map2 = "map_wales.json";
+
+        // CC8: Big Data
+        const cc8_chart1 = "autocpi_chart1.json";
+        const cc8_chart2 = "autocpi_chart2.json";
+
+        // CC9: Interactive & Analytics
+        const cc9_interactive = "vis_cci_egy.json";
+        const cc9_analytics = "vis_inf_mar_egy_alg.json";
+
+        // cc10: 
+
+        const CC10_irf = "vis_irf.json";
+        const CC10_2 = "vis_cc10.json";
+
+     
+        
+      
+        vegaEmbed('#CC1_Location1', cc1_chart1, {"actions": false});
+        vegaEmbed('#CC1_Location2', cc1_chart2, {"actions": false});
+        
     
+        vegaEmbed('#CC2_Location1', cc2_chart1, {"actions": false});
+        vegaEmbed('#CC2_Location2', cc2_chart2, {"actions": false});
+        
+        vegaEmbed('#CC3_Location1', cc3_chart1, {"actions": false});
+        vegaEmbed('#CC3_Location2', cc3_chart2, {"actions": false});
+        
+        
+        vegaEmbed('#CC4_Location1', cc4_improved, {"actions": false});
+        
+        vegaEmbed('#CC5_API', cc5_api, {"actions": false});
+        vegaEmbed('#CC5_Scraper', cc5_scraper, {"actions": false});
+
+        for (let i = 0; i < cc6_charts.length; i++) {
+         vegaEmbed('#CC6_Location' + (i + 1), cc6_charts[i], {
+                "actions": false,
+                "config": {"background": null}
+            });
+        }
+        
+        
+        vegaEmbed('#CC7_Location1', cc7_map1, {"actions": false});
+        vegaEmbed('#CC7_Location2', cc7_map2, {"actions": false});
+        
+        vegaEmbed('#CC8_Location1', cc8_chart1, {"actions": false});
+        vegaEmbed('#CC8_Location2', cc8_chart2, {"actions": false});
+        
+        
+        vegaEmbed('#CC9_Interactive', cc9_interactive, {"actions": false});
+        vegaEmbed('#CC9_Analytics', cc9_analytics, {"actions": false});
+
+        vegaEmbed('#CC10_irf', CC10_irf, {"actions": false});
+        vegaEmbed('#CC10_2', CC10_2, {"actions": false});
+    </script>
+</body>
 </html>

@@ -1,15 +1,19 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Live chart from World Bank Indicators API (V2). Shows 'Employment in agriculture, % of total employment (SL.AGR.EMPL.Z)'. Includes property in the data object telling Vega to look at 2nd list item in the API response. Shows how to deal with nested JSON (where a column value is a JSON object), and encodes the nested country name using dot notation in the colour field: 'country.value'. Adds a custom colour scale with the 'range' array.",
   "data": {
-    "url": "https://api.worldbank.org/v2/country/egy;alg;mrc/indicator/NY.GDP.DEFL.KD.ZG?format=json&per_page=130",
+    "url":"https://api.worldbank.org/v2/country/mar;egy;dza/indicator/NY.GDP.DEFL.KD.ZG?format=json&per_page=300&date=1990:2024",
     "format": {"property": "[1]"}
   },
-  "width": 700,
-  "height": 350,
-  "mark": "line",
+  "width": 400,
+  "height": 300,
+  "mark": {"type": "line"},
   "title": {
-    "text": "Egypt Inflation Rates",
-    "subtitle": "Source: World Bank"
+    "text": "Inflation in North Africa",
+    "subtitle": "By country income classification group. Source: ILO data via World Bank API",
+    "frame": "group",
+    "anchor": "start",
+    "subtitleFontSize": 10
   },
   "encoding": {
     "x": {
@@ -18,11 +22,28 @@
       "title": "",
       "axis": {"grid": false}
     },
-    "y": {"field": "value", "type": "quantitative", "title": ""},
+    "y": {
+      "field": "value",
+      "type": "quantitative",
+      "title": "Inflation %",
+      "axis": {
+        "titleAngle": 0,
+        "titleAlign": "left",
+        "titleX": 2,
+        "titleY": 15,
+        "titleOpacity": 0.6
+      },
+      "scale": {"domain": [-10,60]}
+    },
     "color": {
-      "field": "countryiso3code",
-      "type": "nominal"
+      "field": "country.value",
+      "type": "nominal",
+      "legend": {
+        "title": null
+      },
+      "scale": {
+        "range": ["#4991d0", "#6dc54c", "#f4ca51", "#ce40ce", "#d70909"]
+      }
     }
-    }
-
+  }
 }

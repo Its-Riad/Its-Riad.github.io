@@ -1,0 +1,68 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Wales: Disposable Income",
+    "subtitle": "Source: ONS 2024",
+    "color": "white",
+    "subtitleColor": "white",
+    "fontSize": 20
+  },
+  "config": {
+    "background": null,
+    "view": {"stroke": null},
+    "axis": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 14,
+      "titleFontSize": 16,
+      "gridColor": "#444",
+      "domainColor": "white"
+    },
+    "legend": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 14
+    }
+  },
+  "width": 400,
+  "height": 500,
+  "data": {
+    "url": "https://raw.githubusercontent.com/jhellingsdata/RADataHub/refs/heads/main/MappingWorkshop/geo_data/Wales_MSOA.topojson",
+    "format": {"type": "topojson", "feature": "data"}
+  },
+  "transform": [
+    {
+      "lookup": "properties.MSOA21CD",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/vkumarilse/vkumarilse.github.io/main/dataset/welsh_income_housing.csv"
+        },
+        "key": "msoa_code",
+        "fields": ["income_before_housing"]
+      }
+    }
+  ],
+  "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 0.5},
+  "encoding": {
+    "color": {
+      "field": "income_before_housing",
+      "type": "quantitative",
+      "scale": {"scheme": "reds", "domain": [20, 52]},
+      "legend": {
+        "title": "Income (£000s)",
+        "orient": "bottom",
+        "direction": "horizontal"
+      }
+    },
+    "tooltip": [
+      {"field": "properties.MSOA21NM", "type": "nominal", "title": "MSOA"},
+      {
+        "field": "income_before_housing",
+        "type": "quantitative",
+        "title": "Disposable Income (£000s)",
+        "format": ".2f"
+      }
+    ]
+  },
+  "projection": {"type": "mercator"}
+}

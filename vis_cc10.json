@@ -1,0 +1,75 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Machine Learning: Inflation vs GDP Growth",
+    "subtitle": "Linear regression showing relationship between inflation and economic growth. Source: World Bank API",
+    "color": "white",
+    "subtitleColor": "white",
+    "fontSize": 20
+  },
+  "config": {
+    "background": null,
+    "axis": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 14,
+      "titleFontSize": 16,
+      "gridColor": "#444",
+      "domainColor": "white"
+    },
+    "legend": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 14
+    }
+  },
+  "width": 700,
+  "height": 400,
+  "data": {"url": "cc10.csv"},
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "size": 150,
+        "opacity": 0.8,
+        "color": "#ef4444"
+      },
+      "encoding": {
+        "x": {
+          "field": "inflation",
+          "type": "quantitative",
+          "title": "Inflation (%)",
+          "scale": {"domain": [0, 40]}
+        },
+        "y": {
+          "field": "gdp_actual",
+          "type": "quantitative",
+          "title": "GDP Growth (%)",
+          "scale": {"domain": [0, 10]}
+        },
+        "tooltip": [
+          {"field": "year", "type": "nominal", "title": "Year"},
+          {"field": "inflation", "type": "quantitative", "title": "Inflation (%)", "format": ".2f"},
+          {"field": "gdp_actual", "type": "quantitative", "title": "GDP Growth (%)", "format": ".2f"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3,
+        "color": "#60a5fa"
+      },
+      "encoding": {
+        "x": {
+          "field": "inflation",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "gdp_predicted",
+          "type": "quantitative"
+        }
+      }
+    }
+  ]
+}

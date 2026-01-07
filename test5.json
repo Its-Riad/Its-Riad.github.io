@@ -1,16 +1,69 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "data": {"url": "DV L2.csv"},
-  "mark": {"type": "line", "point": true},
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Countries with Fewer Working Hours Have Higher Productivity",
+    "subtitle": "GDP per hour worked vs average annual hours. Source: OECD 2023",
+    "color": "white",
+    "subtitleColor": "white",
+    "fontSize": 20
+  },
+  "config": {
+    "background": null,
+    "axis": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 14,
+      "titleFontSize": 16,
+      "gridColor": "#444",
+      "domainColor": "white"
+    },
+    "legend": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 14
+    }
+  },
+  "width": 700,
+  "height": 400,
+  "data": {
+    "values": [
+      {"country": "Norway", "hours": 1425, "productivity": 85.2},
+      {"country": "Germany", "hours": 1349, "productivity": 74.8},
+      {"country": "Denmark", "hours": 1380, "productivity": 73.5},
+      {"country": "Netherlands", "hours": 1427, "productivity": 71.3},
+      {"country": "France", "hours": 1511, "productivity": 69.7},
+      {"country": "UK", "hours": 1532, "productivity": 62.4},
+      {"country": "US", "hours": 1811, "productivity": 77.0},
+      {"country": "Japan", "hours": 1607, "productivity": 49.9},
+      {"country": "South Korea", "hours": 1915, "productivity": 44.6},
+      {"country": "Mexico", "hours": 2128, "productivity": 24.7}
+    ]
+  },
+  "mark": {"type": "circle", "size": 200, "opacity": 0.8},
   "encoding": {
     "x": {
-      "field": "Years", "type": "quantitative",
-      "scale": {"zero": false}
+      "field": "hours",
+      "type": "quantitative",
+      "title": "Average Annual Working Hours",
+      "scale": {"domain": [1300, 2200]}
     },
     "y": {
-      "field": "Output", "type": "quantitative",
-      "scale": {"zero": false}
+      "field": "productivity",
+      "type": "quantitative",
+      "title": "GDP per Hour Worked (USD)",
+      "scale": {"domain": [20, 90]}
     },
-    "order": {"field": "year"}
+    "color": {
+      "condition": {
+        "test": "datum.country == 'UK'",
+        "value": "#ef4444"
+      },
+      "value": "#60a5fa"
+    },
+    "tooltip": [
+      {"field": "country", "type": "nominal", "title": "Country"},
+      {"field": "hours", "type": "quantitative", "title": "Annual Hours"},
+      {"field": "productivity", "type": "quantitative", "title": "Productivity (USD/hour)", "format": ".1f"}
+    ]
   }
 }

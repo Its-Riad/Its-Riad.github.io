@@ -2,10 +2,10 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "title": {
     "text": "Net Sentiment: Positive vs Negative Articles",
-    "subtitle": "Daily balance with 7-day moving average",
+    "subtitle": "Daily balance with 7-day moving average. Source: Scraped Egyptian news outlets",
     "color": "white",
     "subtitleColor": "white",
-    "fontSize": 18
+    "fontSize": 20
   },
   "config": {
     "background": null,
@@ -13,8 +13,8 @@
     "axis": {
       "labelColor": "white",
       "titleColor": "white",
-      "labelFontSize": 12,
-      "titleFontSize": 14,
+      "labelFontSize": 14,
+      "titleFontSize": 16,
       "gridColor": "#444",
       "domainColor": "white"
     },
@@ -30,7 +30,7 @@
       "height": 400,
       "title": {
         "text": "English News",
-        "color": "#3b82f6",
+        "color": "#60a5fa",
         "fontSize": 16
       },
       "data": {
@@ -95,7 +95,7 @@
           "mark": {
             "type": "line",
             "strokeWidth": 3,
-            "color": "#3b82f6"
+            "color": "#60a5fa"
           },
           "encoding": {
             "x": {"field": "date_published", "type": "temporal"},
@@ -109,7 +109,7 @@
       "height": 400,
       "title": {
         "text": "Arabic News",
-        "color": "#ef4444",
+        "color": "#60a5fa",
         "fontSize": 16
       },
       "data": {
@@ -173,7 +173,7 @@
           "mark": {
             "type": "line",
             "strokeWidth": 3,
-            "color": "#991b1b"
+            "color": "#60a5fa"
           },
           "encoding": {
             "x": {"field": "date_published", "type": "temporal"},

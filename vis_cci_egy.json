@@ -1,11 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 880,
-  "height": 400,
   "title": {
     "text": "Sources of Inflation: Consumer Sentiment vs Other Factors",
+    "subtitle": "Source: World Bank inflation data with dissertation-based decomposition calculations",
     "color": "white",
-    "fontSize": 18
+    "subtitleColor": "white",
+    "fontSize": 20
   },
   "config": {
     "background": null,
@@ -15,22 +15,56 @@
     "axis": {
       "labelColor": "white",
       "titleColor": "white",
-      "labelFontSize": 12,
-      "titleFontSize": 14,
+      "labelFontSize": 14,
+      "titleFontSize": 16,
       "gridColor": "#444",
       "domainColor": "white"
     },
     "legend": {
       "labelColor": "white",
       "titleColor": "white",
-      "labelFontSize": 14,
-      "titleFontSize": 16
+      "labelFontSize": 14
+    },
+    "title": {
+      "color": "white",
+      "fontSize": 20,
+      "subtitleColor": "white",
+      "subtitleFontSize": 14
     }
   },
+  "width": 880,
+  "height": 400,
   "data": {
     "url": "egypt_inflation_decomposition.csv"
   },
+  "params": [
+    {
+      "name": "minYear",
+      "value": 2010,
+      "bind": {
+        "input": "range",
+        "min": 2010,
+        "max": 2024,
+        "step": 1,
+        "name": "Start year:"
+      }
+    },
+    {
+      "name": "maxYear",
+      "value": 2024,
+      "bind": {
+        "input": "range",
+        "min": 2010,
+        "max": 2024,
+        "step": 1,
+        "name": "End year:"
+      }
+    }
+  ],
   "transform": [
+    {"calculate": "year(datum.date)", "as": "year_num"},
+    {"filter": "datum.year_num >= minYear"},
+    {"filter": "datum.year_num <= maxYear"},
     {
       "fold": ["consumer_sentiment", "other_factors"],
       "as": ["category", "value"]
@@ -62,7 +96,7 @@
       },
       "legend": {
         "title": "Inflation Source",
-        "labelExpr": "datum.label == 'consumer_sentiment' ? 'Consumer Sentiment (20-25%)' : 'Other Factors (75-80%)'"
+        "labelExpr": "datum.label == 'consumer_sentiment' ? 'Consumer Sentiment' : 'Other Factors'"
       }
     },
     "opacity": {

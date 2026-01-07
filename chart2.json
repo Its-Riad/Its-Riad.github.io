@@ -1,0 +1,28 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Egypt: GDP Growth",
+    "color": "white",
+    "fontSize": 16
+  },
+  "config": {
+    "background": null,
+    "axis": {
+      "labelColor": "white",
+      "titleColor": "white",
+      "labelFontSize": 12,
+      "gridColor": "#444",
+      "domainColor": "white"
+    }
+  },
+  "width": 350,
+  "height": 250,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Its-Riad/Its-Riad.github.io/main/egypt_gdp_growth.json"
+  },
+  "mark": {"type": "line", "point": true, "strokeWidth": 2, "color": "#60a5fa"},
+  "encoding": {
+    "x": {"field": "date", "type": "temporal", "title": ""},
+    "y": {"field": "value", "type": "quantitative", "title": "GDP Growth (%)"}
+  }
+}
